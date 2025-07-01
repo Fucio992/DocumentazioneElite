@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,23 +13,29 @@
       margin: 16px 0;
       padding: 16px;
       background: #fafbfc;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
     }
+
     .card-title {
       font-size: 1.1em;
       margin-bottom: 8px;
       color: #2a3a4a;
     }
+
     .card-body {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
+
     .card-explanation {
       margin-bottom: 8px;
+      font-size: 0.9em;
+      color: #555;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <header>
@@ -39,51 +46,59 @@
       <h2>🆕 Novità recenti</h2>
 
       <details open>
-        <summary><strong>2025-07-01</strong></summary>
+        <summary>2025-07-01</summary>
         <div class="card">
-          <div class="card-title"><strong>4098</strong></div>
+          <div class="card-title">4098</div>
           <div class="card-body">
-            <div class="card-explanation">
-              Aggiunta impostazione per la gestione della colonna "PoiInformation" nella sezione container<br>
-              <small>
-                Esempio di utilizzo "{nomeParametro}: {nomeParametro1}" dove nomeParametro è il nome della colonna nella tabella nel db => "Ritiro: 23/05/2025; Carico: 24/05/2025"
-              </small>
-            </div>
-            <img src="../assets/Container/Impostazioni/SettaggioColonnaInformazionePoi.png" alt="SettaggioColonnaInformazionePoi" width="250px">
+            <p>Aggiunta impostazione per la gestione della colonna
+              "PoiInformation" nella sezione container</p>
+            <img src="../assets/Container/Impostazioni/SettaggioColonnaInformazionePoi.png"
+              alt="SettaggioColonnaInformazionePoi" width="250px">
+          </div>
+          <div class="card-explanation">
+            Esempio di utilizzo "{nomeParametro}: {nomeParametro1}" dove nomeParametro è il nome della colonna nella
+            tabella nel db => "Ritiro: 23/05/2025; Carico: 24/05/2025"
           </div>
         </div>
         <div class="card">
-          <div class="card-title"><strong>2025-07-01</strong></div>
+          <div class="card-title">Formulari</div>
           <div class="card-body">
-            <div class="card-explanation">
-              Formulari: con tasto dx in ricerca si apre finestra ricerca separata da usare in secondo monitor, con doppio click apre la scheda selezionata
-            </div>
+            <p>Formulari: con tasto dx in ricerca si apre finestra ricerca separata da usare in secondo monitor, con
+              doppio click apre la scheda selezionata</p>
             <img src="../assets/formulario/ricercaformulario.png" alt="Modulo Ricerca" width="450px">
+          </div>
+          <div class="card-explanation">
+            <p>Con questa modifica si può usare un secondo monitor per tenere aperta la ricerca dei formulari</p>
           </div>
         </div>
       </details>
 
       <details>
-        <summary><strong>2025-06-30</strong></summary>
+        <summary>2025-06-30</summary>
         <div class="card">
-          <div class="card-title"><strong>2025-06-30</strong></div>
+          <div class="card-title">Navigatore PTV</div>
           <div class="card-body">
-            <div class="card-explanation">
-              Aggiunto <a href="./navigatore-ptv.html">navigatore per ptv</a>
-            </div>
+            <p>Aggiunto <a href="./navigatore-ptv.html">navigatore per ptv</a></p>
+          </div>
+          <div class="card-explanation">
+            <p>È stato aggiunto un navigatore per PTV per facilitare la navigazione</p>
           </div>
         </div>
         <div class="card">
-          <div class="card-title"><strong>2025-06-30</strong></div>
+          <div class="card-title">Lettore Barcode</div>
           <div class="card-body">
-            <div class="card-explanation">
-              Aggiunto nel lettore barcode Secondo numero Network
-            </div>
+            <p>Aggiunto nel lettore barcode Secondo numero Network</p>
             <img src="../assets/barcode/barcode-secondo-numero.png" alt="Secondo numero Network" width="250px">
+          </div>
+          <div class="card-explanation">
+            <p>Ora è possibile leggere anche il secondo numero network con il lettore barcode</p>
+            arcode/barcode-secondo-numero.png" alt="Secondo numero Network" width="250px">
+            econdo numero Network" width="250px">
           </div>
         </div>
       </details>
     </section>
   </div>
 </body>
+
 </html>
