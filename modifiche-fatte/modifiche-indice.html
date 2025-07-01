@@ -5,6 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>novita</title>
   <link rel="stylesheet" href="../style.css">
+  <style>
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 16px 0;
+      padding: 16px;
+      background: #fafbfc;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+    .card-title {
+      font-size: 1.1em;
+      margin-bottom: 8px;
+      color: #2a3a4a;
+    }
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-explanation {
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -14,17 +37,53 @@
 
     <section>
       <h2>🆕 Novità recenti</h2>
-      <ul>
-        <div>
-          <li><strong>2025-07-01:</strong> Formulari: con tasto dx in ricerca si apre finestra ricerca separata da usare in secondo monitor, con doppio click apre la scheda selezionata</li>
-          <img src="../assets/formulario/ricercaformulario.png" alt="Modulo Ricerca" width="450px">
+
+      <details open>
+        <summary><strong>2025-07-01</strong></summary>
+        <div class="card">
+          <div class="card-title"><strong>4098</strong></div>
+          <div class="card-body">
+            <div class="card-explanation">
+              Aggiunta impostazione per la gestione della colonna "PoiInformation" nella sezione container<br>
+              <small>
+                Esempio di utilizzo "{nomeParametro}: {nomeParametro1}" dove nomeParametro è il nome della colonna nella tabella nel db => "Ritiro: 23/05/2025; Carico: 24/05/2025"
+              </small>
+            </div>
+            <img src="../assets/Container/Impostazioni/SettaggioColonnaInformazionePoi.png" alt="SettaggioColonnaInformazionePoi" width="250px">
+          </div>
         </div>
-        <li><strong>2025-06-30:</strong> Aggiunto <a href="./navigatore-ptv.html">navigatore per ptv</a></li>
-        <div>
-          <li><strong>2025-06-30:</strong> Aggiunto nel lettore barcode Secondo numero Network</li>
-          <img src="../assets/barcode/barcode-secondo-numero.png" alt="Secondo numero Network" width="250px">
+        <div class="card">
+          <div class="card-title"><strong>2025-07-01</strong></div>
+          <div class="card-body">
+            <div class="card-explanation">
+              Formulari: con tasto dx in ricerca si apre finestra ricerca separata da usare in secondo monitor, con doppio click apre la scheda selezionata
+            </div>
+            <img src="../assets/formulario/ricercaformulario.png" alt="Modulo Ricerca" width="450px">
+          </div>
         </div>
-      </ul>
+      </details>
+
+      <details>
+        <summary><strong>2025-06-30</strong></summary>
+        <div class="card">
+          <div class="card-title"><strong>2025-06-30</strong></div>
+          <div class="card-body">
+            <div class="card-explanation">
+              Aggiunto <a href="./navigatore-ptv.html">navigatore per ptv</a>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><strong>2025-06-30</strong></div>
+          <div class="card-body">
+            <div class="card-explanation">
+              Aggiunto nel lettore barcode Secondo numero Network
+            </div>
+            <img src="../assets/barcode/barcode-secondo-numero.png" alt="Secondo numero Network" width="250px">
+          </div>
+        </div>
+      </details>
+    </section>
   </div>
 </body>
 </html>
