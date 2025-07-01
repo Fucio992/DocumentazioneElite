@@ -20,9 +20,9 @@
     <section>
       <h2>🗂️ Struttura del sistema</h2>
       <ul>
-        <li><strong>Satellitari.R</strong>: libreria strutturale con logica condivisa.</li>
-        <li><strong>Satellitari.ChatServiceR</strong>: componente operativo avviato dallo scheduler.</li>
-        <li><strong>Satellitari.ChatToolSerre</strong>: interfaccia per configurazione e manutenzione.</li>
+        <li><strong>SatellitariR</strong>: libreria strutturale con logica condivisa.</li>
+        <li><strong>SatServiceR</strong>: componente operativo avviato dallo scheduler di windows.</li>
+        <li><strong>SatToolsR</strong>: interfaccia per configurazione e manutenzione.</li>
       </ul>
     </section>
 
@@ -30,8 +30,8 @@
       <h2>⚙️ Funzionalità di configurazione</h2>
       <p>Ogni satellitare può avere più configurazioni attive. Il tool di configurazione prevede tre pulsanti:</p>
       <ul>
-        <li><strong>Nuova installazione</strong>: reset totale e pulizia tabelle.</li>
-        <li><strong>Aggiorna installazione</strong>: aggiornamento delle extra procedure.</li>
+        <li><strong>Nuova installazione</strong>: prima installazione, reset totale e pulizia tabelle.</li>
+        <li><strong>Aggiorna installazione</strong>: aggiornamento delle stored procedure e delle tabelle dei satellitari.</li>
         <li><strong>Modifica installazione</strong>: aggiornamento o aggiunta di configurazioni esistenti.</li>
       </ul>
     </section>
@@ -55,7 +55,7 @@
 
     <section>
       <h2>📄 Dati importati</h2>
-      <p>I dati vengono inseriti in <code>Satellitari_EventiVeicoli</code>. Campi principali:</p>
+      <p>I dati vengono inseriti in <code>SatellitariEventiVeicoli</code>. Campi principali:</p>
       <ul>
         <li><strong>Targa</strong></li>
         <li><strong>Data</strong></li>
