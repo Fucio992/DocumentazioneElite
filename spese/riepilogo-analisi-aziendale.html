@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Riepilogo Analisi Aziendale</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📈 Riepilogo dell'Analisi Aziendale</h1>
+    </header>
+
+    <section>
+      <h2>Scopo del Programma</h2>
+      <p>Il modulo fornisce un'analisi indicativa dell'andamento aziendale, considerando i dati <strong>dal punto di vista del mezzo</strong>.</p>
+    </section>
+
+    <section>
+      <h2>Importo Mezzo</h2>
+      <p>Somma degli importi delle conferme relative al mezzo, ovvero le tratte dei viaggi effettuati. Se i conti non tornano, è probabile che il prezzo non sia stato diviso correttamente.</p>
+      <p>Affinché gli importi siano coerenti, devono essere presenti:</p>
+      <ul>
+        <li><strong>Km nella tratta</strong></li>
+        <li><strong>Prezzo nella madre</strong></li>
+        <li>In caso di commessa, i <strong>bancali e i km</strong></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Costi Mezzo</h2>
+
+      <h3>Costi Fissi Mezzo</h3>
+      <p>Costi fissi associati al mezzo, calcolati su base mensile.</p>
+
+      <h3>Costo Km Mezzo</h3>
+      <p>Costi chilometrici registrati nell'anagrafica del mezzo. Vengono moltiplicati per i <strong>km del modulo viaggi</strong> o per i <strong>km satellitari</strong>, a seconda dell'impostazione selezionata.</p>
+
+      <h3>Km Satellitari</h3>
+      <p>Distanza percorsa secondo il sistema satellitare.</p>
+      <code>Repository.SatellitariService.GetKmPercorsiPeriodoAsync</code>
+
+      <h3>Km Totali</h3>
+      <p>Totale dei chilometri percorsi nei viaggi:</p>
+      <code>kM finali - km iniziali per ogni viaggio</code>
+    </section>
+
+    <section>
+      <h2>Costo Gasolio</h2>
+
+      <h3>1. Recupero Rifornimenti</h3>
+      <p>Filtraggio dei rifornimenti per selezionare solo quelli relativi al mezzo.</p>
+
+      <h3>2. Controllo Rifornimenti</h3>
+      <p>Se presenti, si procede con il calcolo.</p>
+
+      <h3>3. Calcolo Chilometri Percorsi</h3>
+      <ul>
+        <li>Se attivo <strong>km satellitari</strong>, si usa quel valore.</li>
+        <li>Altrimenti:</li>
+      </ul>
+      <code>massimo km rifornimenti - minimo km rifornimenti</code>
+
+      <h3>4. Calcolo Consumo Gasolio</h3>
+      <ul>
+        <li>Somma dei litri e costo totale.</li>
+        <li>Calcolo del consumo medio (km/l).</li>
+      </ul>
+
+      <h3>5. Calcolo Consumo AdBlue</h3>
+      <p>Se disponibile, somma dei litri e del costo.</p>
+
+      <h3>6. Gestione Assenza Rifornimenti</h3>
+      <p>In assenza di dati, si stima il costo gasolio su base consumo medio e costo cisterna.</p>
+    </section>
+
+    <section>
+      <h2>Gestione Inutilizzo</h2>
+
+      <h3>1. Giorni di Attività</h3>
+      <ul>
+        <li>Analisi viaggi del mezzo.</li>
+        <li>Creazione elenco giorni unici di lavoro.</li>
+      </ul>
+
+      <h3>2. Verifica Utilizzo</h3>
+      <ul>
+        <li>Se giorni ≥ <code>mezzo.GiorniLav</code> → uso ok.</li>
+        <li>Altrimenti si calcolano i giorni di fermo.</li>
+      </ul>
+
+      <h3>3. Calcolo Costo Inutilizzo</h3>
+      <ul>
+        <li>Basato su chilometri e spese.</li>
+        <li>Se negativo → zero.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Costo Manutenzioni</h2>
+
+      <h3>Riparazioni Registrate</h3>
+      <p>Filtraggio per targa. Se presenti:</p>
+      <p>Somma di <strong>Imp</strong>.</p>
+
+      <h3>Nuova Tabella Manutenzioni</h3>
+      <p>Somma di <strong>TotaleSenzaIva</strong> se presenti nuovi record.</p>
+    </section>
+
+    <section>
+      <h2>Costo Pedaggi</h2>
+      <ul>
+        <li>Filtraggio per targa.</li>
+        <li>Somma del campo <strong>Importo</strong>.</li>
+        <li>Se vuoto → zero.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Costi Autisti</h2>
+
+      <h3>1. Autisti Coinvolti</h3>
+      <ul>
+        <li>Estrazione codici autisti dai viaggi.</li>
+        <li>Inclusione secondi autisti.</li>
+        <li>Calcolo con <code>GetSpesaAutista</code>.</li>
+      </ul>
+
+      <h3>2. Costo Mensile (se attivo)</h3>
+      <ul>
+        <li>Somma di <strong>paga</strong> e <strong>contributi</strong>.</li>
+        <li>Assegnato al totale mensile.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Trasferte Autista</h2>
+
+      <h3>1. Recupero Spese</h3>
+      <ul>
+        <li>Filtraggio trasferte associate ai viaggi del mezzo.</li>
+      </ul>
+
+      <h3>2. Aggregazione</h3>
+      <ul>
+        <li>Somma totale per categoria (<code>Spesa_Via</code>).</li>
+      </ul>
+
+      <h3>3. Totale Costi Autisti</h3>
+      <p>Somma tra spese autista e trasferte.</p>
+    </section>
+
+    <section>
+      <h2>Costi Totali e Margine</h2>
+
+      <h3>1. Costo Mensile</h3>
+      <code>
+ris.CostoMese = Math.Round(ris.CostoGasolio + ris.CostoAdBlue + ris.CostoManutenzioni +
+    ris.Pedaggi + ris.CostiAutista + ris.CostiGestionali +
+    ris.CostoFissoMezzo + ris.CostoKmMezzo, (int)Repository.CifreDecimali.ValoreNumerico);
+      </code>
+
+      <h3>2. Costi Variabili</h3>
+      <code>
+ris.CostiVariabili = Math.Round(ris.CostoGasolio + ris.CostoAdBlue + ris.CostoManutenzioni +
+    ris.Pedaggi + ris.CostiAutista + ris.CostiGestionali + ris.CostoKmMezzo, (int)Repository.CifreDecimali.ValoreNumerico);
+      </code>
+
+      <h3>3. Margine</h3>
+      <code>ris.Margine = ris.ImportoMese - ris.CostoMese;</code>
+    </section>
+
+  </div>
+</body>
+</html>

@@ -74,4 +74,24 @@ body {
   p {
     margin-bottom: 1rem;
   }
-  
+
+.bottone-novita {
+  display: block;
+  margin: 1rem auto; /* auto lo centra orizzontalmente */
+  background-color: #009AD1;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.75em 1.5em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+
+.bottone-novita:hover {
+  background-color: #0078A3;       /* Azzurro più scuro al passaggio */
+  transform: scale(1.05);          /* Leggero ingrandimento */
+}
