@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestione Spese Viaggio</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🧾 Modulo: Gestione Spese Viaggio</h1>
+    </header>
+
+    <section>
+      <h2>📌 Descrizione</h2>
+      <p>
+        Il modulo consente la gestione dei costi legati ai mezzi, agli autisti e agli ordini di trasporto, distinguendo tra <strong>spese fisse</strong> e <strong>spese variabili</strong>.
+      </p>
+    </section>
+
+    <section>
+      <h2>🚚 1. Spese Veicolo</h2>
+
+      <h3>📎 1.1 Spese Fisse</h3>
+      <p>Registrazione delle spese periodiche associate al veicolo:</p>
+      <ul>
+        <li>Bollo</li>
+        <li>Assicurazione</li>
+        <li>Tagliandi</li>
+        <li>Leasing o noleggio</li>
+      </ul>
+      <p>Configurabili con:</p>
+      <ul>
+        <li><strong>Descrizione</strong></li>
+        <li><strong>Importo</strong></li>
+        <li><strong>Frequenza</strong> (mensile, annuale, ecc.)</li>
+        <li><strong>Periodo di validità</strong></li>
+      </ul>
+
+      <h3>📏 1.2 Spese Variabili (al km)</h3>
+      <p>
+        Costi legati al chilometraggio (es. carburante, manutenzione). Calcolati automaticamente in base ai km percorsi.
+      </p>
+    </section>
+
+    <section>
+      <h2>👷‍♂️ 2. Spese Autista</h2>
+      <p>
+        Configurabili nell’anagrafica dipendente tramite la sezione <code>Condizioni Contrattuali</code>:
+      </p>
+      <ul>
+        <li>Retribuzione base</li>
+        <li>Contributi INPS, INAIL</li>
+        <li>Giorni lavorativi</li>
+        <li>TFR, 13ª, 14ª</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>📝 3. Inserimento Ordine e Calcolo Spese</h2>
+      <p>Durante l’inserimento ordine è possibile:</p>
+      <ul>
+        <li>Associare mezzo, rimorchio e autista</li>
+        <li>Calcolare la distanza (es. Marsala-Treviso)</li>
+        <li>Stimare i costi e la redditività</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>📊 4. Preventivo vs Consuntivo</h2>
+      <p>
+        Confronto tra i dati stimati e quelli reali del viaggio.
+      </p>
+      <h3>🧾 Dati consuntivi includono:</h3>
+      <ul>
+        <li>Km effettivi</li>
+        <li>Durata effettiva</li>
+        <li>Costi aggiuntivi (pedaggi, rifornimenti)</li>
+      </ul>
+      <p>Il sistema aggiorna i costi consuntivi e fornisce un confronto dettagliato con il preventivo.</p>
+    </section>
+
+    <section>
+      <h2>⚙️ 5. Dettagli Tecnici di Calcolo</h2>
+      <p>Il calcolo delle spese avviene tramite i metodi:</p>
+      <ul>
+        <li><code>calcolaMezzo</code></li>
+        <li><code>calcolaRimorchio</code></li>
+        <li><code>calcolaAutista</code></li>
+      </ul>
+      <p>Per le spese non a km, viene utilizzata una <strong>suddivisione temporale</strong>:</p>
+      <ul>
+        <li>Normalizzazione al minuto</li>
+        <li>Moltiplicazione per la durata del viaggio</li>
+      </ul>
+      <p>È possibile personalizzare il calcolo (es. giornata intera fissa).</p>
+    </section>
+
+    <section>
+      <h2>📥 6. Importazione Spese Consuntive</h2>
+      <p>È possibile registrare o importare ulteriori spese come:</p>
+      <ul>
+        <li>Pedaggi</li>
+        <li>Rifornimenti</li>
+        <li>Spese accessorie</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>🎯 Obiettivo del Modulo</h2>
+      <p>
+        Fornire una visione chiara dei costi per ciascun viaggio, confrontando le stime con i valori reali, migliorando controllo e marginalità.
+      </p>
+    </section>
+  </div>
+</body>
+</html>
