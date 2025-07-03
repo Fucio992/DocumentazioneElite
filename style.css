@@ -95,3 +95,30 @@ body {
   background-color: #0078A3;       /* Azzurro più scuro al passaggio */
   transform: scale(1.05);          /* Leggero ingrandimento */
 }
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 16px 0;
+  padding: 16px;
+  background: #fafbfc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.card-title {
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  color: #2a3a4a;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-explanation {
+  margin-bottom: 8px;
+  font-size: 0.9em;
+  color: #555;
+}
