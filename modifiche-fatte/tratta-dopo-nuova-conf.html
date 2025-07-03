@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Funzionalità Tratta Dopo Destinazione - Aggiornamento</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Aggiornamento: Funzionalità "Tratta Dopo Destinazione"</h1>
+    </header>
+
+    <section>
+      <h2>Descrizione delle novità</h2>
+      <p>
+        Sono stati introdotti miglioramenti sia nel funzionamento interno che nella configurazione della funzionalità <strong>Tratta Dopo Destinazione</strong>. Questi aggiornamenti permettono una gestione più avanzata delle tratte successive alla destinazione, con maggiore personalizzazione da parte dell’utente.
+      </p>
+    </section>
+
+    <section>
+      <h2>Nuove impostazioni utente</h2>
+      <p>
+        All’interno della sezione <strong>Impostazioni</strong> sono stati aggiunti nuovi elementi grafici per permettere all’utente di configurare in modo dettagliato la funzionalità:
+      </p>
+      <ul>
+        <li>Una casella di spunta per abilitare/disabilitare la creazione automatica di <strong>nuovi ordini</strong>.</li>
+        <li>Un campo di testo per inserire un <strong>codice cliente</strong>, utile per la gestione personalizzata delle tratte successive.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Gestione interna migliorata</h2>
+      <p>
+        La logica interna è stata ampliata con l’aggiunta di una nuova proprietà chiamata <strong>Attivo</strong>, che indica se la funzionalità è abilitata. Inoltre, il sistema ora crea automaticamente nuove tratte con maggior precisione e semplicità.
+      </p>
+      <p>
+        Questi miglioramenti rendono il processo più stabile e reattivo, anche in scenari complessi.
+      </p>
+    </section>
+
+    <section>
+      <h2>Configurazione avanzata</h2>
+      <p>
+        L’impostazione <strong>Tratta Dopo Destinazione</strong> ora utilizza un oggetto denominato <code>ConfigurazioneApplicazione</code>, che permette di memorizzare configurazioni multiple in modo strutturato. Questo rende possibile aggiungere nuove opzioni in futuro senza modificare la struttura esistente.
+      </p>
+    </section>
+
+    <section>
+      <h2>Pulizia del codice</h2>
+      <p>
+        Per migliorare la manutenzione e le prestazioni del sistema, è stato semplificato il codice responsabile della creazione dei viaggi. Tutti i vecchi commenti e logiche obsolete sono stati rimossi da <code>Pianificazione.cs</code>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Conclusioni</h2>
+      <p>
+        Grazie a questi aggiornamenti, la funzionalità <strong>Tratta Dopo Destinazione</strong> è ora più potente e configurabile. Gli utenti possono adattarla meglio alle proprie esigenze operative.
+      </p>
+    </section>
+  </div>
+</body>
+</html>
