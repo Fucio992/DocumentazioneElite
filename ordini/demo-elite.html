@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentazione Gestionale Trasporti</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Documentazione Gestionale Trasporti</h1>
+      <p>Derivata dalla lezione di Oscar Zorzi del 3 luglio 2025</p>
+    </header>
+
+    <section>
+      <h2>Introduzione al Gestionale</h2>
+      <ul>
+        <li><strong>Macro-moduli</strong> a sinistra, ognuno con sotto-moduli.</li>
+        <li><strong>Preferiti</strong>: l'utente può aggiungere moduli con il cuoricino.</li>
+        <li><strong>Permessi</strong>: visione/modifica selettiva dei moduli per utente.</li>
+        <li><strong>Widget</strong> personalizzabili sulla destra.</li>
+        <li><strong>Tema chiaro/scuro</strong> per ridurre affaticamento visivo.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Modulo Veicoli</h2>
+      <h3>Griglia e Anagrafica</h3>
+      <ul>
+        <li>Lista mezzi suddivisa per categoria.</li>
+        <li>Griglia personalizzabile per utente.</li>
+        <li>Anagrafica mezzo: carta d'identità del veicolo.</li>
+      </ul>
+
+      <h3>Calcolo costi orari</h3>
+      <p>Esempio pratico per il calcolo del costo orario di un mezzo:</p>
+      <code>Leasing mensile: €2.200<br>
+      Giorni lavorativi: 22 → Costo giornaliero: €100<br>
+      Viaggio da 4h30min, mezzo con uso max 9h/giorno:<br>
+      (100 / 9) * 4.5 = €50</code>
+
+      <h3>Media attesa e controllo prestazioni</h3>
+      <ul>
+        <li>Impostazione media attesa (es. 3 viaggi/giorno)</li>
+        <li>Definizione tolleranza % (es. ±3%) per alert</li>
+      </ul>
+
+      <h3>Dimensioni e vincoli fisici</h3>
+      <ul>
+        <li><strong>Ingombro</strong>: valutazione strade percorribili</li>
+        <li><strong>Vano di carico</strong>: compatibilità col carico</li>
+        <li><strong>Valori di controllo</strong>: avvisi se superati (es. n° bancali)</li>
+      </ul>
+
+      <h3>Dotazioni e verifiche ordine</h3>
+      <p>Controllo automatico accessori richiesti (es. sponda idraulica)</p>
+
+      <h3>Gestione Spese</h3>
+      <ul>
+        <li><strong>Fisse</strong>: leasing, assicurazione, bollo</li>
+        <li><strong>Chilometriche</strong>: esempio: tagliando da €1.000 ogni 100.000km → <code>€0,01/km</code></li>
+      </ul>
+
+      <h3>Scadenze</h3>
+      <ul>
+        <li><strong>A data</strong>: es. assicurazione il 23/04, alert X giorni prima</li>
+        <li><strong>A km</strong>: es. tagliando a 100.000 km → alert a 90.000 km via GPS</li>
+      </ul>
+
+      <h3>Eventi</h3>
+      <p>Inserimento eventi con data/ora per avvisi operativi (es. revisione, indisponibilità)</p>
+
+      <h3>Documenti</h3>
+      <ul>
+        <li>Archiviazione: libretto, riparazioni, ecc.</li>
+        <li>Invio diretto per e-mail a fornitori</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Modulo Rifornimenti</h2>
+      <ul>
+        <li>Gestione cisterna interna con soglia minima e alert</li>
+        <li>Calcolo <strong>media ponderata</strong> costo gasolio</li>
+      </ul>
+      <h3>Esempio di media ponderata</h3>
+      <code>
+        10.000 litri a 1 €/l = €10.000<br>
+        8.000 litri a 1,20 €/l = €9.600<br>
+        Media = (10.000 + 9.600) / 18.000 = €1,066/litro
+      </code>
+
+      <h3>Inserimento prelievi</h3>
+      <ul>
+        <li>Via fattura, sistema o manuale</li>
+        <li>Km letti da autista o GPS (preferibile)</li>
+        <li>Calcolo consumo solo su pieni</li>
+      </ul>
+
+      <h3>Accise</h3>
+      <p>Inserimento manuale aliquota → riepilogo litri + importi per recupero</p>
+    </section>
+
+    <section>
+      <h2>Modulo Personale</h2>
+      <ul>
+        <li>Anagrafica con campi personalizzabili</li>
+        <li>Esperienze su tipologia di mezzi (es. bilico)</li>
+        <li>Gestione infrazioni: aziendali o a carico autista</li>
+        <li>Contratti e modalità di pagamento (es. forfait mensile, vuoto per pieno)</li>
+      </ul>
+      <h3>Trasferte</h3>
+      <ul>
+        <li>Automatiche: secondo fasce orarie (11h54, 17h48, 18h24)</li>
+        <li>Manuali: importo fisso per giorno</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Modulo Clienti</h2>
+      <ul>
+        <li>Mittenti/Destinatari con orari, vincoli e annotazioni operative</li>
+        <li>Alert automatico al momento della pianificazione</li>
+        <li>Esempio: carico con prenotazione → warning se manca</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Modulo Preventivi</h2>
+      <ul>
+        <li>Inserimento tappe e visualizzazione su mappa</li>
+        <li>Calcolo costi: giorni, % giornata, autostrade, assicurazioni, ecc.</li>
+        <li>Stima <strong>costi inutilizzo</strong>: es. mezza giornata ferma = €253</li>
+        <li>Marginalità calcolata in base al ricarico inserito</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Modulo Conferme</h2>
+      <ul>
+        <li>Inserimento e storico prezzi</li>
+        <li>Duplicazione semplice o avanzata (es. ogni lun/mer fino a data X)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Modulo Viaggi</h2>
+      <ul>
+        <li>Creazione viaggio da ordine o da pianificatore</li>
+        <li>Assegnazione mezzo, autista, rimorchio</li>
+        <li>Analisi <strong>redditività prevista</strong> e confronto con consuntivo</li>
+        <li>Gestione gap (es. +200km → -€70)</li>
+      </ul>
+
+      <h3>Calcolo automatico tempi</h3>
+      <p>Partenza, arrivo, tempi di carico/scarico → stima finale automatica</p>
+    </section>
+
+  </div>
+</body>
+</html>
