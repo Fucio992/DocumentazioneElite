@@ -75,6 +75,17 @@ body {
     margin-bottom: 1rem;
   }
 
+  /* fai il componente a con il colore*/
+a {
+    color: #0078A3; /* Azzurro */
+    text-decoration: none;
+  }
+a:hover {
+    color: #005f7f; /* Azzurro scuro al passaggio */
+    text-decoration: underline;
+  }
+
+
 .bottone-novita {
   display: block;
   margin: 1rem auto; /* auto lo centra orizzontalmente */
