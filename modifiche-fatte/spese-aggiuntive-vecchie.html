@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Modulo: Spese Aggiuntive Viaggio</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>➕ Modulo: Spese Aggiuntive Viaggio</h1>
+    </header>
+
+    <section>
+      <h2>📌 Descrizione</h2>
+      <p>
+        Il modulo consente la gestione avanzata delle <strong>spese aggiuntive</strong> sostenute durante i viaggi, oltre a quelle già previste. È stato integrato nella maschera <code>TrasferteForm</code> per offrire una visione completa dei costi e una maggiore tracciabilità.
+      </p>
+      
+      <img src="../assets/spese/spesetxt.png" alt="Spese Aggiuntive Viaggio" width="500px">
+    </section>
+
+    <section>
+      <h2>🆕 Novità e Miglioramenti</h2>
+      <ul>
+        <li>🧾 Aggiunta la nuova tab <strong>"Altri Costi"</strong> in <code>TrasferteForm.xaml</code>.</li>
+        <li>📋 Inserito <code>DataGrid</code> per l’inserimento, modifica e rimozione dei costi extra.</li>
+        <li>🔎 Metodo <code>VerificaSpeseVecchie</code> per il recupero e visualizzazione delle spese già registrate.</li>
+        <li>📦 Riorganizzazione del codice e aggiunta di metodi dedicati per:
+          <ul>
+            <li>Inserimento spese</li>
+            <li>Eliminazione spese</li>
+          </ul>
+        </li>
+        <li>📄 Aggiunta la classe <code>TxtSpesaVecchia</code> in <code>SchedaSpese.cs</code> per la gestione delle spese storiche su database.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>⚙️ Funzionalità Tecniche</h2>
+      <p>
+        La nuova sezione <strong>Altri Costi</strong> consente all’utente di:
+      </p>
+      <ul>
+        <li>Inserire voci di costo aggiuntive non previste nel preventivo iniziale</li>
+        <li>Visualizzare rapidamente le spese già registrate</li>
+        <li>Eliminare o modificare elementi direttamente dal <code>DataGrid</code></li>
+      </ul>
+      <p>
+        Le spese vengono salvate nel database e rese persistenti per ogni viaggio.
+      </p>
+    </section>
+
+    <section>
+      <h2>🎯 Obiettivo del Modulo</h2>
+      <p>
+        Migliorare il controllo dei costi reali del viaggio, consentendo una gestione completa anche delle spese accessorie che spesso non emergono nei dati preventivi.
+      </p>
+    </section>
+  </div>
+</body>
+</html>
