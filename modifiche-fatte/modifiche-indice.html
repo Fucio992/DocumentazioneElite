@@ -18,6 +18,53 @@
       <h2>🆕 Novità recenti</h2>
 
       <details open>
+        <summary>2025-07-04</summary>
+        <div class="card">
+          <div class="card-title">Modifica a Mantieni uniti poi e vari fix</div>
+          <div class="card-body">
+            <section>
+              <p>Rifattorizzazione Unificazione POI</p>
+              <ul>
+                <li>Introdotta proprietà <code>HasPoiUniti</code> in <code>Viaggio</code> e metodo <code>GetHasPoiUniti()</code>.</li>
+                <li>Sostituito <code>Repository.MantieniUnitiPoi.Attivo</code> con <code>ViaggioSel.HasPoiUniti</code>.</li>
+              </ul>
+            </section>
+
+            <section>
+              <p>Modifiche UI</p>
+              <ul>
+                <li>Aggiornato testo in <code>Impostazioni.xaml</code>.</li>
+                <li>Riorganizzato layout in <code>ViaggioUC.xaml</code> con <code>StackPanel</code>.</li>
+              </ul>
+            </section>
+
+            <section>
+              <p>Logica e Pulizia Codice</p>
+              <ul>
+                <li>Aggiunto controllo su <code>el.Fattura</code> in <code>ConfermaUC.xaml.cs</code>.</li>
+                <li>Rimossi commenti obsoleti in <code>Esito.cs</code>.</li>
+              </ul>
+            </section>
+
+            <section>
+              <p>Aggiornamenti Repository</p>
+              <ul>
+                <li>Aggiunta colonna <code>HasPoiUniti</code> in <code>ElencoViaggiTestata</code>.</li>
+                <li>Revisionate query in <code>POI.cs</code>.</li>
+              </ul>
+            </section>
+
+            <section>
+              <p>Correzioni Varie</p>
+              <ul>
+                <li>Assicurata inizializzazione oggetto <code>Ordine</code> in <code>Utility.cs</code>.</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </details>
+
+      <details>
         <summary>2025-07-03</summary>
         <div class="card">
           <div class="card-title">Spese vecchie nel viaggio</div>
