@@ -16,8 +16,36 @@
 
     <section>
       <h2>🆕 Novità recenti</h2>
-
+      
       <details open>
+        <summary>2025-07-05</summary>
+
+        <div class="card">
+          <div class="card-title">Data fine contratto - Contratti pagamenti</div>
+          <div class="card-body">
+
+          <section>
+            <p>È stata introdotta una nuova funzionalità per gestire la data di fine contratto all'interno del modulo <code>ContrattiPagamantiForm.xaml</code>.</p>
+          </section>
+
+          <section>
+            <ul>
+              <li>Aggiunto un nuovo componente <code>DatePicker</code> per la selezione della <strong>Data Fine Contratto</strong>.</li>
+              <li>Il code-behind del form è stato aggiornato per salvare il valore selezionato nella proprietà <code>DataFineContratto</code> dell’oggetto <code>contrattoPagamento</code>.</li>
+              <li>L'oggetto <code>ContrattoPagamentoSel</code> è stato esteso con la proprietà <code>FineContratto</code>.</li>
+              <li>Nel file <code>Contratti.cs</code> è stata aggiunta la proprietà <code>FineContratto</code>, con valore predefinito <em>1 gennaio 2050</em>.</li>
+              <li>La tabella <code>ContrattiPagamenti</code> del database è stata aggiornata con una nuova colonna <code>FineContratto</code>.</li>
+            </ul>
+          </section>
+
+          <section>
+            <p>La gestione della data di fine contratto consente una migliore tracciabilità e automazione dei contratti in scadenza, oltre ad abilitare future funzionalità di notifica e reportistica.</p>
+          </section>
+
+          </div>
+        </div>
+
+      <details>
         <summary>2025-07-04</summary>
 
         <div class="card">
