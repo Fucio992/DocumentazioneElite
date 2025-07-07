@@ -21,6 +21,32 @@
         <summary>2025-07-05</summary>
 
         <div class="card">
+          <div class="card-title">Selezione Cassa - ConfermaUC</div>
+          <div class="card-body">
+
+            <section>
+              <p>Nel modulo <code>ConfermaUC.xaml</code> sono stati aggiunti due nuovi controlli <code>ComboBox</code> per permettere la selezione della cassa da parte dell’utente: <strong>Cassa1</strong> e <strong>Cassa2</strong>.</p>
+            </section>
+
+            <section>
+              <ul>
+                <li>Le ComboBox <code>Cassa1</code> e <code>Cassa2</code> sono state aggiunte alla UI per consentire la selezione delle casse disponibili.</li>
+                <li>Nel code-behind è stata impostata la sorgente dati (ItemsSource) delle ComboBox, con le casse disponibili.</li>
+                <li>È stata gestita la visibilità dinamica dei controlli in base alle impostazioni operative selezionate.</li>
+                <li>Nel file <code>ImpostazioniOperativoForm.xaml</code> sono state aggiunte due nuove checkbox per abilitare o disabilitare la visibilità di <code>Cassa1</code> e <code>Cassa2</code>.</li>
+                <li>Il comportamento delle checkbox è collegato direttamente alla logica di visualizzazione dei ComboBox.</li>
+              </ul>
+            </section>
+
+            <section>
+              <p>Questa nuova funzionalità permette una gestione più flessibile delle operazioni di cassa, rendendo possibile configurare rapidamente quale cassa utilizzare per ciascuna operazione, migliorando la tracciabilità e l’esperienza utente.</p>
+            </section>
+
+          </div>
+        </div>
+
+
+        <div class="card">
           <div class="card-title">Data fine contratto - Contratti pagamenti</div>
           <div class="card-body">
 
