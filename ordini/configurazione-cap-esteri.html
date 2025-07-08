@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creazione Conferma d'Ordine</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚙️ Configurazione Attivazione TirStati per la gestione dei Cap Esteri</h1>
+      <p>Guida su come caricare il Database di TirStati e come Attivare e configurare la ricerca dei cap esteri</p>
+    </header>
+
+    <section>
+      <h2>📥 Caricamento Database</h2>
+      <p>Accedere alla mega cartella <code>_01_Aggiornamenti > DB e File Installazione</code> e scaricare dal cliente o sul proprio pc il file <code>TirStati.zip</code> </p>
+      <p>Fare il restore del DataBase da SSMS con tasto destro sopra a Database:</p>
+      <img src="../assets/conferme/tirstati/restore-tirstati.PNG" alt="Restore Database TirStati">
+    </section>
+
+    <section>
+      <h2>✅ Attivazione</h2>
+      <p>Dopo aver effettuato il restore del database recarsi sul modulo conferme e ativare l'automatismo <code>RICERCA LUOGHI DATABASE NAZIONI</code></p>
+      <img src="../assets/conferme/tirstati/attivazione-tirstaticonferme.png" alt="Attivazione TirStati Conferme">
+      <p>Una volta attivato L'automatismo sarà possibile cercare solo i Cap Italiani in quanto sarà l'unico stato attivo di default, 
+        tutto il resto sarà disabilitato per evitare di dover disattivare ogni stato non utilizzato manualmente.</p>
+      <p>Per attivare gli altri stati è necessario recarsi nella sezione <code>Gestione Cap e Nazioni estere</code> e attivare gli stati desiderati:</p>
+      <img src="../assets/conferme/tirstati/attivazione-stati.png" alt="Attivazione Stati TirStati">
+      <p>Dopo aver atteso il caricamento della pagina, sarà possibile utilizzare la ricerca e la modifica (in rosso) delle varie categorie (in verde)</p>
+      <img src="../assets/conferme/tirstati/interfaccia-tirstati.png" alt="Interfaccia TirStati">
+      <p>Premendo modifica restando sulla sezione degli stati sarà possibile andare a modificare gli stati e quindi attivare gli stati che si vogliono utilizzare.</p>
+      <img src="../assets/conferme/tirstati/interfaccia-modifica-tirstati.png" alt="Interfaccia TirStati Modifica">
+      <p>Nel mio caso se voglio attivare la Spagna andrò a cercare lo stato <code>Spain</code>, facendo doppio click e premendo modifica, mettendo il flag attivo e salvando avrò attivato con successo lo stato della spagna nelle ricerche dei Cap.</p>
+      <img src="../assets/conferme/tirstati/attivazione-stato.png" alt="Interfaccia TirStati Modifica">
+    </section>
+
+    <section>
+      <h2>🔍 Ricerca Cap Esteri</h2>
+      <p>Per utilizzare l'autocompletamento dei cap basterà recarsi su <code>Conferme > Inserimento Conferma</code> e inserire il nome della città, o parte del nome e premere <code>Tab</code>, in automatico verrà effettuata la ricerca sul nuovo DataBase.</p>
+      <img src="../assets/conferme/tirstati/utilizzo-tircap.png" alt="Ricerca Cap Esteri">
+      <p>Nel caso in cui la parola / luogo dia più risultati sarà possibile scegliere il luogo che più si preferisce e verrà riportato in automatico.</p>
+      <p><b>N.B.: Il sistema di ricerca funziona con i nomi in formato internazionale e non in italiano in quanto gli stati sono presi da una lista standard generale e non localizzata per l'italia.</b></p>
+    </section>
+
+    <section>
+      <h2>*️⃣ Extra</h2>
+      <p>Nel caso in cui si volesse rendere il modulo di configurazione disponibile al cliente basterà recarsi sulle impostazioni avanzate del menù e attivare la seguente voce: 
+        <code>Modifica e Gestione Cap Esteri</code> e successivamente premere <code>SALVA</code> in basso.</p>
+      <img src="../assets/conferme/tirstati/attivazione-aggiunte.png" alt="Attivazione Modulo Aggiunte">
+      <p>In questo modo il cliente potrà accedere al modulo di gestione dei cap esteri e potrà attivare gli stati che più preferisce direttamente dalla sezione <code>Import / Export</code>.</p>
+      <img src="../assets/conferme/tirstati/sezione-importexport.png" alt="Sezione Import/Export">
+    </section>
+</body>
+</html>
