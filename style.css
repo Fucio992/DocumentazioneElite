@@ -155,3 +155,23 @@ a {
   font-size: 0.9em;
   color: #555;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.div-horizontal-image-with-description{
+  display: flex; 
+  align-items: center; 
+  width: 100%; 
+  gap: 2rem;
+}
+
+.div-horizontal-image-with-description img{
+  width: 30%;
+}
+
+.div-horizontal-image-with-description p{
+  width: 70%; 
+  margin: 0;
+}

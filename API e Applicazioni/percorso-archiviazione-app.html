@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>API</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📂 Impostazioni archiviazione documenti AppETir</h1>
+    </header>
+
+    <section>
+        <p>Ci sono un paio di impostazioni per la gestione dell'archiviazione dei documenti delle vare sezioni dell'app che bisogna capire come funzionano per non perderci la vita.</p>
+        <ul>
+            <li class="bold">Documenti nella madre</li>
+            <img src="../assets/Api app e portali/impostazione-documenti-madre.png" alt="Impostazione documenti nella madre"/>
+            <p>
+                Semplicemente fa si che quando si salvano i documenti delle tratte/punti, questi vengono 
+                indirizzati alla cartella della conferma Madre e non a quella della tratta
+            </p>
+
+            <li class="bold">Documenti come lista</li>
+            <img src="../assets/Api app e portali/impostazione-documenti-come-lista.png" alt="Impostazione documenti come lista"/>
+            <p>
+                Nella pagina di gestione dei documenti, invece di averli disposti in un carosello con l'anteprima, compare una 
+                lista con solo i nomi e il tipo di file. Possono essere scaricati singolarmente o in blocco
+            </p>
+
+            <li class="bold">Percorso archiviazione (ATTENZIONE A QUESTO PERCHE' E' CRUCIALE)</li>
+            <img src="../assets/Api app e portali/impostazione-percorso-archiviazione.png" alt="Impostazione percorso archiviazione"/>
+            <p>
+                Questo campo è molto delicato quindi invito a fare attenzione quando lo si modifica.
+                La prima cosa da controllare è che alla fine del percorso alternativo, E' OBBLIGATORIO che ci sia lo "\". Questo perché quello che fa l'api è prendere qualsiasi 
+                cosa voi scriviate e piazzargli dopo questa stringa: "Click\Documenti\...". Quindi il percorso da voi inserito deve essere solo la radice, non quello completo. 
+                <br/>
+                Cose che non funzionano:
+                <div class="div-horizontal-image-with-description">
+                    <img src="../assets/Api app e portali/errore-percorso-completo.png" alt="Errore percorso completo" />
+                    <p>
+                        Questa radice viene usata per tutti i tipi di documenti, <strong>non solo le conferme</strong>
+                    </p>
+                </div>
+
+                <div class="div-horizontal-image-with-description">
+                    <img src="../assets/Api app e portali/errore-indirizzo-ip.png" alt="Errore indirizzo IP" />
+                    <p>
+                        Nel caso dell'indirizzo IP, i <strong>\\</strong> davanti sono <strong>obbligatori</strong>
+                    </p>
+                </div>
+                
+                <div class="div-horizontal-image-with-description">
+                    <img src="../assets/Api app e portali/errore-altro-disco.png" alt="Errore altro disco" />
+                    <p>
+                        Nel caso di un altro disco, i <strong>\\ non devono esserci</strong>
+                    </p>
+                </div>
+            </p>
+            
+        </ul>
+    </section>
+  </div>
+</body>
+</html>
