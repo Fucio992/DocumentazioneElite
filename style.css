@@ -175,3 +175,19 @@ a {
   width: 70%; 
   margin: 0;
 }
+
+.div-horizontal-two-images-with-central-text{
+  display: flex; 
+  align-items: center; 
+  width: 100%; 
+  gap: 2rem;
+}
+
+.div-horizontal-two-images-with-central-text img{
+  width: 40%;
+}
+
+.div-horizontal-two-images-with-central-text p{
+  width: 20%; 
+  margin: 0;
+}
