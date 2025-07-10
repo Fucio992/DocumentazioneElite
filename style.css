@@ -191,3 +191,9 @@ a {
   width: 20%; 
   margin: 0;
 }
+
+.list-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
