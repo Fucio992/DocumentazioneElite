@@ -196,4 +196,27 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.list-item-header:hover {
+  background-color: #e0e0e0;
+}
+
+details {
+  margin-bottom: 10px; /* Add margin between details elements */
+}
+
+.card-body {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+}
+
+.card-body p {
+  margin-bottom: 0;
 }
