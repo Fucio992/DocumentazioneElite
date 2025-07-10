@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentazione Modulo Container</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Documentazione Modulo Container</h1>
+        <p>
+          <strong>Data:</strong> 10/07/2025 | <strong>Fonte:</strong> Riunione
+          operativa Riccardo Fusaro
+        </p>
+      </header>
+
+      <main>
+        <section id="attivazione">
+          <h2>1. Attivazione e Accesso al Modulo</h2>
+          <p>
+            Per poter utilizzare le funzionalità relative ai container, è
+            necessario prima abilitare il modulo a livello di sistema.
+          </p>
+          <h3>Procedura di attivazione:</h3>
+          <ul>
+            <li>Accedere alle <strong>Impostazioni</strong> del software.</li>
+            <li>Inserire la password di amministrazione.</li>
+            <li>Navigare nella sezione <strong>Avanzate</strong>.</li>
+            <li>
+              Assicurarsi che l'opzione <code>"Includi container"</code> sia
+              spuntata.
+            </li>
+            <li>Salvare le modifiche.</li>
+          </ul>
+          <p>
+            Una volta attivato, nel menù <strong>Operativo</strong> saranno
+            visibili due moduli:
+          </p>
+          <ul>
+            <li>
+              <code>Container</code> (modulo precedente, da non utilizzare)
+            </li>
+            <li>
+              <strong><code>Registra container</code></strong> (nuovo modulo
+              integrato)
+            </li>
+          </ul>
+        </section>
+
+        <section id="concetti">
+          <h2>
+            2. Concetti Fondamentali: Differenza tra Conferma e Viaggio
+            Container
+          </h2>
+          <p>
+            La differenza principale tra un trasporto convenzionale (conferma) e
+            un viaggio container risiede nella struttura e nella sequenza delle
+            operazioni.
+          </p>
+          <ul>
+            <li>
+              <strong>Trasporto Convenzionale (Conferma):</strong> Ha una
+              struttura semplice con un solo punto di carico e un solo punto di
+              scarico.
+            </li>
+            <li>
+              <strong>Viaggio Container:</strong> È un ciclo di operazioni
+              multi-punto e più complesso:
+              <ol>
+                <li>
+                  <strong>Partenza (opzionale):</strong> Il camion parte vuoto
+                  dal deposito.
+                </li>
+                <li>
+                  <strong>Ritiro:</strong> Il camion si reca a un terminal o
+                  porto per agganciare un container vuoto.
+                </li>
+                <li>
+                  <strong>Carico/Scarico:</strong> Vengono eseguite una o più
+                  operazioni sul contenuto del container.
+                </li>
+                <li>
+                  <strong>Riconsegna:</strong> Il container (pieno o vuoto)
+                  viene riportato a un terminal e sganciato.
+                </li>
+                <li>
+                  <strong>Arrivo (opzionale):</strong> Il camion prosegue il suo
+                  viaggio o torna al deposito.
+                </li>
+              </ol>
+            </li>
+          </ul>
+          <div class="card warning">
+            <p class="card-title">Nota importante</p>
+            <p>
+              Dai feedback dei clienti, le operazioni rilevanti e da fatturare
+              all'interno della registrazione sono sempre
+              <strong>Ritiro, Carico/i e Riconsegna</strong>. La partenza
+              iniziale dal deposito e il rientro finale non fanno tipicamente
+              parte del ciclo di fatturazione del container ma sono gestite a
+              livello di pianificazione generale del veicolo.
+            </p>
+          </div>
+        </section>
+
+        <section id="registrazione">
+          <h2>3. Registrazione di un Nuovo Container (Operazione Singola)</h2>
+          <p>
+            Il modulo <code>Registra container</code> permette di inserire e
+            gestire i viaggi.
+          </p>
+          <h3>Procedura di creazione:</h3>
+          <ol>
+            <li>
+              Premere il pulsante <strong>"+" (Nuovo)</strong> per aprire una
+              nuova registrazione.
+            </li>
+            <li>
+              Compilare i campi principali della testata (es.
+              <strong>Ragione Sociale</strong>, <strong>Nave</strong>,
+              <strong>Destinazione</strong>, etc.).
+            </li>
+            <li>
+              Definire i dettagli del container:
+              <ul>
+                <li><strong>Piedi:</strong> La dimensione (es. 20, 40).</li>
+                <li>
+                  <strong>Tipo:</strong> Tipologia (es. <code>BOX</code>,
+                  <code>OPEN TOP</code>).
+                </li>
+                <li>
+                  <strong>Stato:</strong> <code>Pieno</code> o
+                  <code>Vuoto</code>.
+                </li>
+                <li>
+                  <strong>Sigla e Numero:</strong> Identificativi univoci. Un
+                  algoritmo interno valida la correttezza del numero di
+                  controllo al salvataggio.
+                </li>
+                <li>
+                  <strong>Campi aggiuntivi:</strong> Sigillo, PIN, Proprietario,
+                  Contenuto, Peso, Tara.
+                </li>
+              </ul>
+            </li>
+            <li>
+              Gestire le tappe del viaggio: di default il sistema crea
+              <strong>Ritiro, Carico, Riconsegna</strong>, ma è possibile
+              aggiungerne altre e riordinarle.
+            </li>
+          </ol>
+        </section>
+
+        <section id="booking">
+          <h2>4. Gestione dei Booking (Commesse di Container)</h2>
+          <p>
+            Il "Booking" è un concetto analogo a una commessa, utilizzato per
+            gestire un lotto di container con le stesse caratteristiche.
+          </p>
+          <h3>Funzionamento:</h3>
+          <ul>
+            <li>
+              Durante la creazione di una nuova registrazione, si specifica un
+              <strong>numero di Booking</strong> (es. <code>555</code>) e una
+              <strong>Quantità Totale</strong> (es. 10).
+            </li>
+            <li>
+              Al salvataggio, il sistema creerà automaticamente 10 registrazioni
+              identiche, tutte collegate allo stesso numero di booking.
+            </li>
+            <li>
+              Ogni registrazione andrà poi completata individualmente con i
+              dettagli specifici (es. sigla e numero).
+            </li>
+          </ul>
+          <h3>Monitoraggio e Aggiunta:</h3>
+          <ul>
+            <li>
+              Nel pannello <strong>"Quantità del booking"</strong> è possibile
+              monitorare quanti container sono associati a un booking.
+            </li>
+            <li>
+              Per aggiungere un nuovo container a un booking esistente,
+              selezionare la riga e usare la funzione
+              <strong>"Aggiungi container"</strong>.
+            </li>
+          </ul>
+        </section>
+
+        <section id="pianificazione">
+          <h2>5. Pianificazione e Abbinamento Viaggi</h2>
+          <p>
+            L'assegnazione di un viaggio container a un veicolo segue la stessa
+            logica delle conferme d'ordine.
+          </p>
+          <ul>
+            <li>
+              Dal <strong>Pianificatore</strong> o dalla sezione
+              <strong>Viaggi</strong>, si accede alla funzione di
+              <strong>Abbinamento</strong>.
+            </li>
+            <li>
+              È possibile filtrare la lista delle registrazioni per visualizzare
+              solo i <code>Containers</code>.
+            </li>
+            <li>
+              Una volta abbinato, il sistema crea un viaggio con la sequenza di
+              tappe definita.
+            </li>
+            <li>
+              È possibile abbinare fino a
+              <strong>due container da 20 piedi</strong> sullo stesso camion.
+            </li>
+          </ul>
+        </section>
+
+        <section id="listini">
+          <h2>6. Gestione Listini Prezzi per Container</h2>
+          <div class="card">
+            <p>
+              A causa della loro natura multi-tappa, i container non possono
+              utilizzare i listini tradizionali. È obbligatorio utilizzare i
+              <strong>listini di nuova generazione</strong>, che sono dinamici e
+              permettono di definire regole di prezzo basate su N punti e
+              parametri specifici del container (piedi, tratta, etc.).
+            </p>
+          </div>
+        </section>
+
+        <section id="criticita">
+          <h2>7. Criticità Attuali e Aree di Miglioramento</h2>
+          <p>
+            Durante la riunione sono state identificate le seguenti aree che
+            necessitano di sviluppo:
+          </p>
+          <div class="card danger">
+            <p class="card-title">1. Bug nella Gestione Soste a Magazzino</p>
+            <p>
+              La funzionalità di "tagliare" un viaggio per una sosta a magazzino
+              (<code>Stop</code>) è attualmente difettosa e non calcola
+              correttamente la sequenza delle tappe successive.
+            </p>
+          </div>
+          <div class="card warning">
+            <p class="card-title">2. Visualizzazione Dati Incompleta</p>
+            <p>
+              La vista a colonne nella ricerca non è adatta ai container. È
+              necessario creare una vista personalizzata che includa colonne
+              come <code>Piedi</code>, <code>Tipo</code>,
+              <code>Termine di ritiro</code>.
+            </p>
+          </div>
+          <div class="card warning">
+            <p class="card-title">
+              3. Mancata Integrazione Distanziatore Certificato
+            </p>
+            <p>
+              Il calcolo dei chilometri è incrementale. È necessario integrare
+              un distanziatore certificato per il trasporto container
+              (precedentemente noto come RTO) per una corretta fatturazione.
+            </p>
+          </div>
+        </section>
+
+        <section id="database">
+          <h2>8. Dettagli Tecnici: Struttura del Database</h2>
+          <p>
+            L'attuale architettura del database presenta delle complessità
+            ereditate che andrebbero risolte.
+          </p>
+          <h3>Tabelle coinvolte:</h3>
+          <ul>
+            <li><code>cnt.Bookings</code></li>
+            <li><code>cnt.BookingDetails</code></li>
+            <li><code>Container</code></li>
+          </ul>
+
+          <div class="card danger">
+            <p class="card-title">Criticità Tecniche e Azioni Richieste</p>
+            <ul>
+              <li>
+                La tabella <code>Container</code> ha una
+                <strong>struttura legacy e inadeguata</strong>, con campi
+                duplicati per un secondo container mai gestito in quella
+                modalità.
+              </li>
+              <li>
+                La tabella <code>CNT_Booking_Detail</code> è ritenuta
+                <strong>obsoleta e ridondante</strong>, in quanto complica
+                inutilmente le query.
+              </li>
+            </ul>
+            <p>
+              <strong>Azione richiesta:</strong> Pianificare un'attività di
+              <strong>refactoring del database</strong> per eliminare la tabella
+              <code>CNT_Booking_Detail</code> e normalizzare la struttura della
+              tabella <code>Container</code>.
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
