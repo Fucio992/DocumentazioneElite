@@ -220,3 +220,7 @@ details {
 .card-body p {
   margin-bottom: 0;
 }
+
+.link-color-text {
+  color: var(--primary-color);
+}
