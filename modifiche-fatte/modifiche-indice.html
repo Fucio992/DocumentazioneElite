@@ -17,9 +17,39 @@
     <section>
       <h2>🆕 Novità recenti</h2>
 
-            <details open>
+
+      <details open>
+        <summary>2025-07-28</summary>
+
+        <div class="card">
+          <div class="card-title">Tabella abbinamento conferme e contaienrs ora hanno due impostazioni di colonne uniche
+          </div>
+          <div class="card-body">
+
+            <section>
+              <p>Prima all'interno del pianificatore la visualizzazione dei dati era sempre impostata allo stesso modo,
+                veniva sempre visualizzato come se fosse una conferma.
+                <br>Ora sarà possibile personalizzare anche la vista per i containers
+              </p>
+
+              <img src="../assets/pianificazione/GrigliaAbbinamentoPianificatore.png" width="auto">
+              <div style="display: flex; justify-content: space-between;">
+                <img src="../assets/pianificazione/GrigliaAbbinamentoConferme.png" width="45%">
+                <img src="../assets/pianificazione/GrigliaAbbinamentoContainers.png" width="45%">
+              </div>
+
+              <small>Questa implementazione è presente solamente nel branch di refactoring dei containers, quindi non è
+                ancora disponibile nell'installer ufficiale.</small>
+            </section>
+          </div>
+        </div>
+
+      </details>
+
+
+      <details>
         <summary>2025-07-24</summary>
-        
+
         <div class="card">
           <div class="card-title">Modifica dati tecnici mezzi</div>
           <div class="card-body">
@@ -27,7 +57,8 @@
             <section>
               <p>Nei mezzi ora c'e' il tasto per modificare direttamente i dati tecnici</p>
               <img src="../assets/Veicoli/modifica.png" width="300px">
-              <p>E' anche stato aggiunto il campo <strong>Gruppi Mezzo</strong> che concatena i gruppi assegnati a quel mezzo</p>
+              <p>E' anche stato aggiunto il campo <strong>Gruppi Mezzo</strong> che concatena i gruppi assegnati a quel
+                mezzo</p>
             </section>
           </div>
         </div>
@@ -36,7 +67,7 @@
 
       <details>
         <summary>2025-07-24</summary>
-        
+
         <div class="card">
           <div class="card-title">DISATTIVA SALVATAGGIO TARGHE</div>
           <div class="card-body">
@@ -66,13 +97,15 @@
 
       <details>
         <summary>2025-07-23</summary>
-        
+
         <div class="card">
           <div class="card-title">Suddivisione 12</div>
           <div class="card-body">
 
             <section>
-              <p>Nei <strong>Preventivi</strong> sotto impostazioni si puo' mettere che ci sia la suddivisione <strong>Base 12</strong> al posto di 13</p>
+              <p>Nei <strong>Preventivi</strong> sotto impostazioni si puo' mettere che ci sia la suddivisione
+                <strong>Base 12</strong> al posto di 13
+              </p>
               <p>Per l'attivazione basta attivare nelle impostazioni PREVENTIVO BASE 12</p>
             </section>
 
@@ -84,13 +117,15 @@
 
       <details>
         <summary>2025-07-22</summary>
-        
+
         <div class="card">
           <div class="card-title">Nuova gestione poi</div>
           <div class="card-body">
 
             <section>
-              <p>Per chi ha tanti punti uguali nelle impostazioni del planner c'e' il nome tipo visualizzazione poi <strong>CLIENTE CONTEGGIO</strong></p>
+              <p>Per chi ha tanti punti uguali nelle impostazioni del planner c'e' il nome tipo visualizzazione poi
+                <strong>CLIENTE CONTEGGIO</strong>
+              </p>
               <img src="../assets/pianificazione/cliconteggio.png" width="300px">
             </section>
 
@@ -106,7 +141,7 @@
 
       <details>
         <summary>2025-07-21</summary>
-        
+
         <div class="card">
           <div class="card-title">Modifiche nel modulo container</div>
           <div class="card-body">
@@ -120,7 +155,7 @@
               <p>Inseriti i campi data ed ora all'interno delle impostazioni dei punti default</p>
               <img src="../assets/Container/DataOraDefaultPuntiContainer.png" width="650px">
             </section>
-            
+
             <small>Queste modifiche sono nel branch di refactoring container
               <br>L'installer non è il solito su mega, chiedere in programmazione</small>
           </div>
@@ -131,7 +166,7 @@
 
       <details>
         <summary>2025-07-17</summary>
-        
+
         <div class="card">
           <div class="card-title">Riparazione Interna verso Conferme</div>
           <div class="card-body">
@@ -212,7 +247,8 @@
           <div class="card-body">
 
             <section>
-              <p>nelle conferme ora c'e' il campo <strong>Numero Civico</strong> e anche nella finestra aggiungi punto</p>
+              <p>nelle conferme ora c'e' il campo <strong>Numero Civico</strong> e anche nella finestra aggiungi punto
+              </p>
             </section>
           </div>
         </div>
@@ -402,7 +438,8 @@
             <section>
               <p>Nel modulo <code>ConfermaUC.xaml</code> sono stati aggiunti due nuovi controlli <code>ComboBox</code>
                 per permettere la selezione della cassa da parte dell’utente: <strong>Cassa1</strong> e
-                <strong>Cassa2</strong>.</p>
+                <strong>Cassa2</strong>.
+              </p>
             </section>
 
             <section>
@@ -436,7 +473,8 @@
 
             <section>
               <p>È stata introdotta una nuova funzionalità per gestire la data di fine contratto all'interno del modulo
-                <code>ContrattiPagamantiForm.xaml</code>.</p>
+                <code>ContrattiPagamantiForm.xaml</code>.
+              </p>
             </section>
 
             <section>
@@ -444,13 +482,16 @@
                 <li>Aggiunto un nuovo componente <code>DatePicker</code> per la selezione della <strong>Data Fine
                     Contratto</strong>.</li>
                 <li>Il code-behind del form è stato aggiornato per salvare il valore selezionato nella proprietà
-                  <code>DataFineContratto</code> dell’oggetto <code>contrattoPagamento</code>.</li>
+                  <code>DataFineContratto</code> dell’oggetto <code>contrattoPagamento</code>.
+                </li>
                 <li>L'oggetto <code>ContrattoPagamentoSel</code> è stato esteso con la proprietà
-                  <code>FineContratto</code>.</li>
+                  <code>FineContratto</code>.
+                </li>
                 <li>Nel file <code>Contratti.cs</code> è stata aggiunta la proprietà <code>FineContratto</code>, con
                   valore predefinito <em>1 gennaio 2050</em>.</li>
                 <li>La tabella <code>ContrattiPagamenti</code> del database è stata aggiornata con una nuova colonna
-                  <code>FineContratto</code>.</li>
+                  <code>FineContratto</code>.
+                </li>
               </ul>
             </section>
 
@@ -489,7 +530,8 @@
               <p>Rifattorizzazione Unificazione POI</p>
               <ul>
                 <li>Introdotta proprietà <code>HasPoiUniti</code> in <code>Viaggio</code> e metodo
-                  <code>GetHasPoiUniti()</code>.</li>
+                  <code>GetHasPoiUniti()</code>.
+                </li>
                 <li>Sostituito <code>Repository.MantieniUnitiPoi.Attivo</code> con <code>ViaggioSel.HasPoiUniti</code>.
                 </li>
               </ul>
