@@ -210,6 +210,31 @@ details {
   margin-bottom: 10px; /* Add margin between details elements */
 }
 
+.tip {
+  display: block;
+  color: #333; /* Testo scuro per leggibilità */
+  background-color: color-mix(in srgb, var(--primary-color) 10%, white); /* Sfondo più chiaro */
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.75em 1.5em;
+
+  border: 2px solid var(--primary-color); /* ✅ Mostra bordo correttamente */
+  border-radius: 8px;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.tip-icon {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.tip-description {
+  font-size: .8em;
+  font-weight: normal;
+}
+
 .card-body {
   padding: 10px;
   border: 1px solid #ddd;
