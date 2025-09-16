@@ -25,11 +25,53 @@
           <div class="card-body">
             <section>
               <p>Duplicazione Mittenti Destinatari</p>
-              <p>Aggiunto il tasto DUPLICA in basso della videata per poter duplicare i Mittenti Destinatari. Si apre un ulteriore finestra dove viene riportato il cliente ed il tipo, è possibile anche non definire il cliente e mettere come tipo COMUNE a seconda che si voglia duplicare mitt/dest legati a clienti o comuni</p>
-              <img src="../assets/anagrafiche/MittentiDestinatari/mittdest_duplica.png" width="400">  
+              <p>Aggiunto il tasto DUPLICA in basso della videata per poter duplicare i Mittenti Destinatari. Si apre un
+                ulteriore finestra dove viene riportato il cliente ed il tipo, è possibile anche non definire il cliente
+                e mettere come tipo COMUNE a seconda che si voglia duplicare mitt/dest legati a clienti o comuni</p>
+              <img src="../assets/anagrafiche/MittentiDestinatari/mittdest_duplica.png" width="400">
             </section>
           </div>
         </div>
+
+        <div class="card">
+          <div class="card-title">NUOVO CONTATORE</div>
+          <div class="card-body">
+            <section>
+              <p>Abbiamo risolto il millennium bug del contatore delle conferme</p>
+              <p>E' cambiato il modo di gerare le conferme. Voi non vi dovreste accorgere di nulla se funziona tutto</p>
+              <p>Si puo' anche impostare la lunghezza del contatore facendo</p>
+              <code>UPDATE DatiBase SET LunghezzaContatore = 9</code>
+              <p>dove il nove rappresenta il numero di cifre dopo l'anno</p>
+              <p><strong>E' DA TESTARE BENE</strong></p>
+              <br>
+              <p>Se dovessero uscire degli errori ai clienti molto probabilmente ci sono delle conferme duplicate</p>
+            </section>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Colore relativo all'azienda</div>
+          <div class="card-body">
+            <section>
+              <p>Nel planner e' stata creata un impostazione che colora in base alla zona dell'azienda</p>
+              <img src="../assets/pianificazione/coloreRelativoAllAzienda.png" width="auto">
+              <p>E' descritto come funziona nell'impostazione</p>
+            </section>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Ricerche Full Text</div>
+          <div class="card-body">
+            <section>
+              <p>Ora i campi mezzo, rimorchio e autista hanno la ricerca <strong>per parola contenuta</strong></p>
+              <p>Esempio scrivo “MARIO” e nella combo visualizzare tutti gli autisti che contengono la stringa “Mario”
+              </p>
+              <p>E' da TESTARE</p>
+            </section>
+          </div>
+        </div>
+
       </details>
 
       <details>
@@ -40,10 +82,13 @@
           <div class="card-body">
             <section>
               <p>Integrazione Impostazioni su modulo: </p>
-              <p>Ora in Fatturazione attiva in alto a sinistra potete vedere il tasto Impostazioni, come per il modulo riparazioni:</p>
+              <p>Ora in Fatturazione attiva in alto a sinistra potete vedere il tasto Impostazioni, come per il modulo
+                riparazioni:</p>
               </br>
               <img src="../assets/Fatturazione/fatt_11.png" width="400">
-              <p>Premuto questo tasto si aprirà la finestra delle impostazioni, che permette al utente finale di cambiare le impostazioni di Automatismi e Visualizzazioni; inoltre c’è il tasto con il lucchetto (sotto password) che permette ai tecnici di attivare le impostazioni avanzate: 
+              <p>Premuto questo tasto si aprirà la finestra delle impostazioni, che permette al utente finale di
+                cambiare le impostazioni di Automatismi e Visualizzazioni; inoltre c’è il tasto con il lucchetto (sotto
+                password) che permette ai tecnici di attivare le impostazioni avanzate:
               </p>
               <img src="../assets/Fatturazione/fatt_12.png" width="400">
             </section>
