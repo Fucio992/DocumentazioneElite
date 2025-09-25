@@ -200,10 +200,11 @@ a {
   background-color: #f0f0f0;
   border-bottom: 1px solid #ddd;
   border-radius: 5px;
+  background-color: color-mix(in srgb, var(--primary-color) 15%, white);
 }
 
 .list-item-header:hover {
-  background-color: #e0e0e0;
+  background-color: color-mix(in srgb, var(--primary-color) 40%, white);
 }
 
 details {
