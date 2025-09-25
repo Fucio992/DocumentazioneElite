@@ -249,3 +249,16 @@ details {
 .link-color-text {
   color: var(--primary-color);
 }
+
+.detail-summary-grosso {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.tip-easy {
+  display: block;
+  color: #333; /* Testo scuro per leggibilità */
+  background-color: color-mix(in srgb, var(--primary-color) 15%, white); /* Sfondo più chiaro */
+  padding: 0.35em;
+}

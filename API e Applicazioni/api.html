@@ -61,6 +61,114 @@
         Possibili errori
       </h2>
       Nel migliore dei casi, aggiornate e tutto vola liscio, ma magari fosse così semplice. Ecco a voi una lista di possibili errori ed eventuali soluzioni trovate da chi si è sbattutto per farlo funzionare:
+      
+      <div style="margin: 16px;">
+        <details>
+          <summary class="detail-summary-grosso">Errore 500.19</summary>
+          
+          <h3>Caso specifico che mi è capitato con TRUCK.MI</h3>
+          In pratica ho aggiornato l'api, installato .NET Hosting Bundle nella versione corretta e tutto ma continuava a darmi questo errore:
+          <img src="../assets/Api app e portali/Errore50019.png"/>
+          L'ho risolto cercando su ChatGPT che mi ha dato questa soluzione molto tecnica e che mi pare strana ma funziona: 
+          <br/>
+          🔧 Perché succede In IIS esistono livelli di configurazione:
+          <br/>
+          <br/>
+          Nel tuo caso, il server IIS ha bloccato (non permette l'override) della sezione system.webServer/modules nei web.config locali.
+          <br/>
+          <br/>
+          ✅ Soluzioni (raccomandata se hai accesso da amministratore al server):
+          <br/>
+          <br/>
+          1️⃣ Apri il file: <div class="tip-easy">%windir%\System32\inetsrv\config\applicationHost.config</div>
+          <br/>
+          ⚠️ Il file <div class="tip-easy">%windir%\System32\inetsrv\config\applicationHost.config</div> non è direttamente apribile quindi basta cercare questo percorso: "%windir%\System32\inetsrv\config" e poi aprire il file.
+          <br/>
+          <br/>
+          2️⃣ Cerca la sezione: <div class="tip-easy">&lt;section name="modules" allowDefinition="MachineToApplication" overrideModeDefault="Deny" /&gt;</div>
+          <br/>
+          3️⃣ Modificala in: <div class="tip-easy">&lt;section name="modules" allowDefinition="MachineToApplication" overrideModeDefault="Allow" /&lt;</div>
+          <br/>
+          <br/>
+          ⚠️ Questa modifica sblocca la possibilità di gestire i moduli nei web.config delle applicazioni.
+          <br/>
+          <strong>
+            Il file %windir%\System32\inetsrv\config\applicationHost.config non è direttamente apribile quindi basta cercare questo percorso: "%windir%\System32\inetsrv\config" e poi aprire il file. Il resto è come dice lui
+          </strong>
+        </details>
+
+        <details>
+          <summary class="detail-summary-grosso">Errore 500.30</summary>
+          Controlla configurazione DB.txt in locale.
+        </details>
+
+        <details>
+          <summary class="detail-summary-grosso">Errore 500.31</summary>
+          <h3>Come si presenta il problema:</h3>
+          HTTP Error 500.31 - Failed to load ASP.NET Core runtime Common solutions to this issue: The specified version of Microsoft.NetCore.App or Microsoft.AspNetCore.App was not found. Troubleshooting steps: Check the system event log for error messages Enable logging the application process' stdout messages Attach a debugger to the application process and inspect For more guidance on diagnosing and handling these errors, visit Troubleshoot ASP.NET Core on Azure App Service and IIS.
+          <br/>
+          In questo errore c'è un grande consiglio, e cioè quello di controllare i log di sistema. Ecco come si fa:
+          <ul>
+            <li>
+              Premere "Win + R"
+            </li>
+            <li>
+              Digitare "eventvwr" nel popup che vi compare solitamente in basso a destra
+            </li>
+            <li>
+              Questo vi apre il programma Visualizzatore Eventi e andare in questa posizione: Registri di Windows > Applicazione
+            </li>
+            <li>
+              A questo punto cercate eventuali errori riconoscibili da un punto esclamativo rosso abbastanza visibile.
+            </li>
+            <li>
+              A me è capitato che ci fossero tre errori e quello di mezzo conteneva l'errore effettivo con i vari dettagli, tra cui il link diretto al bundle di dotnet che non avevo installato
+            </li>
+            <img src="../assets/Api app e portali/erorre50031-paginaeventi.png"/>
+            <li>
+              Una volta installato il pacchetto andare su IIS > Pool di Applicazioni > Ricilare il pool dell'API > Andare sulle pagine web e cercare l'API > Riavviare l'API. E' possibile che ci metta un attimo a riavviarsi, dategli al massimo 10 secondi.
+            </li>
+          </ul>
+          
+          <h3>Altra possibile soluzione al problema:</h3>
+          Aprire IIS (Internet information Service) e premere in Pool di Applicazioni.
+          <img src="../assets/Api app e portali/errore50031-poolapp.png"/>
+          Selezionare il pool chiamato API ed aprire le impostazioni avanzate.
+          <img src="../assets/Api app e portali/errore50031-impostazioniavaznate.png"/>
+          Selezionare l'identità del pool di applicazioni premendo sui 3 puntini a fianco della voce <strong>Identità</strong>.
+          <br/>
+          <br/>
+          Potrebbe uscire anche se manca: .net 8: Scaricalo da 
+          <strong>
+            <a href="https://dotnet.microsoft.com/it-it/download/dotnet/thank-you/runtime-aspnetcore-8.0.8-windows-hosting-bundle-installer" target="_blank">
+              qui
+            </a>
+          </strong>
+          e poi esegui cmd con: <strong>iisreset</strong>
+        </details>
+        
+        <details>
+          <summary class="detail-summary-grosso">Errore 503 - Service unavaiable</summary>
+          <h3>Risoluzione del problema:</h3>
+          <ul>
+            <li>
+              Andare in POOL DI APPLICAZIONI selezionare il pool di riferimento e premere Ricicla
+            </li>
+            <li>
+              Doppio Click su API
+            </li>
+            <li>
+              Selezionare la versione .NET CLR: dev'essere selezionato Versione .NET CLR v2.0.50727
+            </li>
+            <li>
+              Se questo non funziona verificare il pool assegnato al sito che sia quello corretto in quanto potrebbero esserci due pool (esempio API e IG3) ma quello associato al sito non è lo stesso per il quale è stato fatto il riciclo
+            </li>
+            <li>
+              Per capire su che pool punta un sito, selezionare il sito e sulla destra premere impostazioni avanzate e la 6 voce (Pool di applicazioni) conterrà il nome corretto, una volta trovato rifare la procedura di riclo per quel determinato pool
+            </li>
+          </ul>
+        </details>
+      </div>
     </section>
   </div>
 </body>
