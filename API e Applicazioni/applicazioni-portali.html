@@ -16,7 +16,6 @@
       <ul>
           <li><a href="app-etir.html">AppETir</a></li>
           <li><a href="app-emag.html">AppEMag</a></li>
-          <br/>
       </ul>
     <h2>🌐Portali</h2>
       <ul>
@@ -24,6 +23,23 @@
           <li><a href="portale-crm.html">Portale CRM</a></li>
           <li><a href="portale-deposito.html">Portale Deposito (TCF)</a></li>
           <br/>
+          <h3>Regole generali dei portali:</h3>
+          I portali, a differenza delle applicazioni, si collegano alle API tramite il file <strong>config.json</strong> che appare così:
+          <br/>
+          <pre><code>
+            {
+              "cliente": "NomeCliente",
+              "pi": "00011122233"
+            }
+          </code></pre>
+          dove l'abbinamento viene fatto tramite PI con una chiamata al server dell'Assistenza dove sono registrati tutti i link delle API
+          di ogni cliente. Questo vuol dire che per accedere al portale di qualcun altro, basta inserire la sua partita iva nel config.
+          <br/>
+          Inoltre, essendo che quando si installa l'API viene sempre creato l'utente assistenza, potete accedere ad ogni portale con le seguenti credenziali:
+          <br/>
+          Usr: <strong>assistenza@ideagrip.it</strong>
+          <br/>
+          Psw: <strong>Ide@Grip-1</strong>
       </ul>
     </section>
   </div>
