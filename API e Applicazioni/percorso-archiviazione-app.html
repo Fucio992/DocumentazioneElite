@@ -35,27 +35,74 @@
                 La prima cosa da controllare è che alla fine del percorso alternativo, E' OBBLIGATORIO che ci sia lo "\". Questo perché quello che fa l'api è prendere qualsiasi 
                 cosa voi scriviate e piazzargli dopo questa stringa: "Click\Documenti\...". Quindi il percorso da voi inserito deve essere solo la radice, non quello completo. 
                 <br/>
-                Cose che non funzionano:
-                <div class="div-horizontal-image-with-description">
-                    <img src="../assets/Api app e portali/errore-percorso-completo.png" alt="Errore percorso completo" />
-                    <p>
-                        Questa radice viene usata per tutti i tipi di documenti, <strong>non solo le conferme</strong>
-                    </p>
-                </div>
+                <h3>Regole di configurazione:</h3>
+                <ul>
+                    <li>
+                        <div class="blocco-prima-dopo">
+                            <div class="descrizione-unica">
+                                <p>
+                                Questa radice viene usata per tutti i tipi di documenti, <strong>non solo le conferme</strong>
+                                </p>
+                            </div>
 
-                <div class="div-horizontal-image-with-description">
-                    <img src="../assets/Api app e portali/errore-indirizzo-ip.png" alt="Errore indirizzo IP" />
-                    <p>
-                        Nel caso dell'indirizzo IP, i <strong>\\</strong> davanti sono <strong>obbligatori</strong>
-                    </p>
-                </div>
+                            <div class="container-prima-dopo">
+                                <div class="colonna">
+                                <h3 style="color: red;">Sbagliato</h3>
+                                <img src="../assets/Api app e portali/errore-percorso-completo.png" alt="Errore percorso completo" />
+                                </div>
+                                <div class="colonna">
+                                <h3 style="color: green;">Corretto</h3>
+                                <img src="../assets/Api app e portali/percorso-corretto1.png" alt="Errore percorso completo" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="blocco-prima-dopo">
+                            <div class="descrizione-unica">
+                                <p>
+                                    Nel caso dell'indirizzo IP, i <strong>\\</strong> davanti sono <strong>obbligatori</strong>
+                                </p>
+                            </div>
+
+                            <div class="container-prima-dopo">
+                                <div class="colonna">
+                                <h3 style="color: red;">Sbagliato</h3>
+                                <img src="../assets/Api app e portali/errore-indirizzo-ip.png" alt="Errore indirizzo IP" />
+                                </div>
+                                <div class="colonna">
+                                <h3 style="color: green;">Corretto</h3>
+                                <img src="../assets/Api app e portali/percorso-corretto2.png" alt="Errore indirizzo IP" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="blocco-prima-dopo">
+                            <div class="descrizione-unica">
+                                <p>
+                                    Nel caso di un altro disco, i <strong>\\ non devono esserci</strong>
+                                </p>
+                            </div>
+
+                            <div class="container-prima-dopo">
+                                <div class="colonna">
+                                <h3 style="color: red;">Sbagliato</h3>
+                                <img src="../assets/Api app e portali/errore-altro-disco.png" alt="Errore altro disco" />
+                                </div>
+                                <div class="colonna">
+                                <h3 style="color: green;">Corretto</h3>
+                                <img src="../assets/Api app e portali/percorso-corretto3.png" alt="Errore altro disco" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
                 
-                <div class="div-horizontal-image-with-description">
-                    <img src="../assets/Api app e portali/errore-altro-disco.png" alt="Errore altro disco" />
-                    <p>
-                        Nel caso di un altro disco, i <strong>\\ non devono esserci</strong>
-                    </p>
-                </div>
+                
+                
             </p>
             
         </ul>
