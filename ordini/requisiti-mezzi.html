@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creazione Conferma d'Ordine</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Prerequisiti Mezzi</h1>
+        </header>
+
+        <section>
+            <p>
+                Questa documentazione illustra il funzionamento del sistema di filtraggio dei mezzi. L'obiettivo è
+                aggiornare in tempo reale le liste di <strong>motrici</strong> e <strong>rimorchi</strong> disponibili
+                in base ai requisiti (accessori e categorie) selezionati dall'utente.
+            </p>
+        </section>
+
+        <details open>
+            <summary>🔨 Attivazione</summary>
+            <div class="card-body">
+                <section>
+                    <p>Per attivare questa procedura e' necessario entrare nelle impostazioni di base e spuntare
+                        <strong>Prerequisiti Mezzi</strong>
+                    </p>
+                    <img src="../assets/impostazioni/prerequisiti.png">
+                </section>
+            </div>
+        </details>
+
+        <details open>
+            <summary>⚙️ Configurazione</summary>
+
+            <div class="card-body">
+                <section>
+                    <p>Perche' tutto funzioni e' necessario che le categorie dei mezzi siano impostate correttamente e
+                        siano
+                        divise tra mezzi e rimorchi</p>
+                    <p>Questo si puo' definire nelle anagrafiche del mezzo</p>
+                    <p>Negli accessori</p>
+                    <img src="../assets/Veicoli/accessoritiposez.png">
+                    <p>Nelle categorie</p>
+                    <img src="../assets/Veicoli/categoriesez.png">
+                </section>
+            </div>
+        </details>
+
+        <details open>
+            <summary>🚚 Modulo 1: Gestione degli Accessori</summary>
+            <div class="card">
+
+                <p>Salva i dati nella tabella <code>ElencoRichiesteAccessori</code> associando la conferma madre ai
+                    possibili accessori</p>
+
+                <h4 class="method-title">Metodo: <code>AggiornaAccessoriOrdine()</code></h4>
+                <p>
+                    <strong>Scopo:</strong> Popola dinamicamente l'interfaccia con le checkbox degli
+                    accessori.
+                    Quando un ordine viene caricato, questo metodo disegna due liste separate di accessori
+                    (una per la motrice, una per il rimorchio) e preseleziona quelli già associati
+                    all'ordine.
+                </p>
+
+                <br>
+
+                <h4 class="method-title">Metodo: <code>SalvaAccessoriOrdine()</code></h4>
+                <p>
+                    <strong>Scopo:</strong> È il gestore del salvataggio. Non esegue direttamente le
+                    operazioni sul DB, ma delega il lavoro al metodo specializzato
+                    <code>SincronizzaAccessoriPerTipo()</code>, chiamandolo una volta per la motrice e una
+                    per il rimorchio.
+                </p>
+
+                <br>
+
+                <h4 class="method-title">Metodo: <code>SincronizzaAccessoriPerTipo()</code></h4>
+                <p>
+                    <strong>Scopo:</strong> Sincronizza in modo efficiente gli accessori di un tipo di mezzo
+                    (motrice o rimorchio) tra UI e database.
+                    Confronta lo stato delle checkbox con i record esistenti, calcola le differenze (cosa
+                    aggiungere e cosa rimuovere) ed esegue solo le operazioni necessarie, garantendo che
+                    ogni record salvato abbia il corretto <code>TipoSezione</code>.
+                </p>
+
+            </div>
+        </details>
+
+        <details open>
+            <summary>📋 Modulo 2: Gestione delle Categorie</summary>
+            <div class="card">
+
+                <p>Salva i dati nella tabella <code>ElencoRichiesteCategorie</code>, associando alla conferma madre le
+                    categorie e sottocategorie richieste.</p>
+
+                <h4 class="method-title">Metodo: <code>AggiornaCategorieOrdine()</code></h4>
+                <p>
+                    <strong>Scopo:</strong> Prepara le checkbox per le categorie e le sottocategorie, smistandole in due
+                    pannelli distinti e preselezionando quelle già associate all'ordine.
+                </p>
+
+                <br>
+
+                <h4 class="method-title">Metodo: <code>FiltraSottocategorieVisibili()</code></h4>
+                <p>
+                    <strong>Scopo:</strong> Migliora l'usabilità mostrando solo le sottocategorie pertinenti. Se una
+                    categoria principale viene selezionata, questo metodo rende visibili solo le sottocategorie ad essa
+                    collegate, nascondendo le altre.
+                </p>
+
+                <br>
+
+                <h4 class="method-title">Metodo: <code>SalvaCategorieOrdine()</code></h4>
+                <p>
+                    <strong>Scopo:</strong> Salva lo stato di entrambi i pannelli (categorie e sottocategorie). Unisce
+                    tutte le selezioni e, tramite la logica "calcola differenze", aggiorna il database.
+                </p>
+
+            </div>
+        </details>
+
+        <details open>
+            <summary>🧠 Il Cervello del Sistema: <code>AggiornaListeMezzi()</code></summary>
+
+            <div class="card">
+
+                <section>
+                    <img src="../assets/conferme/requisiti-ordini.png">
+
+                    <div class="tip">
+                        <p><span class="tip-icon">💡</span><strong>Il Cuore del Sistema</strong></p>
+                        <p class="tip-description">
+                            Questo metodo è il motore centrale dell'intera funzionalità. Viene eseguito <strong>ogni
+                                volta
+                                che una qualsiasi checkbox cambia stato</strong>, garantendo un'esperienza utente
+                            reattiva e
+                            in tempo reale.
+                        </p>
+                    </div>
+
+                    <p>La sua logica si articola in quattro fasi sequenziali:</p>
+
+                    <p><span class="bold">Raccolta Requisiti:</span> Legge lo stato di tutte le checkbox attive nei vari
+                        pannelli (accessori motrice/rimorchio, categorie, sottocategorie).</p>
+                    <p><span class="bold">Preparazione Dati:</span> Carica le liste complete di tutte le motrici e i
+                        rimorchi disponibili.</p>
+                    <p><span class="bold">Filtraggio a Cascata:</span> Applica i requisiti raccolti in sequenza. Ad
+                        esempio, prende la lista dei mezzi, la filtra per accessori, poi sul risultato applica il filtro
+                        delle categorie, e così via.</p>
+                    <p><span class="bold">Aggiornamento UI:</span> Le liste finali di motrici e rimorchi idonei vengono
+                        caricate nelle rispettive ComboBox, mostrando all'utente solo le opzioni valide.</p>
+                </section>
+
+            </div>
+        </details>
+
+    </div>
+</body>
+
+</html>
