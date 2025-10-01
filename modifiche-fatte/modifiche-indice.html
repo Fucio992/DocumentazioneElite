@@ -21,29 +21,89 @@
         <summary>2025-09-30</summary>
 
         <div class="card">
+          <div class="card-title">Prototipi Ordini</div>
+          <div class="card-body">
+            <section>
+              <p>Attivando nella conferma l'impostazione <strong>VEDI PROTOTIPI</strong> questa fara' venire fuori una
+                forbicina in alto nella conferma</p>
+              <p>Qui si puo' definire il percoso che dovra' fare l'ordine</p>
+
+              <img src="../assets/conferme/spaccaviaggio.png">
+
+              <p><strong>Il vantaggio</strong> e' che posso impostare delle tratte che verranno <strong>viste in
+                  pianificazione anche se devono ancora essere fatte</strong></p>
+
+              <p>per definire i Prototipi c'e' il modulo apposito</p>
+              <br />
+
+              <p>quando verranno abbinate semplicemente verra' abbinata la tratta al viaggio e messa la targa</p>
+              <br />
+              <p>Nella pianificazione è presente un campo chiamato <strong>ProssimaDestinazione</strong></p>
+              <p>La sua funzione è restituire una stringa che descrive il tipo di viaggio in base alla presenza della
+                parola "mag" nei campi "Mittente" e "Destinatario".</p>
+              <ul>
+                <li>
+                  La logica applicata è la seguente:
+                  <ul>
+                    <li>Restituisce <strong>"RITIRO"</strong> se "mag" è presente solo nel campo
+                      <strong>Destinatario</strong>
+                    </li>
+                    <li>Restituisce <strong>"TRATTA"</strong> se "mag" è presente sia nel <strong>Mittente</strong> che
+                      nel <strong>Destinatario</strong>
+                    </li>
+                    <li>Restituisce <strong>"CONSEGNA"</strong> se "mag" è presente solo nel campo
+                      <strong>Mittente</strong>.
+                    </li>
+                    <li>Restituisce una <strong>stringa vuota</strong> se "mag" non è presente in nessuno dei due campi.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+
+
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>2025-09-30</summary>
+
+        <div class="card">
           <div class="card-title">Impostazioni Stampe</div>
           <div class="card-body">
             <section>
-              <p>I controlli presenti nella sezione <b>Stampe</b> sono stati aggiornati e resi più rigorosi, al fine di garantire una gestione più sicura e tracciabile:</p>
+              <p>I controlli presenti nella sezione <b>Stampe</b> sono stati aggiornati e resi più rigorosi, al fine di
+                garantire una gestione più sicura e tracciabile:</p>
               <ul>
-                <li>È prevista una doppia conferma al momento del salvataggio quando si modificano o si inseriscono nuove righe.</li>
-                <li>È prevista una doppia conferma anche per l’eliminazione tramite tasto destro; una terza conferma, aggiuntiva, è protetta da password (diversa da quella abituale).</li>
+                <li>È prevista una doppia conferma al momento del salvataggio quando si modificano o si inseriscono
+                  nuove righe.</li>
+                <li>È prevista una doppia conferma anche per l’eliminazione tramite tasto destro; una terza conferma,
+                  aggiuntiva, è protetta da password (diversa da quella abituale).</li>
               </ul>
 
               <img src="../assets/impostazioni/impostazioniStampe.png">
 
               <p><b>Motivazioni dell’intervento:</b></p>
               <ul>
-                <li>È stato riscontrato che le impostazioni di questa griglia vengono talvolta modificate o eliminate senza un’adeguata consapevolezza delle conseguenze, generando problematiche nella gestione di funzionalità collegate, come ad esempio le <b>API</b>.  
-                Qualora una riga possa sembrare incoerente con l’attività in corso (ad esempio durante la configurazione delle etichette dei bancali), <u>non deve essere modificata</u>, in quanto non è correlata al problema specifico.</li>
+                <li>È stato riscontrato che le impostazioni di questa griglia vengono talvolta modificate o eliminate
+                  senza un’adeguata consapevolezza delle conseguenze, generando problematiche nella gestione di
+                  funzionalità collegate, come ad esempio le <b>API</b>.
+                  Qualora una riga possa sembrare incoerente con l’attività in corso (ad esempio durante la
+                  configurazione delle etichette dei bancali), <u>non deve essere modificata</u>, in quanto non è
+                  correlata al problema specifico.</li>
 
-                <li>Nel caso in cui il nome di un report coincida con il report stesso, la configurazione è da considerarsi corretta: il collegamento con altri dati avviene infatti proprio tramite il nome.  
-                Inoltre, è opportuno sottolineare che alcune configurazioni particolari non riportano un utente associato, in quanto si tratta di impostazioni o configurazioni automatiche.</li>
+                <li>Nel caso in cui il nome di un report coincida con il report stesso, la configurazione è da
+                  considerarsi corretta: il collegamento con altri dati avviene infatti proprio tramite il nome.
+                  Inoltre, è opportuno sottolineare che alcune configurazioni particolari non riportano un utente
+                  associato, in quanto si tratta di impostazioni o configurazioni automatiche.</li>
               </ul>
 
               <p><b>Conclusioni:</b></p>
-              <p>Le configurazioni di questa sezione non rappresentano soltanto stampe automatiche interne a <i>Elite</i>, ma svolgono anche la funzione di parametri per altri moduli e funzionalità.  
-              È pertanto fondamentale limitarsi a modificare o gestire esclusivamente ciò che è conosciuto e chiaramente identificato, come ad esempio la configurazione <b>EtichettaBancali</b>.</p>
+              <p>Le configurazioni di questa sezione non rappresentano soltanto stampe automatiche interne a
+                <i>Elite</i>, ma svolgono anche la funzione di parametri per altri moduli e funzionalità.
+                È pertanto fondamentale limitarsi a modificare o gestire esclusivamente ciò che è conosciuto e
+                chiaramente identificato, come ad esempio la configurazione <b>EtichettaBancali</b>.
+              </p>
             </section>
           </div>
         </div>
