@@ -18,6 +18,88 @@
       <h2>🆕 Novità recenti</h2>
 
       <details open>
+        <summary>2025-10-02</summary>
+
+        <div class="card">
+          <div class="card-title">Aggiunta Rotte Predefinite</div>
+          <div class="card-body">
+
+            <section>
+              <p>
+                Questa funzionalità permette di aggiungere rapidamente un insieme di punti di interesse
+                (carichi/scarichi) a un viaggio esistente, selezionando una <strong>rotta predefinita</strong>.
+              </p>
+              <p>
+                È accessibile tramite un pulsante dedicato che avvia la procedura di selezione e aggiunta.
+              </p>
+              <img src="../assets/viaggi/rottepulsante.png">
+            </section>
+
+            <section>
+              <h4>Flusso Operativo</h4>
+              <p>
+                Il processo si svolge in diversi passaggi chiari per l'utente:
+              </p>
+              <ul>
+                <li>
+                  <strong>Selezione della Rotta:</strong> Al click sul pulsante, il sistema recupera tutte le rotte
+                  uniche disponibili e le mostra all'utente in una finestra di dialogo. L'utente sceglie la rotta
+                  desiderata dall'elenco.
+                </li>
+                <li>
+                  <strong>Recupero dei Punti:</strong> Una volta scelta la rotta, il sistema carica tutti i punti
+                  associati a quel codice di rotta.
+                </li>
+                <li>
+                  <strong>Calcolo Posizione:</strong> Viene calcolata la prima posizione libera nel viaggio corrente.
+                  Questa sarà la posizione di partenza per il primo punto della rotta da aggiungere.
+                </li>
+                <li>
+                  <strong>Aggiunta Sequenziale:</strong> I punti della rotta vengono aggiunti al viaggio uno dopo
+                  l'altro, garantendo che vengano accodati correttamente alla fine del percorso esistente.
+                </li>
+              </ul>
+            </section>
+
+            <br />
+
+            <section>
+              <h4>Logica di Assegnazione Posizione</h4>
+              <p>
+                Una delle parti fondamentali della funzionalità è la gestione delle posizioni dei nuovi punti, per
+                garantire coerenza e ordine nel viaggio.
+              </p>
+              <p>
+                La logica applicata è la seguente:
+              </p>
+              <ul>
+                <li>
+                  <strong>Ordinamento Preliminare:</strong> I punti appartenenti alla rotta selezionata vengono prima di
+                  tutto <strong>ordinati in base alla loro posizione predefinita</strong> (es. 1, 2, 3...). Questo
+                  assicura che la sequenza interna della rotta sia sempre rispettata.
+                </li>
+                <li>
+                  <strong>Ricalcolo Totale:</strong> Le posizioni predefinite (1, 2, 3...) vengono usate <strong>solo
+                    per l'ordinamento</strong>. Il loro valore finale viene completamente ricalcolato.
+                </li>
+                <li>
+                  <strong>Accodamento Automatico:</strong> Il sistema prende la posizione più alta già presente nel
+                  viaggio (es. 10), aggiunge 1 (ottenendo 11) e assegna questa nuova posizione al primo punto della
+                  rotta. I punti successivi avranno posizioni incrementali (12, 13, e così via).
+                </li>
+              </ul>
+              <p>
+                <strong>Il vantaggio</strong> è che le rotte predefinite si comportano come "blocchi" sequenziali che
+                possono essere aggiunti a qualsiasi viaggio, indipendentemente dal numero di punti già presenti,
+                inserendosi sempre correttamente alla fine.
+              </p>
+            </section>
+
+          </div>
+        </div>
+      </details>
+
+      <details>
         <summary>2025-09-30</summary>
 
         <div class="card">
