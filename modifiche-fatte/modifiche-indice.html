@@ -33,6 +33,7 @@
                 È accessibile tramite un pulsante dedicato che avvia la procedura di selezione e aggiunta.
               </p>
               <img src="../assets/viaggi/rottepulsante.png">
+              <img src="../assets/anagrafiche/MittentiDestinatari/codiceeposizione.png">
             </section>
 
             <section>
@@ -92,6 +93,68 @@
                 <strong>Il vantaggio</strong> è che le rotte predefinite si comportano come "blocchi" sequenziali che
                 possono essere aggiunti a qualsiasi viaggio, indipendentemente dal numero di punti già presenti,
                 inserendosi sempre correttamente alla fine.
+              </p>
+            </section>
+
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Impostazione ‘Abilita visualizzazione per sede competenza’</div>
+          <div class="card-body">
+
+            <section>
+              <p>
+                Questa impostazione introduce un livello di filtraggio avanzato nel modulo di fatturazione, basato sulla
+                <strong>sede di competenza</strong> associata alle conferme d'ordine.
+              </p>
+              <p>
+                <strong>ATTENZIONE:</strong> Per poter funzionare, questa opzione richiede che sia già attiva
+                l'impostazione principale di visualizzazione per pianificatori (<code>VisualizzaPerSedeUtente</code>).
+              </p>
+            </section>
+
+            <img src="../assets/impostazioni/impostazioneFatturazioneSedeComp.png">
+
+            <section>
+              <h4>Comportamento Standard (Impostazione Disattivata)</h4>
+              <p>
+                Di default, questa impostazione è <strong>disattivata</strong>.
+              </p>
+              <p>
+                Il motivo è che la maggior parte dei clienti non utilizza il concetto di "sede di competenza" per la
+                fatturazione. Lasciando l'opzione disattivata, l'operatività del modulo rimane invariata e familiare per
+                tutti gli utenti.
+              </p>
+            </section>
+
+            <section>
+              <h4>Funzionamento con Impostazione Attiva</h4>
+              <p>
+                Se un cliente richiede l'attivazione, il comportamento del modulo fatturazione cambia in base al tipo di
+                utente che effettua l'accesso:
+              </p>
+              <ul>
+                <li>
+                  <strong>Utente Standard (con sedi assegnate):</strong>
+                  <br />
+                  Un utente a cui sono state associate una o più sedi vedrà unicamente le conferme d'ordine la cui
+                  <strong>sede di competenza</strong> corrisponde a una di quelle a lui assegnate. Questo permette di
+                  limitare la visibilità ai soli documenti di pertinenza.
+                </li>
+                <br />
+                <li>
+                  <strong>Utente Amministratore:</strong>
+                  <br />
+                  Un utente con privilegi di amministratore mantiene una visibilità completa, ma con un'interfaccia
+                  migliorata. In alto nella schermata comparirà un nuovo menu a tendina chiamato
+                  <strong>‘Filiale’</strong>. Questo filtro gli permetterà di selezionare una sede specifica e
+                  visualizzare, di volta in volta, tutte le conferme da fatturare per quella singola filiale.
+                </li>
+              </ul>
+              <p>
+                <strong>Il vantaggio</strong> è quello di poter segmentare e organizzare il lavoro di fatturazione in
+                aziende con più sedi operative, senza perdere il controllo centralizzato da parte degli amministratori.
               </p>
             </section>
 
