@@ -16,8 +16,23 @@
 
     <section>
       <h2>🆕 Novità recenti</h2>
+ <details open>
+        <summary>2025-10-08</summary>
 
-      <details open>
+        <div class="card">
+          <div class="card-title">Ricalcolo Km da Data a Data</div>
+          <div class="card-body">
+            <section>
+              <p>Nella scheda di inserimento dei rifornimenti, c’è un tasto per aggiornare i km leggendoli dalla tabella dei valori scaricati dai satellitari. Viene eseguita la query: SELECT TOP 1 * FROM SatellitariEventiVeicoli WHERE Targa = @tg  AND Data <= @dtS ORDER BY Data DESC</p>
+              <img src="../assets/rifornimenti/ricalcolokm1.png" width="400">
+              <p>E’ stata creata una funzione che permette l’aggiornamento di questo campo di una serie di rifornimenti filtrando da data a data.</p>
+              <img src="../assets/rifornimenti/ricalcolokm2.png" width="400">
+            </section>
+          </div>
+
+      </details>
+
+      <details>
         <summary>2025-10-03</summary>
 
         <div class="card">
