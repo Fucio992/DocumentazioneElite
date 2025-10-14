@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <title>API</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>T.C.F.</h1>
+    </header>
+
+    <section>
+      <h2>Quadro generale</h2>
+      <p>
+        Quando devi creare una pagina di documentazione intera per la gestione di un cliente, capisci che la situazione è molto grave.
+        Non penserò a rendere questa pagina bella perché non se lo merita.
+        <br/>
+        T.C.F. ha una gestione divertente riguardo molte cose a partire dal deposito:
+        <br/>
+        Lui di solito crea solo uscite, le entrate le importa tramite Configura Importazioni e excel vari, quindi quando fa dei 
+        movimenti dal deposito è perché deve fare uscite quindi quando gli si apre la pagina per farlo, è di default sull'uscita.
+        Essendo che lui gestisce i coils, ed essendo che ogni coil ha dimensioni e pesi diversi, quella volta abbiamo pensato
+        fosse meglio per tutti creare una nuova anagrafica ad ogni nuovo coil. Oltre a questo, di solito, ogni entrata ha un solo
+        coil mentre le uscite ne movimentano più di uno alla volta e quelli importati, vengono importati come temporanei.
+        <br/>
+        A questo proposito, loro usano molto il temporaneo, il che vuol dire che pianificano le entrate e le uscite dei movimenti e poi le 
+        confermano. Loro hanno specificamente una funzione con il tasto destro sulla griglia che si chiama "Conferma Completo" o
+        qualcosa del genere, che gli apre il movimento in una modalità strana e che gli fa scegliere tot righe alla volta e con quelle righe
+        crea un nuovo movimento di uscita. In pratica lui divide i coils che aveva pianificato di far uscire assieme in più uscite (solitamente divise per trenata).
+        Nel caso non lo sapeste, questi sono i coils:
+        <img src="../assets/deposito/coils.jpg">
+        <br/>
+        Un'altra cosa specifica che hanno loro sono i Tank che, sinceramente, è roba che ha visto Giulio e non ho ben capito come funzioni
+        ma c'è un modulo visibile solo a loro dove possono gestire i movimenti con questi tank e che possono collegare a delle conferme.
+        Questi sono i tank:
+        <img src="../assets/deposito/tank.jpg">
+        <br/>
+        <br/>
+        <h2>Fatturazione</h2>
+        Altra cosa molto utilizzata da lui è la fatturazione magazzino che gestisce in maniera un po' particolare, ora ve la illustro:
+        
+        <br/>
+        <br/>
+        <h3>Listini</h3>
+        Partiamo dai listini che sono configurati generalmente in questo modo (prendo SIDECO come esempio):
+        <img src="../assets/deposito/listini-magazzino-tcf.png">
+        Di particolare ha il TIPOARTICOLO = HANDLING che gestisce la sua sezione specifica. <strong>Con handling si intendono le entrate.</strong>
+        <br/>
+        Poi la <strong>franchigia</strong> è un valore per il quale non si considera il calcolo della giacenza, quindi se come in questo caso ho mezzo milione
+        come franchigia, vuol dire che fino a mezzo milione di peso complessivo dei coils in giacenza, non faccio pagare nulla.
+        Sembra tanto ma quei maledetti rotoli di ferro pesano un fottio.
+        <br/>
+        <strong>DividiGommaTreno</strong> invece crea una differenza di listini tra i movimenti fatti tramite camion e treno.
+        
+        <br/>
+        <br/>
+        <h3>Le sezioni del modulo</h3>
+        <img src="../assets/deposito/home-fatturazione-tcf.png">
+        Abbiamo:
+        <ul>
+          <li>
+            <strong>Entrate</strong>
+            <p>
+              Gestisce le entrate, quindi considera i listini di tipo Servizi Accessori.
+            </p>
+          </li>
+
+          <li>
+            <strong>Handling con franchigia</strong>
+            <p>
+              La gestione di tutte le entrate divise per cliente nel mese specificato.
+            </p>
+          </li>
+
+          <li>
+            <strong>Giacenza Peso Totale Giornaliero</strong>
+            <p>
+              Per ogni cliente e per ogni giorno del mese, mostra la somma del peso della giacecnza di quel giorno.
+            </p>
+          </li>
+
+          <li>
+            <strong>Giacenza Singoli Coils</strong>
+            <p>
+              Per ogni coil, ogni mese, puoi fatturare il costo della sua giacenza fino alla data di uscita o fino all'ultimo giorno del mese.
+            </p>
+          </li>
+
+          <li>
+            <strong>Marcegaglia</strong>
+            <p>
+              Gestione molto specifica per Marcegaglia che non ho mai avuto modo di vedere ma che sembra funzionare.
+            </p>
+          </li>
+        </ul>
+
+        <br/>
+        <br/>
+        <h3>Stati Aggiuntivi</h3>
+        Altra cosa molto particolare sua è la schermata di Gestione Stati Aggiuntivi nel deposito:
+        <img src="../assets/deposito/bottone-stati-aggiuntivi.png">
+        che apre questa pagina:
+        <img src="../assets/deposito/mw-stati-aggiuntivi.png">
+        All'interno di questa pagina, è presente una griglia con tutti i coils entrati e usciti (di default si vedono solo i 
+        giacenti come si vede in alto sul filtro). Questa è una vista particolare che mostra tutte le colonne presenti sulla
+        tabella degli StatiAggiuntivi collegati ad ogni riga. Qua sono presenti informazioni come Doganale, Fuori, il numero di Trenata etc...
+        <br/>Oguna di queste righe, contiene campi modificabili direttamente dalla griglia, <strong>ATTENZIONE A QUESTA COSA</strong>.
+      </p>
+    </section>
+  </div>
+</body>
+
+</html>

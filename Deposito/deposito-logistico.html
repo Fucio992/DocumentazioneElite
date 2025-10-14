@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <title>Deposito</title>
   <link rel="stylesheet" href="../style.css">
 </head>
+
 <body>
   <div class="container">
     <header>
@@ -12,7 +14,258 @@
     </header>
 
     <section>
+      <h2>Il modulo</h2>
+      <p>
+          Questo modulo è nato dall'esigenza di FreeService di fare <strong>picking</strong>.
+          Cos'è il picking? E' quando tu invece di gestire il tuo magazzino e
+          la sua giacenza come una semplicissima FIFO, decidi che quando fai 
+          uscire degli articoli dal tuo magazzino, fai lo schizzinoso e te li vai a scegliere.
+      </p>
+
+      <h3>L'utilizzo</h3>
+      <p>
+        Aprendo il modulo se NON è presente un Magazzino (nei POI del pianificatore) il programma chiederà di inserirlo.
+        <br/>
+        Una volta inserito correttamente un magazzino si aprirà la schermata del modulo.
+      </p>
+      <img src="../assets/deposito/deposito-home.png"/>
+
+      <h3>BARRA DI NAVIGAZIONE</h3>
+      <img src="../assets/deposito/deposito-barra-navigazione.png"/>
+      <p>Da qui posso:</p>
       <ul>
+        <li>
+          Creare una nuova movimentazione (ENTRATA oppure USCITA)
+        </li>
+        <li>
+          Generare e gestire una lista Articoli
+        </li>
+        <li>
+          Ricercare le movimentazioni
+        </li>
+        <li>
+          Controllare le Giacenze
+        </li>
+        <li>
+          Configurare le impostazioni del modulo
+        </li>
+      </ul>
+      
+      <h3>NUOVA MOVIMENTAZIONE</h3>
+      <img src="../assets/deposito/deposito-inserimento.png"/>
+      <p>Da qui posso creare una nuova movimentazione in ENTRATA oppure in USCITA.</p>
+
+      <h4>Per creare una movimentazione:</h4>
+      <ul>
+        <li>
+          Inserire il Tipo di Movimento ed il Cliente
+        </li>
+        <li>
+          Riempire il rettangolo con le informazioni riguardanti il DDT
+        </li>
+        <li>
+          Inserire i dati del Mittente (da Mittenti Destinatari)
+        </li>
+      </ul>
+      
+      <p>
+        Ora devo popolare la lista con gli oggetti della movimentazione.
+        <br/>
+        Per farlo devo cliccare con il tasto destro sulla riga di default 
+        (dopo aver selezionato il cliente) ed il programma aprirà la lista prodotti 
+        riferiti al cliente a sinistra della visualizzazione con i bancali.
+      </p>
+
+      <img src="../assets/deposito/aggiungi-bancali.png"/>
+
+      <p>
+        Per selezionare un articolo devo fare <strong>DOPPIO CLICK</strong> sulla riga corrispondente
+        nella griglia articoli. Così facendo mi verrà riportato il codice dell'articolo 
+        sulla registrazione del bancale.
+      </p>
+
+      <img src="../assets/deposito/bancale-con-articolo.png"/>
+
+      <p>
+        Ora che ho selezionato l'articolo posso modificarne la quantità, aggiungere i dettagli oppure creare dei discendenti.
+      </p>
+
+      <h4>Aggiunta dettagli:</h4>
+      <p>
+        Per aggiungere dettagli basta premere sull'icona con l'occhio sbarrato di fianco alla scritta "dettagli". Qui posso specificare il barcode, numero lotto, scadenza lotto e seriale.
+      </p>
+      <p>
+        Da qui posso anche specificare lo stato della riga di bancali.
+      </p>
+      <ul>
+        <li>
+          Intero: il bancale è intero
+        </li>
+        <li>
+          Rotto: Il bancale è arrivato rotto
+        </li>
+        <li>
+          Mancante: non l'ho ricevuto
+        </li>
+      </ul>
+      
+      <p>
+        ATTENZIONE: nel caso in cui avessi più bancali in una stessa riga di cui 1 solo bancale rotto dovrei creare una nuova riga con lo stesso prodotto specificando che SOLO quel bancale è rotto. Il concetto è valido anche per i discendenti
+      </p>
+      
+      <p>
+        Nell'esempio successivo è mostrata una registrazione di 10 bancali di cui 1 rotto:
+      </p>
+      <img src="../assets/deposito/movimentazione-con-rotto.png"/>
+
+      <h4>Creazione Discendenti:</h4>
+      <p>
+        Per creare un discendente devo premere "+" sulla riga del bancale, così facendo il programa scende di un livello e mi crea una riga Colli. Se premo nuovamente il tasto "+" dalla riga con i colli il programma scende ulteriormente di livello e crea una riga Confezioni.
+      </p>
+      <img src="../assets/deposito/registrazione-bancali-colli-confezioni.png"/>
+      <p>Nell'esempio precedente è mostrata una registrazione completa</p>
+
+      <h4>Bottoni:</h4>
+      <img src="../assets/deposito/espandi-comprimi.png"/>
+      <ul>
+        <li>
+          Espandi Albero: espande la visualizzazione
+          <img src="../assets/deposito/albero-espanso.png"/>
+        </li>
+        <li>
+          Comprimi Albero: comprime la visualizzazione
+          <img src="../assets/deposito/albero-compresso.png"/>
+        </li>
+      </ul>
+
+      <img src="../assets/deposito/configurazione-colori.png"/>
+      <p>
+        Questo Bottone Permette di configurare i colori degli oggetti presenti nella visualizzazione.
+      </p>
+      <img src="../assets/deposito/pannello-colori.png"/>
+
+      <img src="../assets/deposito/bottoni-riga.png"/>
+      <ul>
+        <li>Crea Riga Sottostante: crea una riga scendendo di un livello</li>
+        <li>Duplica Riga: duplica la riga e tutte le righe sottostanti</li>
+        <li>Duplica Riga Vuota: duplica solamente la riga selezionata (ignorando le righe sottostanti)</li>
+        <li>Cancella Riga: elimina la riga</li>
+      </ul>
+
+      <h2>ATTENZIONE</h2>
+      <h3>Gestione tramite griglia</h3>
+      <p>
+        Ho creato una cosa bellissima chiamata la Gestione della Quantità tramite Griglia.
+        Si attiva con questa impostazione:
+        <img src="../assets/deposito/impostazione-gestione-griglia.png"/>
+        Tramite questa impostazione la quantità del movimento viene visualizzata diversamente, e cioè così:
+        <img src="../assets/deposito/griglia-ramificata.png"/>
+        Le cose particolari sono che la quantità, come in questo caso, se scrivo 2 bancali con 10 confezioni, vuol dire che in ogni bancale ci sono 5 confezioni.
+        <br/>
+        Poi per riordinare le cose si usa il trascinamento e quindi si possono spostare interi colli all'interno di altri bancali o all'esterno, cosa non fattibile
+        con l'altra visualizzazione.
+        <br/>
+        Altra cosa particolare è che la posizione si seleziona facendo doppio click su questa colonna (solo se la relativa imposazione è attiva)
+        <img src="../assets/deposito/doppio-click-posizione.png"/>
+      </p>
+
+      <h4>Salvare una movimentazione:</h4>
+      <p>
+        Una volta compilata la movimentazione e costruito l'albero con gli oggetti della stessa per salvare devo premere uno dei 3 bottoni presenti nella barra in alto.
+      </p>
+      
+      <img src="../assets/deposito/barra-in-alto.png"/>
+      <p>
+        In questa barra ci sono 4 bottoni:
+      </p>
+      <ul>
+        <li>Mittenti e Destinatari: apre l'anagrafica dei Mittenti e Destinatari</li>
+        <li>Salva Movimento: salva il movimento e rimane sulla schermata</li>
+        <li>Salva e Crea Altro: salva il movimento e mi apre una nuova scheda per inserire un nuovo movimento</li>
+        <li>Salva e Chiudi: salva il movimento e chiude la schermata di inserimento movimenti</li>
+      </ul>
+      <p>
+        Una volta Salvato posso riaprire il movimento ma se ho creato un uscita le quantità NON si possono più modificare
+      </p>
+
+      <h3>ARTICOLI</h3>
+      
+      <img src="../assets/deposito/anagrafica.png">
+
+      Se premo sul pulsante "**+**" posso aggiungere un articolo all'anagrafica.      
+
+      <img src="../assets/deposito/inserimento.png">
+
+      A destra della lista articoli ho due bottoni, rispettivamente:
+      - Aggiorna
+      - Configurazione Colonne
+          
+      <img src="../assets/deposito/bottoni.png">
+
+      Si possono importare in massa gli Articoli da excel.   
+
+      <br/>
+
+      <h3>IMPOSTAZIONI</h3>
+      <ul>
+        <li>
+          <strong>Magazzino Predefinito</strong>: permette di specificare il magazzino predefinito per le operazioni.
+          Se premo su Ibrido ogni volta che inserisco una movimentazione devo scegliere il magazzino.
+        </li>
+      </ul>
+      
+      <h3>GRIGLIE VISUALIZZAZIONE</h3>
+      In queste griglie si possono vedere i movimenti in **ENTRATA** ed in **USCITA**.
+
+      Se ho l'impostazione attiva qui posso vedere anche la griglia con i movimenti temporanei   
+
+      ATTENZIONE: i totali presenti nelle griglie **NON sono giacenze** ma sono solamente dei contatori di bancali, colli e prodotti presenti nella visualizzazione.     
+
+      Le quantità di prodotti si possono modificare finché non creo un uscita dal deposito. Per creare un uscita dalla ricerca basta selezionare un movimento e dalla lista che si apre con il tasto destro seleziono l'opzione `Crea Uscita`.
+
+      <br/>
+      <br/>
+
+      <h3>CREA USCITA</h3>
+      Per creare un uscita a differenza di un entrata devo riportare il **Destinatario Commerciale** e la **Destinazione Merce** per la creazione del DDT.   
+
+      <h2>Fatturazione Magazzino</h2>
+      Finalmente viene scritto qualcosa di questa famosa fatturazione magazzino che è sembra essere aramaico antico. Ora spiego quel poco che ho capito fin ora, avverto che questa guida va aggiornata.
+      <br/>
+      <br/>
+      <strong>Cominciamo</strong> 
+      <br/>
+      I listini del magazzino sono raggiungibili aprendo i listini e premendo questo bottone in alto a sinistra:
+      <img src="../assets/deposito/menu-fatturazione.png">
+
+
+      Una volta aperti appaiono così e ci sono 4 sezioni differenti: <strong>Listini, Servizi Accessori, Servizi Fissi e Giacenza Fine Mese</strong>.
+      <img src="../assets/deposito/home-fatturazione.png">
+
+      <h3>Listini</h3>
+      I listini sono impostabili per singolo articolo o per tutti e servono per calcolare la giacenza **moltiplicata per il numero dei giorni giacenti**. Possono essere gestiti i giorni di franchigia, possono anche essere divisi per metà mese o per settimana ma non ho ancora capito a cosa serva.
+
+      <h3>Servizi Accessori</h3>
+      I servizi accessori servono per gestire i costi di entrata e uscita dei bancali, colli, confezioni o pezzi (selezionabili tramite il campo UM) possono avere fasce o essere fissi.
+      ATTENZIONE: non possono essere divisi per articolo, sono generali e interessano la quantità totale dei bancali
+
+      <h3>Servizi Fissi e Giacenza Fine mese</h3>
+      I servizi fissi sono quelli più stupidi del mondo perché sarebbero i servizi fissi mensili e vanno a sostituire la Giacenza Fine Mese in determinati casi. Mi spiego meglio: la giacenza a fine mese serve per fare quello che il nome suggerisce ma funziona solo se vengono flaggati i flag "Giacenza" e poi "Entrata" o "Uscita". Questo perché, nell'esempio dell'entrata, quando vado a creare una conferma che ha una riga di prezzo per ogni entrata con quantità che indica il numero dei bancali o qualunque UM specificata. 
+      <strong>ATTENZIONE:</strong> nella Giacenza Fine Mese non funzionano le fasce e ho visto che nella modifica 2368, quando è stata richiesta questa modifica, per qualche motivo, è stato ben pensato di non gestirla in questa modalità ma di farlo invece nei Servizi Fissi. Non ho la minima idea del perché anche perché quelli fissi non sono divisibili per codice articolo ma solo per UM. Questa cosa va sistemata con tempo in futuro perché ha ben poco senso.
+
+      <br/>
+      <br/>
+      <br/>
+
+      <h3>Le tabelle</h3>
+      <p>
+        Le tabelle sono tutte sotto lo schema <strong>[dep]</strong> e sono le seguenti, gestite in una maniera specifica. <strong>Trovate il diagramma nella mia cartella personale</strong>.
+      </p>
+
+      <h2>Clienti ✨speciali✨</h2>
+      <ul>
+        <a href="tcf.html">T.C.F. ↗️</a>
+        <br/>
       </ul>
     </section>
   </div>

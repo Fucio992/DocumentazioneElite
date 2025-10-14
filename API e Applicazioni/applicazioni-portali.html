@@ -16,14 +16,61 @@
       <ul>
           <li><a href="app-etir.html">AppETir</a></li>
           <li><a href="app-emag.html">AppEMag</a></li>
-          <br/>
       </ul>
-    <h2>♂️Portali</h2>
+    <h2>🌐Portali</h2>
       <ul>
-          <li><a href="">Portale Tracking</a></li>
-          <li><a href="">Portale CRM</a></li>
-          <li><a href="">Portale Deposito (TCF)</a></li>
+          <li><a href="portale-tracking.html">Portale Tracking</a></li>
+          <li><a href="portale-crm.html">Portale CRM</a></li>
+          <li><a href="portale-deposito.html">Portale Deposito (TCF)</a></li>
           <br/>
+
+          <h3>👨🏻‍💻 Comandi per compilare i programmi flutter:</h3>
+          Ci sono alcuni comandi specifici per la compilazione dei programmi flutter:
+          <ul>
+            <li>
+              Creare le funzioni FROM e TO JSON automatiche utilizzando il pacchetto build
+              <pre><code>dart run build_runner build --delete-conflicting-outputs</code></pre>
+            </li>
+            <li>
+              Per compilare l'app in Android
+              <pre><code>flutter build appbundle</code></pre>
+            </li>
+            <li>
+              Per compilare l'app in iOS
+              <pre><code>flutter build ios</code></pre>
+              Poi andate su XCode e premete <strong>Archive</strong> e aspettate che compili
+            </li>
+            <li>
+              Per compilare i portali in web
+              <pre><code>flutter build web --no-tree-shake-icons</code></pre>
+            </li>
+            <li>
+              Per compilare l'app in Windows
+              <pre><code>flutter build windows</code></pre>
+              e poi cercate la cartella da condividere su questo percorso:
+              <pre><code>{PERCORSO DEL PROGETTO}/build/windows/x64/runner\Release\app_horizon_tir.exe</code></pre>
+            </li>
+          </ul>
+          
+          <br/>
+
+          <h3>📜 Regole generali dei portali:</h3>
+          I portali, a differenza delle applicazioni, si collegano alle API tramite il file <strong>config.json</strong> che appare così:
+          <br/>
+          <pre><code>
+            {
+              "cliente": "NomeCliente",
+              "pi": "00011122233"
+            }
+          </code></pre>
+          dove l'abbinamento viene fatto tramite PI con una chiamata al server dell'Assistenza dove sono registrati tutti i link delle API
+          di ogni cliente. Questo vuol dire che per accedere al portale di qualcun altro, basta inserire la sua partita iva nel config.
+          <br/>
+          Inoltre, essendo che quando si installa l'API viene sempre creato l'utente assistenza, potete accedere ad ogni portale con le seguenti credenziali:
+          <br/>
+          Usr: <strong>assistenza@ideagrip.it</strong>
+          <br/>
+          Psw: <strong>Ide@Grip-1</strong>
       </ul>
     </section>
   </div>
