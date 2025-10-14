@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentazione Satellitari</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🐞 Debug problemi satellitari</h1>
+      </header>
+
+      <small>
+        Pagina in sviluppo, informazioni non complete su tutte le categorie<br />
+        Per problemi specifici contattare il
+        <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0">
+          supporto tecnico
+        </a>
+      </small>
+
+      <section>
+        <h2>Prime cose da fare</h2>
+        <p>All'interno di satTools:</p>
+        <ul>
+          <li>Verificare il servizio di satellitare utilizzato dal cliente</li>
+          <li>Controllare che le credenziali siano inserite correttamente</li>
+
+          <li>
+            Se il problema è il caricamento dei km all'interno dei viaggi
+            verificare che l'opzione KmViaggi sia attiva ed impostata
+            correttamente<br /><samll>(Nella maggior parte dei casi):</samll>
+            <ul>
+              <li>Calcolo km: Orario</li>
+              <li>Metodo: Metodo nuovo</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Opzioni più particolari</h2>
+        <ul>
+          <li>
+            Enable PTV:
+            <small>descrizione da implementare</small>
+            <ul>
+              <li>Verificare utente e password cliente</li>
+            </ul>
+          </li>
+          <li>
+            Orario viaggi:
+            <small>descrizione da implementare</small>
+          </li>
+          <li>
+            Calcolo Km pieno vuoto:
+            <small>descrizione da implementare</small>
+          </li>
+          <li>
+            Km rimorchi:
+            <small>descrizione da implementare</small>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Controlli sul database</h2>
+        <p>
+          Controllare che i dati vengano scaricati e salvati nella tabella
+          SatellitariEventiVeicoli
+        </p>
+
+        <p>
+          Query di esempio, mostra i 100 elementi più recentemente scaricati.
+          <small>(Rimuovere "TOP 100" per mostrare più valori)</small>
+          <br />
+          <small>
+            SELECT TOP 100 * FROM SatellitariEventiVeicoli ORDER BY ID DESC
+            <br />
+            SELECT TOP 100 * FROM SatellitariEventiVeicoli ORDER BY CAST(data AS
+            date) DESC
+          </small>
+        </p>
+      </section>
+
+      <section>
+        <h2>Controlli sul Task Scheduler (Unità di pianificazione)</h2>
+        <p>Verificare che l'evento sia attivo e funzionante</p>
+      </section>
+    </div>
+  </body>
+</html>
