@@ -5,6 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Documentazione Satellitari</title>
     <link rel="stylesheet" href="../style.css" />
+    <style>
+      .code-container {
+        display: flex;
+        align-items: center;
+        background-color: #f8f9fa;
+        color: #212529;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem;
+        margin: 1em 0;
+        border-radius: 0.25rem;
+        font-family: "Courier New", Courier, monospace;
+      }
+      .code-container pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        flex-grow: 1;
+      }
+      .copy-btn {
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        margin-right: 0.5rem;
+        color: #6c757d;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .copy-btn:hover {
+        color: #212529;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -25,7 +58,15 @@
         <p>All'interno di satTools:</p>
         <ul>
           <li>Verificare il servizio di satellitare utilizzato dal cliente</li>
-          <li>Controllare che le credenziali siano inserite correttamente</li>
+          <li>
+            Controllare che le credenziali siano inserite correttamente
+
+            <img
+              src="../assets/Satellites/Satellitare.png"
+              alt="Impostazione KmViaggi"
+              style="width: 100%"
+            />
+          </li>
 
           <li>
             Se il problema è il caricamento dei km all'interno dei viaggi
@@ -37,6 +78,11 @@
             </ul>
           </li>
         </ul>
+        <img
+          src="../assets/Satellites/KmViaggi.png"
+          alt="Impostazione KmViaggi"
+          style="width: 100%"
+        />
       </section>
 
       <section>
@@ -74,20 +120,86 @@
         <p>
           Query di esempio, mostra i 100 elementi più recentemente scaricati.
           <small>(Rimuovere "TOP 100" per mostrare più valori)</small>
-          <br />
-          <small>
-            SELECT TOP 100 * FROM SatellitariEventiVeicoli ORDER BY ID DESC
-            <br />
-            SELECT TOP 100 * FROM SatellitariEventiVeicoli ORDER BY CAST(data AS
-            date) DESC
-          </small>
         </p>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copyToClipboard('query1', this)">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z"
+              ></path>
+              <path
+                d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h6a2 2 0 00-2-2H5z"
+              ></path>
+            </svg>
+          </button>
+          <pre><code id="query1">SELECT TOP 100 * FROM SatellitariEventiVeicoli ORDER BY ID DESC</code></pre>
+        </div>
+        <div class="code-container">
+          <button class="copy-btn" onclick="copyToClipboard('query2', this)">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z"
+              ></path>
+              <path
+                d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h6a2 2 0 00-2-2H5z"
+              ></path>
+            </svg>
+          </button>
+          <pre><code id="query2">SELECT TOP 100 * FROM SatellitariEventiVeicoli ORDER BY CAST(data AS date) DESC</code></pre>
+        </div>
       </section>
 
       <section>
         <h2>Controlli sul Task Scheduler (Unità di pianificazione)</h2>
-        <p>Verificare che l'evento sia attivo e funzionante</p>
+        <img
+          src="../assets/Satellites/TaskScheduler.png"
+          alt="Impostazione KmViaggi"
+          style="width: 100%"
+        />
+        <ul>
+          <li>Verificare che "Stato" dell'evento sia "Pronto"</li>
+          <li>
+            Verificare che "Attivazione" dell'evento si ripeta illimitatamente e
+            ogni 15 minuti
+          </li>
+          <li>
+            Verificare che "Risultato ultima esecuzione" non sia risultato in
+            errori
+          </li>
+        </ul>
       </section>
     </div>
+    <script>
+      function copyToClipboard(elementId, buttonElement) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            const originalIcon = buttonElement.innerHTML;
+            buttonElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022z"/></svg>`;
+            buttonElement.disabled = true;
+            setTimeout(() => {
+              buttonElement.innerHTML = originalIcon;
+              buttonElement.disabled = false;
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Impossibile copiare: ", err);
+            alert("Impossibile copiare la query.");
+          });
+      }
+    </script>
   </body>
 </html>
