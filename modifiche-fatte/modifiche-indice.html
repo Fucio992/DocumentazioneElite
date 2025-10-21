@@ -16,8 +16,23 @@
 
     <section>
       <h2>🆕 Novità recenti</h2>
-      
+
       <details open>
+        <summary>2025-10-14</summary>
+
+        <div class="card">
+          <div class="card-title">Cambiamento categorie planner</div>
+          <div class="card-body">
+            <section>
+              <p>Nel planner ora vengono mostrate le categorie divise tra principali e sottocategorie</p>
+              <p>Stessa cosa per gli accessori</p>
+              <img src="../assets/pianificazione/categoriediviseplanner.png" width="auto">
+              <p>Tutte queste come scritto in precedenza per un altra modifica possono essere definite in anagrafica</p>
+            </section>
+          </div>
+      </details>
+
+      <details>
         <summary>2025-10-14</summary>
 
         <div class="card">
@@ -26,34 +41,41 @@
             <section>
               <p>
                 All'interno della pagina dei <a href="../Satellitari/satellitari-normies.html">sistemi satellitari</a>
-                nel Capitolo "Debug" è possibile raggiungere una sezione di aiuto per la risoluzione dei problemi più comuni.<br/>
+                nel Capitolo "Debug" è possibile raggiungere una sezione di aiuto per la risoluzione dei problemi più
+                comuni.<br />
                 <a href="../Satellitari/DebugSatellitariIssues.html">DebugSatellitariIssues</a>
               </p>
             </section>
           </div>
-      </details>
 
-        <div class="card">
-          <div class="card-title">Bollo virtuale automatico in fattura elettronica</div>
-          <div class="card-body">
-            <section>
-              <p>
-                Nel modulo fatturazione, nelle impostazioni avanzate c’è una nuova voce:<br/>
-                <img src="../assets/Fatturazione/bollovituale01.png" width="400">
-                Attiva il bollo virtuale automatico in fattura elettronica:
-                  In anagrafica cliente, nella finestra dell'iva/esenzioni si vedrà una colonna che si chiama AttivaPerBollo', (naturalmente ci devono essere anche i codici, CodTip_IVA_FE)
-                <br/>
-                <img src="../assets/Fatturazione/bollovituale02.png" width="400">
-                <img src="../assets/Fatturazione/bollovituale03.png" width="400">
-                 <p>
-                che se spuntata permetterà il conteggio dell'importo esente (es. N1, N2.1,..) fino al raggiungimento/superamento dell'importo di 77.47 per far scattare il bollo virtuale automaticamente.<br/>
-                <img src="../assets/Fatturazione/bollovituale04.png" width="400">
-                 <p>Nel modulo trasferimento tracciati nel momento in cui si creeranno le fatture si aprirà la solita finestra di accettazione, in questo caso però, la spunta ‘Bollo Virtuale‘ non ci sarà più<br/>
 
-                  E' IMPORTANTISSIMO selezionare la voce attiva per bollo in iva/esenzioni; se non viene fatto, il bollo virtuale NON VIENE INTEGRATO nelle fatture, poiché con questa funzione il bollo manuale viene DISABILITATO.
-                <br/>
-            </section>
-          </div>
+          <div class="card">
+            <div class="card-title">Bollo virtuale automatico in fattura elettronica</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nel modulo fatturazione, nelle impostazioni avanzate c’è una nuova voce:<br />
+                  <img src="../assets/Fatturazione/bollovituale01.png" width="400">
+                  Attiva il bollo virtuale automatico in fattura elettronica:
+                  In anagrafica cliente, nella finestra dell'iva/esenzioni si vedrà una colonna che si chiama
+                  AttivaPerBollo', (naturalmente ci devono essere anche i codici, CodTip_IVA_FE)
+                  <br />
+                  <img src="../assets/Fatturazione/bollovituale02.png" width="400">
+                  <img src="../assets/Fatturazione/bollovituale03.png" width="400">
+                <p>
+                  che se spuntata permetterà il conteggio dell'importo esente (es. N1, N2.1,..) fino al
+                  raggiungimento/superamento dell'importo di 77.47 per far scattare il bollo virtuale
+                  automaticamente.<br />
+                  <img src="../assets/Fatturazione/bollovituale04.png" width="400">
+                <p>Nel modulo trasferimento tracciati nel momento in cui si creeranno le fatture si aprirà la solita
+                  finestra di accettazione, in questo caso però, la spunta ‘Bollo Virtuale‘ non ci sarà più<br />
+
+                  E' IMPORTANTISSIMO selezionare la voce attiva per bollo in iva/esenzioni; se non viene fatto, il bollo
+                  virtuale NON VIENE INTEGRATO nelle fatture, poiché con questa funzione il bollo manuale viene
+                  DISABILITATO.
+                  <br />
+              </section>
+            </div>
 
       </details>
 
@@ -64,10 +86,13 @@
           <div class="card-title">Ricalcolo Km da Data a Data</div>
           <div class="card-body">
             <section>
-              <p>Nella scheda di inserimento dei rifornimenti, c’è un tasto per aggiornare i km leggendoli dalla tabella dei valori scaricati dai satellitari. Viene eseguita la query: SELECT TOP 1 * FROM SatellitariEventiVeicoli WHERE Targa = @tg  AND Data <= @dtS ORDER BY Data DESC</p>
-              <img src="../assets/rifornimenti/ricalcolokm1.png" width="400">
-              <p>E’ stata creata una funzione che permette l’aggiornamento di questo campo di una serie di rifornimenti filtrando da data a data.</p>
-              <img src="../assets/rifornimenti/ricalcolokm2.png" width="400">
+              <p>Nella scheda di inserimento dei rifornimenti, c’è un tasto per aggiornare i km leggendoli dalla tabella
+                dei valori scaricati dai satellitari. Viene eseguita la query: SELECT TOP 1 * FROM
+                SatellitariEventiVeicoli WHERE Targa = @tg AND Data <= @dtS ORDER BY Data DESC</p>
+                  <img src="../assets/rifornimenti/ricalcolokm1.png" width="400">
+                  <p>E’ stata creata una funzione che permette l’aggiornamento di questo campo di una serie di
+                    rifornimenti filtrando da data a data.</p>
+                  <img src="../assets/rifornimenti/ricalcolokm2.png" width="400">
             </section>
           </div>
 
