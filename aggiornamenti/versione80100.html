@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pianificazione - Suddivisione Mezzi per Gruppi</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Guida aggiornamento versione 8.01.00</h1>
+
+  <h3>Novità interne relative alla gestione dell'aggiornamento:</h3>
+  <ol>
+    <li>
+      <b>Gestione delle fasce orarie</b>: è stato introdotto un sistema che consente di bloccare automaticamente
+      l'aggiornamento in determinate fasce orarie della giornata e della settimana.
+      <br>In questo modo sarà possibile evitare aggiornamenti in momenti scomodi e ridurre l'impatto
+      dell'operazione qualora dovessero verificarsi dei problemi.
+    </li>
+
+    <li>
+      <b>Gestione dei gruppi di aggiornamento</b>: è stato introdotto un sistema che permette di eseguire
+      l'aggiornamento a blocchi di clienti, in modo da frazionare il carico in più momenti:
+      <ul>
+        <li>Invece di rilasciare l'aggiornamento per 500 clienti tutti insieme il lunedì, tra lunedì e martedì verranno attivati 30/50/80 clienti.</li>
+        <li>Tra mercoledì e venerdì sarà attivo un altro gruppo di 30/50/80 clienti.</li>
+      </ul>
+      Il tutto sarà ovviamente proporzionato in base alle assistenze e al carico di lavoro.
+      <br>Emanuela ha già predisposto i gruppi di clienti da attivare e disattivare qualora i carichi di lavoro
+      dovessero cambiare nel corso delle giornate.
+      <br>
+      <b>N.B.:</b> L'esempio dei 30/50/80 è puramente indicativo: serve solo per illustrare la modalità di aggiornamento a gruppi, al posto della vecchia modalità in cui ogni cliente riceveva l'aggiornamento nello stesso momento, con il rischio di creare un collo di bottiglia per l'assistenza in caso di anomalie o problemi.
+    </li>
+
+    <li>
+      <b>Gestione degli aggiornamenti di test</b>: non sarà più necessario utilizzare file
+      <code>.txt</code> per provare l'aggiornamento.
+      <br>Basterà attivare una versione di test da parte del reparto Sviluppo e, in automatico,
+      all'avvio del menù (qui in ufficio) sarà possibile scaricare il nuovo aggiornamento,
+      sempre e solo se la versione del menù installata sul PC non coincide con quella di rilascio.
+    </li>
+  </ol>
+
+  <p>
+    Tutti questi nuovi sistemi sono disattivabili e gestibili separatamente: ciò significa che, se per questo aggiornamento la gestione dei gruppi non risulta necessaria, basterà disattivarla e l'aggiornamento verrà distribuito a tutti nello stesso momento.
+  </p>
+
+  <p>
+    Un'altra cosa molto importante: questi sistemi possono essere attivati insieme per concentrare il carico degli aggiornamenti solo in determinati momenti (fasce orarie) e solo per determinati clienti (gruppi), oppure possono essere gestiti singolarmente.
+  </p>
+
+  <h1>Aggiornamento manuale</h1>
+
+  <p>
+    Nel caso in cui sia necessario eseguire manualmente l'aggiornamento per un cliente,
+    è consigliato scaricare dalla cartella <b>Mega</b>, sezione <b>01 Aggiornamenti</b>, il file
+    <b>Aggiornamento8.01.00-ConInstallerR.zip</b>, che contiene:
+  </p>
+  <ul>
+    <li>Il menù aggiornato</li>
+    <li>Gli script di aggiornamento</li>
+    <li>Il modulo di installazione per i futuri aggiornamenti</li>
+  </ul>
+
+  <h3>Motivi per cui può essere necessario l'aggiornamento manuale:</h3>
+  <ol>
+    <li>
+      Durante l'installazione o l'aggiornamento alla versione <b>8.00.00</b> non è stato installato
+      il nuovo modulo di installazione <b>InstallerR</b>.
+    </li>
+    <li>
+      Problemi di avvio del modulo <b>InstallerR</b> o problemi di permessi.
+      <br>(In questo caso, provare ad avviare manualmente il modulo come amministratore.)
+    </li>
+    <li>
+      Problemi di altra natura non dovuti all'installer, ma eventualmente causati da file rimasti pendenti
+      o da un blocco dell'aggiornamento per motivi non noti.
+    </li>
+  </ol>
+</div>
+
+</body>
+</html>
