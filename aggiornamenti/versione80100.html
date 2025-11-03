@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pianificazione - Suddivisione Mezzi per Gruppi</title>
+  <title>Aggiornamento</title>
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -51,6 +51,12 @@
     Un'altra cosa molto importante: questi sistemi possono essere attivati insieme per concentrare il carico degli aggiornamenti solo in determinati momenti (fasce orarie) e solo per determinati clienti (gruppi), oppure possono essere gestiti singolarmente.
   </p>
 
+  <h1>Consigli utili</h1>
+
+  <p>
+    Evitare di lanciare il modulo di installazione e quindi l'aggiornamento stesso dalla postazione del cliente, ma consiglio di lanciare la procedura direttamente dal server.
+  </p>
+
   <h1>Aggiornamento manuale</h1>
 
   <p>
@@ -72,7 +78,9 @@
     </li>
     <li>
       Problemi di avvio del modulo <b>InstallerR</b> o problemi di permessi.
-      <br>(In questo caso, provare ad avviare manualmente il modulo come amministratore.)
+      (In questo caso, provare ad avviare manualmente il modulo come amministratore.).
+      <br>Per problemi di permessi si intendono errori non specificati che compariranno sul modulo di installazione, consiglio dopo la sostituzione manuale anche il controllo dei permessi di lettura e scrittura.
+      <br>Questa problematica nasce in quanto il modulo di installazione non è più quello usato per la versione <b>8.00.00</b>, fatto da Loris, ma un nuovo installer collegato a mega per ridurre la latenza e migliorare la sostituzione degli eseguibili.
     </li>
     <li>
       Problemi di altra natura non dovuti all'installer, ma eventualmente causati da file rimasti pendenti
