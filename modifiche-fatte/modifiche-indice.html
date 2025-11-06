@@ -18,6 +18,59 @@
       <h2>🆕 Novità recenti</h2>
 
       <details open>
+        <summary>2025-11-06</summary>
+
+        <div class="card">
+          <div class="card-title">Listini con piu' um</div>
+          <div class="card-body">
+            <section>
+              <p>Questa funzione serve a recuperare il listino prezzi corretto per un ordine, cercando tra diverse unità
+                di misura (UM) per trovare quella che produce l'importo finale più alto.</p>
+              <br>
+              <p>Va impostata cliente per cliente dentro ai listini</p>
+              <img src="../assets/listini/umdavalutare.png" width="auto">
+              <br>
+              <p>Il processo si svolge come segue:</p>
+              <br>
+              <p>1. Inizializzazione: Salva il committente originale e prepara una variabile (listinoMigliore) per
+                memorizzare il listino migliore trovato finora.</p>
+              <br>
+              <p>2. Ciclo sulle Unità di Misura: La funzione esamina ogni singola 'Unità di Misura' (come BANCALI, KG,
+                COLLI, ecc.) che è stata passata nella lista 'umQtaList'.</p>
+              <br>
+              <p>3. Recupero Listino per UM: Per ogni UM, cerca il listino corrispondente. Controlla se il listino deve
+                essere cercato sotto il committente specifico o sotto "COMUNE".</p>
+              <br>
+              <p>4. Applicazione Regole Quantità: Una volta trovato il listino per quella UM, applica delle regole alla
+                quantità (umQta.Qta):<br>
+                - Se la quantità è inferiore al 'Minimo Fatturabile' (quantità) del listino, la quantità viene aumentata
+                a quel minimo.<br>
+                - Se il listino è 'Fisso' (IsFisso), la quantità viene forzata a 1.</p>
+              <br>
+              <p>5. Calcolo Importo Provvisorio: Calcola un importo provvisorio moltiplicando l'importo del listino per
+                la quantità (ormai aggiornata).</p>
+              <br>
+              <p>6. Applicazione Regola Minimo Importo: Confronta l'importo provvisorio calcolato con il 'Minimo
+                Fatturabile Importo' del listino.<br>
+                - Se l'importo calcolato è più basso del minimo importo, la funzione sovrascrive l'importo del listino
+                (Lis.Importo) con il valore del minimo importo. Inoltre, imposta il listino come 'Fisso' e la quantità a
+                1.</p>
+              <br>
+              <p>7. Confronto e Selezione: L'importo finale ottenuto per questa UM viene confrontato con l'importo del
+                'listinoMigliore' trovato finora.<br>
+                - Se l'importo corrente è più alto (o se è il primo listino che esaminiamo), questo listino diventa il
+                nuovo 'listinoMigliore'.</p>
+              <br>
+              <p>8. Restituzione: Dopo aver controllato tutte le UM nella lista, la funzione restituisce il
+                'listinoMigliore' (cioè quello con l'importo finale più alto) che ha trovato. Se non ha trovato nessun
+                listino valido, restituisce un listino vuoto.</p>
+            </section>
+          </div>
+        </div>
+
+      </details>
+
+      <details>
         <summary>2025-11-05</summary>
 
         <div class="card">
