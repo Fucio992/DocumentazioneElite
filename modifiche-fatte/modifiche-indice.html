@@ -16,18 +16,50 @@
 
     <section>
       <h2>🆕 Novità recenti</h2>
-      
+
       <details open>
+        <summary>2025-11-11</summary>
+        <div class="card">
+          <div class="card-title">Riconoscimento Codice Prodotto</div>
+          <div class="card-body">
+            <section>
+              <p><strong>Obiettivo:</strong> Auto-compilare le anagrafiche (misure, nome) partendo dal codice inserito.
+              </p>
+              <br />
+              <p><strong>Logica:</strong></p>
+
+              <p>1. <strong>Verifica Attivazione:</strong> Controlla prima se la funzione <strong>"LEGGI CODICE
+                  PRODOTTO"</strong> è attiva. Se è <strong>disattivata</strong>, la procedura si ferma qui.</p>
+
+              <p>2. <strong>Ricerca (se attiva):</strong> Se la funzione è attiva e l'utente ha inserito un testo nel
+                campo <code>CodiceProdotto</code>, il sistema cerca nell'anagrafica "Prodotti Cliente" un codice che
+                <em>contiene</em> quel testo.
+              </p>
+
+              <br />
+              <p><strong>Risultato:</strong> Se trova una corrispondenza, auto-compila <strong>Nome Prodotto</strong>,
+                <strong>Larghezza</strong>, <strong>Altezza</strong> e <strong>Lunghezza</strong> della riga.
+              </p>
+            </section>
+          </div>
+        </div>
+
+      </details>
+
+      <details>
         <summary>2025-11-07</summary>
 
         <div class="card">
           <div class="card-title">Visualizzazione campo CER</div>
           <div class="card-body">
             <section>
-              <p>Nella tabella Mezzi è presente il campo booleano CER. Nella vecchia versione c’era un pannello in anagrafica dove si attivava con un flag, ora in Elite questo campo non viene gestito, al suo posto c’è la possibilità di indicare direttamente gli articoli.</p>
+              <p>Nella tabella Mezzi è presente il campo booleano CER. Nella vecchia versione c’era un pannello in
+                anagrafica dove si attivava con un flag, ora in Elite questo campo non viene gestito, al suo posto c’è
+                la possibilità di indicare direttamente gli articoli.</p>
               <br />
               <img src="../assets/Mezzi/VisCampoCer01.png" width="auto">
-              <p>Nel caso il campo venga visualizzato nella ricerca, ora, verrà visualizzato attivo se è presente almeno un elemento nella lista</p>
+              <p>Nel caso il campo venga visualizzato nella ricerca, ora, verrà visualizzato attivo se è presente almeno
+                un elemento nella lista</p>
               <br />
               <img src="../assets/Mezzi/VisCampoCer02.png" width="auto">
             </section>
