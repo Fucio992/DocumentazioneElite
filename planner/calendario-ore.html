@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Calendario Ore - Pianificatore</title>
+    
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="video-background">
+        </div>
+
+    <div class="container">
+        <header>
+            <h1>Calendario Ore (Gantt)</h1>
+            <p>Visualizzazione Temporale Dettagliata delle Risorse</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Funzionale</h2>
+            <p>Il componente <span class="bold">CalendarioOre</span> (<code>CalendarioOre.xaml</code>) è la visualizzazione principale operativa ("Gantt Chart"). Mostra l'occupazione delle risorse su un asse temporale orizzontale suddiviso per ore.</p>
+            
+            <div class="tip">
+                <span class="tip-icon">🎯</span>
+                <span class="bold">Obiettivo:</span> Fornire una visione immediata degli incastri temporali, permettendo di individuare "buchi" di disponibilità, sovrapposizioni e ritardi in tempo reale.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Elementi Visuali</h2>
+            <p>La griglia è composta da due assi principali:</p>
+            
+            <div class="grid-two-columns">
+                
+                <div>
+                    <div class="card">
+                        <div class="card-title">Asse Verticale (Y)</div>
+                        <div class="card-body">
+                            <p>Elenca le risorse in base al filtro selezionato nel padre:</p>
+                            <ul>
+                                <li><strong>Mezzi:</strong> Targa, Padroncino, Telefono.</li>
+                                <li><strong>Autisti:</strong> Nome, Contatti.</li>
+                                <li><strong>Rimorchi:</strong> Targa, Tipo.</li>
+                            </ul>
+                            <br>
+                            <p><em>Click sulla risorsa:</em> Riporta l'elemento nelle liste operative di sinistra.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <div class="card-title">Asse Orizzontale (X)</div>
+                        <div class="card-body">
+                            <p>Rappresenta il tempo (Giorni e Ore).</p>
+                            <ul>
+                                <li><strong>Larghezza Dinamica:</strong> Le ore diurne (es. 08:00-18:00) sono più larghe delle notturne per risparmiare spazio.</li>
+                                <li><strong>Linea Rossa:</strong> Indica l'ora attuale (Now).</li>
+                                <li><strong>Sfondo Alternato:</strong> I giorni pari/dispari hanno sfondi diversi per leggibilità.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <h3>Il "Rettangolo Viaggio"</h3>
+            <p>Ogni viaggio è rappresentato da un blocco colorato (<code>RettangoloOre</code>) posizionato sulla griglia.</p>
+            
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Indicatori di Stato e Avanzamento</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il rettangolo offre informazioni visive immediate:</p>
+                    <ul>
+                        <li><span class="link-color-text bold">Barra di Progresso (%):</span> Una barra colorata alla base del rettangolo indica quanto il viaggio è "avanzato" basandosi sull'ultimo punto (POI) completato rispetto alla durata totale stimata.
+                            <br><span style="font-size:0.9em">🟢 >80% (Verde) | 🟡 50-80% (Giallo) | 🔴 &lt;50% (Rosso)</span>
+                        </li>
+                        <li><span class="link-color-text bold">Colore Sfondo:</span> Indica l'esito o lo stato del viaggio (es. Pianificato, Viaggiante, Consegnato).</li>
+                        <li><span class="link-color-text bold">Icone Intermodali:</span> Simboli (✈️ 🚢 🚛) appaiono se il viaggio prevede tratte traghetto/treno.</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Interattività</h2>
+            
+            <div class="list-item-header">
+                <span class="bold">🖱️ Creazione Rapida (Tasto Destro)</span>
+            </div>
+            <div class="card-body" style="margin-bottom: 1rem;">
+                Cliccando col tasto destro su una cella vuota, si apre il form <code>ViaggioVeloceForm</code> pre-compilato con:
+                <ul>
+                    <li><strong>Risorsa:</strong> Quella della riga cliccata (Mezzo/Autista).</li>
+                    <li><strong>Data/Ora:</strong> Quella della colonna cliccata.</li>
+                </ul>
+            </div>
+
+            <div class="list-item-header">
+                <span class="bold">🔍 Zoom e Navigazione (Mouse Wheel)</span>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li><strong>Scroll Normale:</strong> Scorre verticalmente (Risorse).</li>
+                    <li><strong>Alt + Scroll:</strong> Scorre orizzontalmente (Tempo).</li>
+                    <li><strong>Ctrl + Scroll:</strong> Effettua lo <strong>Zoom</strong> (allarga/stringe le colonne orarie).</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Note per i Tecnici</h2>
+            <p>Dettagli sull'implementazione della griglia dinamica e performance.</p>
+
+            <div class="card">
+                <div class="card-title">Struttura Grid & ScrollViewer</div>
+                <div class="card-body">
+                    <p>La vista non usa un singolo controllo, ma <strong>4 Griglie Sincronizzate</strong> per mantenere le intestazioni fisse:</p>
+                    <ol>
+                        <li><code>ListaTitoliLiteral</code>: Intestazione Giorni (es. Lunedì 21/10).</li>
+                        <li><code>ListaTitoli</code>: Intestazione Ore (0...23).</li>
+                        <li><code>ListaElementiTitoli</code>: Colonna fissa di sinistra (Targhe/Nomi).</li>
+                        <li><code>ListaElementi</code>: La griglia operativa centrale (dove stanno i rettangoli).</li>
+                    </ol>
+                    <p>L'evento <code>ScrollChanged</code> sincronizza gli offset di tutti gli ScrollViewer tramite la classe helper <code>HelperScroll</code>.</p>
+                </div>
+            </div>
+
+            <div class="tip">
+                <span class="tip-icon">⚙️</span>
+                <span class="bold">Algoritmo di Posizionamento:</span>
+                <div class="tip-description" style="margin-top: 5px;">
+                    I metodi <code>CalcolaColonnaGriglia</code> e <code>CalcolaSpanGriglia</code> gestiscono la complessità dei "giorni nascosti". 
+                    <br>Se l'utente filtra per vedere solo Lun-Ven, l'algoritmo calcola correttamente la posizione X e la larghezza (ColSpan) saltando i giorni non visibili (Sab-Dom), evitando buchi grafici.
+                </div>
+            </div>
+            
+            <h3>Contatori Giornalieri</h3>
+            <p>Se abilitato (configurazione <code>ContatoriGG</code>), il sistema calcola per ogni giorno visibile:</p>
+            <ul>
+                <li>Totale viaggi IN / OUT / N (Non definito).</li>
+                <li>Mezzi/Autisti "Non Utilizzati" (Disponibili ma fermi).</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+</html>

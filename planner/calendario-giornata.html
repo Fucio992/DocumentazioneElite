@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Calendario Giornata - Pianificatore</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background">
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Calendario Giornata</h1>
+            <p>Visualizzazione Operativa Dettagliata (24 Ore)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Funzionale</h2>
+            <p>Il componente <span class="bold">CalendarioGiornata</span> (<code>CalendarioGiornata.xaml</code>) offre
+                un focus verticale sulla singola giornata lavorativa. A differenza della vista "Ore" che mostra più
+                giorni compressi, questa vista espande la linea temporale per permettere una gestione più fine degli
+                incastri orari.</p>
+
+            <div class="tip">
+                <span class="tip-icon">🔍</span>
+                <span class="bold">Caso d'Uso:</span> Ideale per il disponente che deve risolvere conflitti ("tetris")
+                all'interno della giornata odierna, verificando sovrapposizioni precise al minuto tra viaggi ed eventi.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Architettura Visuale</h2>
+            <p>La griglia non è statica, ma viene generata dinamicamente in base al tipo di risorsa selezionata:</p>
+
+            <div class="card">
+                <div class="card-title">Il Container (Operativo)</div>
+                <div class="card-body">
+                    <p>Un <code>WrapPanel</code> verticale accoglie una serie di righe personalizzate (Componente
+                        <code>RettangoloPV1</code>).</p>
+                    <ul>
+                        <li><strong>Mezzi:</strong> Genera una riga per ogni Targa filtrata.</li>
+                        <li><strong>Autisti:</strong> Genera una riga per Autista (mostrando anche il mezzo agganciato).
+                        </li>
+                        <li><strong>Rimorchi:</strong> Genera una riga per ogni Rimorchio.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Logica "Factory" Generica</div>
+                <div class="card-body">
+                    <p>Il codice utilizza un approccio avanzato (Generics) nel metodo
+                        <code>GeneraRigheOperativeAsync</code> per evitare duplicazione di codice.</p>
+                    <div style="background:#f5f5f5; padding:10px; border-radius:5px; font-size:0.9em;">
+                        <code>dataSource -> movItemFactory -> rettangolo</code>
+                    </div>
+                    <p>Questo garantisce che la logica di creazione, filtraggio e posizionamento sia identica
+                        indipendentemente se stiamo guardando Autisti o Camion.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Gestione Eventi e Timeline</h2>
+            <p>La gestione degli eventi (Ferie, Manutenzioni, Fermi) include una logica di calcolo geometrico precisa
+                per adattarsi alla griglia 24h.</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Logica di Clipping (PopolaEventi)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Poiché un evento può iniziare giorni prima e finire giorni dopo, il sistema calcola la porzione
+                        visibile per "oggi":</p>
+                    <ul>
+                        <li><span class="link-color-text bold">Inizio Visivo:</span> Se l'evento inizia ieri, per la
+                            griglia di oggi inizia alle 00:00.</li>
+                        <li><span class="link-color-text bold">Fine Visiva:</span> Se l'evento finisce domani, per la
+                            griglia di oggi finisce alle 23:59.</li>
+                        <li><span class="link-color-text bold">Posizionamento:</span> Calcola l'offset (colonna di
+                            partenza) e lo span (durata) in ore per disegnare il rettangolo arancione nella posizione
+                            corretta.</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>4. Performance e Dati</h2>
+
+            <div class="div-horizontal-image-with-description">
+                <div style="font-size:3rem; text-align:center; width:15%;">💾</div>
+                <div style="width:85%;">
+                    <p class="bold">Pattern "DatiPlanner"</p>
+                    <p>Per garantire fluidità, il caricamento segue il pattern "Single Query Fetch":</p>
+                    <ul>
+                        <li>Il metodo <code>CaricaDatiPlannerAsync</code> scarica <strong>tutti</strong> i viaggi,
+                            eventi e categorie in una volta sola.</li>
+                        <li>Successivamente, i dati vengono distribuiti in memoria alle singole righe senza ulteriori
+                            chiamate al DB.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Filtri Intelligenti</h3>
+            <p>Il sistema applica i filtri a imbuto:</p>
+            <ol>
+                <li><strong>Filtro SQL/Repository:</strong> Estrae i dati grezzi per data.</li>
+                <li><strong>Filtro Categoria:</strong> (es. Solo Bilici) Filtra la lista delle risorse.</li>
+                <li><strong>Filtro Text Search:</strong> (Metodo <code>GetTestoRicercabile</code>) Ultimo passaggio che
+                    nasconde le righe che non contengono la parola chiave digitata dall'utente.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>5. Note per i Tecnici</h2>
+            <ul>
+                <li><span class="link-color-text bold">Componente Riga:</span> Questa vista utilizza
+                    <code>RettangoloPV1</code> (a differenza di <code>RettangoloOre</code> usato nel Gantt). Questo
+                    componente è specifico per la vista "giornata espansa".</li>
+                <li><span class="link-color-text bold">Id Eventi:</span> La logica distingue correttamente tra ID Mezzo
+                    (string/int) e ID Autista per associare gli eventi alla riga corretta.</li>
+                <li><span class="link-color-text bold">Refactoring:</span> Il codice è stato recentemente rifattorizzato
+                    per usare <code>Func&lt;T, MovItem&gt;</code> factories, rendendo molto semplice aggiungere nuove
+                    entità visualizzabili in futuro.</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>

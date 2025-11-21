@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione PVTS - Pianificatore</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background">
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Vista PVTS (Legacy)</h1>
+            <p>Pianificazione Viaggi Giornaliera</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Funzionale</h2>
+            <p>La vista <span class="bold">PVTS</span> (<code>PVTS.xaml</code>) offre una rappresentazione "a
+                calendario" delle attività. A differenza del Gantt orario, qui i viaggi sono elencati in sequenza
+                verticale all'interno di colonne che rappresentano i giorni.</p>
+
+            <div class="tip">
+                <span class="tip-icon">📆</span>
+                <span class="bold">Focus Giornaliero:</span> Ideale per pianificazioni a lungo termine (es. settimanale)
+                dove l'ora esatta è meno critica della sequenza dei viaggi assegnati.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Struttura della Griglia</h2>
+            <p>La visualizzazione è costruita dinamicamente usando una lista di controlli personalizzati
+                <code>ElementoGiornate</code>.</p>
+
+            <div class="card">
+                <div class="card-title">Riga Elemento (ElementoGiornate)</div>
+                <div class="card-body">
+                    <p>Ogni riga rappresenta una risorsa (Mezzo, Autista o Rimorchio). È composta da:</p>
+                    <ul>
+                        <li><strong>Intestazione Sinistra:</strong> Mostra Targa, Codice Interno, Nome Autista e
+                            Telefono.</li>
+                        <li><strong>Celle Giornaliere:</strong> Una serie di pannelli (<code>WrapPanel</code>), uno per
+                            ogni giorno visualizzato.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Il "Rettangolo Viaggio" (PVTS)</h3>
+            <p>All'interno delle celle giornaliere, i viaggi appaiono come blocchi impilati. Rispetto al Gantt:</p>
+            <ul>
+                <li><span class="link-color-text bold">Posizionamento:</span> Non usa coordinate X/Y precise (ore), ma
+                    si aggiunge in coda agli altri viaggi del giorno.</li>
+                <li><span class="link-color-text bold">Visibilità Multi-Giorno:</span> Se un viaggio dura più giorni,
+                    viene duplicato visivamente su tutte le colonne coinvolte (logica <code>listaLunghi</code>).</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Interattività e Funzioni</h2>
+
+            <div class="div-horizontal-two-images-with-central-text">
+                <div style="flex:1">
+                    <div class="list-item-header"><span class="bold">🖱️ Click Sinistro</span></div>
+                    <div class="card-body-details" style="border:1px solid #ddd; border-top:none; padding:10px;">
+                        Selezionando l'area vuota di una riga, il sistema <strong>imposta automaticamente</strong> i
+                        filtri operativi (Mezzo, Autista, Rimorchio) nel pannello di sinistra per facilitare
+                        l'assegnazione di nuovi viaggi.
+                    </div>
+                </div>
+                <div style="flex:1">
+                    <div class="list-item-header"><span class="bold">🖱️ Click Destro</span></div>
+                    <div class="card-body-details" style="border:1px solid #ddd; border-top:none; padding:10px;">
+                        Apre il form di creazione rapida <code>ViaggioVeloceForm</code>, pre-impostando la data
+                        corrispondente alla colonna cliccata.
+                    </div>
+                </div>
+            </div>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Eventi (Assenze/Manutenzioni)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Gli eventi (es. Ferie, Officina) colorano l'intera cella del giorno di <span
+                            style="color:coral; font-weight:bold;">Coral (Rosso Chiaro)</span> per indicare
+                        indisponibilità. Il testo dell'evento appare sovrapposto.</p>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>4. Note per i Tecnici</h2>
+
+            <div class="card">
+                <div class="card-title">Ottimizzazione Performance (Lookup)</div>
+                <div class="card-body">
+                    <p>Il caricamento dei dati (<code>GetImpegni</code>) è stato recentemente ottimizzato per gestire
+                        grandi moli di dati:</p>
+                    <ul>
+                        <li><strong>Dizionari (O(1)):</strong> Invece di cercare autisti/mezzi con cicli
+                            <code>foreach</code> annidati (lento), vengono pre-caricati dizionari
+                            <code>Dictionary&lt;string, Mezzo&gt;</code> per accessi istantanei.</li>
+                        <li><strong>Lookup POI:</strong> I punti di carico/scarico sono indicizzati per
+                            <code>NumViaggio</code> usando <code>ToLookup</code>, eliminando la scansione ripetuta della
+                            lista completa.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tip">
+                <span class="tip-icon">⚠️</span>
+                <span class="bold">Differenze con CalendarioOre:</span>
+                <div class="tip-description" style="margin-top: 5px;">
+                    Mentre <code>CalendarioOre</code> usa una singola Griglia con posizionamento assoluto (Row/Column),
+                    <code>PVTS</code> usa una <code>ListView</code> di UserControl (<code>ElementoGiornate</code>).
+                    Questo rende il rendering più pesante per l'UI thread se ci sono centinaia di righe, ma permette
+                    layout più complessi per singola cella.
+                </div>
+            </div>
+
+            <h3>Colorazione Aziendale</h3>
+            <p>Il sistema supporta la multi-azienda visiva: se configurato, il titolo della riga (es. Targa) viene
+                colorato in base all'azienda proprietaria del mezzo (<code>CaricaColoreAzienda</code>).</p>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>

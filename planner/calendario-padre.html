@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Calendario Padre - Pianificatore</title>
+    
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="video-background">
+        </div>
+
+    <div class="container">
+        <header>
+            <h1>Calendario Padre</h1>
+            <p>Modulo Pianificatore - Controller, Filtri e Navigazione</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Generale</h2>
+            <p>Il componente <span class="bold">CalendarioPadre</span> (<code>CalendarioPadre.xaml</code>) è il cuore pulsante del modulo di pianificazione. Agisce come "Container Intelligente" (Shell) con due responsabilità principali:</p>
+            <ol>
+                <li>Gestire la <strong>Barra dei Filtri Globale</strong> (Date, Mezzi, Zone, Accessori).</li>
+                <li>Orchestrare il caricamento della <strong>Visualizzazione Specifica</strong> (es. Gantt, Griglia, Solo Righe) nella parte inferiore dello schermo.</li>
+            </ol>
+            <div class="tip">
+                <span class="tip-icon">🧠</span>
+                <span class="bold">Ruolo Architetturale:</span> Questo componente non disegna i viaggi, ma raccoglie le intenzioni dell'utente (Filtri) e le impacchetta in un oggetto <code>ParametriPln</code> che viene passato alle viste figlie.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Gestione Filtri e Navigazione</h2>
+            <p>L'interfaccia si adatta dinamicamente alle configurazioni aziendali. I controlli sono divisi in aree logiche:</p>
+
+            <div class="div-horizontal-two-images-with-central-text">
+                <div style="flex:1">
+                    <div class="card">
+                        <div class="card-title">Navigazione Temporale</div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>Data Picker:</strong> Selezione giorno puntuale.</li>
+                                <li><strong>Frecce SX/DX:</strong> Spostamento rapido +/- 1 giorno.</li>
+                                <li><strong>Tasto Oggi:</strong> Ritorno immediato alla data odierna.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:1">
+                    <div class="card">
+                        <div class="card-title">Modalità Visualizzazione</div>
+                        <div class="card-body">
+                            <p>Permette di cambiare il soggetto della pianificazione (Dropdown <em>"Visualizza Per"</em>):</p>
+                            <span class="tip-easy">MEZZI</span> <span class="tip-easy">AUTISTI</span> <span class="tip-easy">RIMORCHI</span> <span class="tip-easy">CLIENTI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Filtri Avanzati (Dinamici)</h3>
+            <p>I pannelli di filtro vengono generati a runtime leggendo le anagrafiche dal Database:</p>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Categorie e Sottocategorie</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il sistema supporta due modalità di visualizzazione (basate su <code>Personalizzazioni.UsaComboPerCategorie</code>):</p>
+                    <ul>
+                        <li><strong>Modalità Semplice:</strong> Una singola ComboBox per selezionare la categoria principale.</li>
+                        <li><strong>Modalità Estesa (Attuale):</strong> 4 Pannelli distinti per un filtraggio granulare:
+                            <ul>
+                                <li>Categorie Trattore (es. Motrice, Furgone)</li>
+                                <li>Sottocategorie Trattore</li>
+                                <li>Categorie Rimorchio</li>
+                                <li>Sottocategorie Rimorchio</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p><em>Nota Tecnica:</em> La selezione di una categoria principale controlla automaticamente la visibilità delle relative sottocategorie (Logica <code>FiltraSottocategoriePerSezione</code>).</p>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Accessori e Dotazioni</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Permette di filtrare i mezzi che possiedono specifiche caratteristiche tecniche.</p>
+                    <ul>
+                        <li><strong>Dinamicità:</strong> I checkbox vengono creati ciclando su <code>Repository.AccessoriMezziDef</code>.</li>
+                        <li><strong>Separazione:</strong> Gli accessori sono divisi visivamente tra Motrice e Rimorchio.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Zone Geografiche (Opzionale)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Se abilitato (<code>PannelloFiltriZona</code>), permette il filtraggio per destinazione.</p>
+                    <ul>
+                        <li><strong>Gerarchia:</strong> Selezione per Macro-Area (Nord, Centro, Sud) o singola Zona.</li>
+                        <li><strong>Auto-Select:</strong> Cliccando una Macro-Area, il sistema seleziona automaticamente tutte le zone figlie corrispondenti.</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Orchestrazione delle Viste (Switching)</h2>
+            <p>Il metodo <code>CaricaCalendario</code> è il router che decide quale componente caricare nella griglia principale (<code>Grid Visualizzazione</code>) in base all'impostazione <code>CalendarioVisualizzato</code>.</p>
+
+            <div class="card">
+                <div class="card-body">
+                    <table style="width:100%; text-align:left;">
+                        <tr style="border-bottom:1px solid #eee;">
+                            <th style="padding:8px;">Vista</th>
+                            <th style="padding:8px;">Descrizione</th>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;"><span class="status-badge status-master">CalendarioOre</span></td>
+                            <td style="padding:8px;">Visualizzazione Gantt orario classico.</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;"><span class="status-badge status-event">CalendarioGiornata</span></td>
+                            <td style="padding:8px;">Visualizzazione riepilogativa della giornata intera.</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;"><span class="status-badge status-detail">SoloRighe</span></td>
+                            <td style="padding:8px;">Visualizzazione tabellare gerarchica (Master-Detail) per gestione ordini rapida.</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:8px;"><span class="status-badge status-detail">PVTS</span></td>
+                            <td style="padding:8px;">Visualizzazione legacy/storica.</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Note per i Tecnici</h2>
+
+            <h3>Flusso di Aggiornamento (Data Flow)</h3>
+            <p>Ogni volta che l'utente cambia un filtro o la data, viene invocato <code>AggiornaCalendario()</code>:</p>
+            <ol>
+                <li>Viene istanziato un <strong>nuovo oggetto</strong> <code>ParametriPln</code> (per garantire immutabilità e pulizia).</li>
+                <li>Il metodo <code>PopolaParametriDaUI</code> "raschia" tutti i valori correnti dai controlli (Date, Checkbox, Textbox).</li>
+                <li>I parametri vengono passati alla vista figlia.</li>
+            </ol>
+
+            <div class="tip">
+                <span class="tip-icon">⚡</span>
+                <span class="bold">Performance Optimization:</span>
+                <div class="tip-description" style="margin-top: 5px;">
+                    Il metodo <code>ControllaCambiamentiParametri</code> confronta i parametri vecchi con i nuovi.
+                    <ul>
+                        <li>Se cambiano filtri strutturali (es. Categorie, Zone), la vista viene <strong>ricreata da zero</strong>.</li>
+                        <li>Se cambiano solo le date in certe viste, viene eseguito un <strong>aggiornamento leggero</strong> (Light Refresh) senza ridisegnare l'intero controllo WPF.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Funzionalità Extra</h3>
+            <ul>
+                <li><span class="link-color-text bold">Eventi in Primo Piano:</span> Una barra superiore (<code>EventiWrap</code>) mostra chip cliccabili per eventi critici (es. Scadenze autisti) se configurato.</li>
+                <li><span class="link-color-text bold">Auto-Refresh:</span> Un <code>DispatcherTimer</code> aggiorna automaticamente i dati ogni 2 minuti per mantenere il planner sincronizzato in ambienti multi-utente.</li>
+                <li><span class="link-color-text bold">Stampa:</span> Integrazione diretta con il motore di reportistica (Crystal Reports) tramite <code>StampeR</code>.</li>
+            </ul>
+        </section>
+
+    </div>
+</body>
+</html>

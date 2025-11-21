@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Controlli Comuni - Pianificatore</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background">
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Controlli Comuni (Building Blocks)</h1>
+            <p>Componenti UI riutilizzabili per la rappresentazione dei Viaggi</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica</h2>
+            <p>Il pianificatore utilizza una serie di UserControl specializzati ("Rettangoli") per rappresentare
+                l'entità <strong>Viaggio</strong> all'interno delle griglie. Sebbene l'aspetto cambi, tutti condividono
+                la stessa logica di base per l'interazione (click, menu, drag & drop).</p>
+
+            <div class="tip">
+                <span class="tip-icon">🧩</span>
+                <span class="bold">Architettura Modulare:</span> Il componente padre (es. <code>CalendarioOre</code>)
+                decide quale "Rettangolo" istanziare in base alle configurazioni utente (es. <em>VisualizzaHC</em> o
+                <em>VisualizzaTemporale</em>).
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Famiglia "Rettangolo"</h2>
+            <p>Esistono tre varianti principali del blocco viaggio:</p>
+
+            <div class="grid-two-columns">
+                <div>
+                    <div class="card">
+                        <div class="card-title">RettangoloOre (Standard)</div>
+                        <div class="card-body">
+                            <p>La visualizzazione classica per il Gantt.</p>
+                            <ul>
+                                <li><strong>Layout:</strong> Compatto. Mostra Targa, Numero Viaggio e Nome Viaggio.</li>
+                                <li><strong>Indicatori:</strong>
+                                    <ul>
+                                        <li><span style="color:red; font-weight:bold;">Barra Rossa:</span> In basso,
+                                            indica il progresso temporale basato sugli esiti.</li>
+                                        <li><strong>Icone:</strong> Intermodale (Treno/Nave) e App Mobile.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>File:</strong> <code>RettangoloOre.xaml</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <div class="card-title">RettangoloHC (High Content)</div>
+                        <div class="card-body">
+                            <p>Visualizzazione estesa per il dettaglio operativo.</p>
+                            <ul>
+                                <li><strong>Layout:</strong> Espanso. Contiene una lista orizzontale dei
+                                    <strong>POI</strong> (Punti di Interesse).</li>
+                                <li><strong>Contenuto:</strong> Ogni punto di carico/scarico è rappresentato da un
+                                    sottomodulo (Chip o PoiUC) colorato in base al tipo (Verde=Carico, Blu=Scarico).
+                                </li>
+                                <li><strong>File:</strong> <code>RettangoloHC.xaml</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-title">RettangoloTemporale (Timeline)</div>
+                <div class="card-body">
+                    <p>Variante focalizzata sulla durata e sull'avanzamento percentuale.</p>
+                    <ul>
+                        <li><strong>Barra di Avanzamento:</strong> Un pannello di sfondo (opacity 0.6) si riempie
+                            progressivamente (Verde/Giallo/Rosso) in base alla percentuale di completamento del viaggio
+                            rispetto all'orario attuale.</li>
+                        <li><strong>Utilizzo:</strong> Ideale per monitorare i ritardi in tempo reale.</li>
+                        <li><strong>File:</strong> <code>RettangoloTemporale.xaml</code></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Funzionalità Condivise</h2>
+            <p>Indipendentemente dalla forma grafica, tutti i controlli ereditano queste funzionalità:</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Menu Contestuale (Tasto Destro)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il centro di controllo operativo. Le azioni principali includono:</p>
+                    <ul>
+                        <li><strong>Gestione Stato:</strong> <span class="tip-easy">Annulla Viaggio</span> <span
+                                class="tip-easy">Esita Viaggio</span> (Imposta Arrivato/Partito).</li>
+                        <li><strong>Modifica Risorse:</strong> <span class="tip-easy">Cambio Targhe</span> <span
+                                class="tip-easy">Scambia Rimorchio</span>.</li>
+                        <li><strong>Editing:</strong> <span class="tip-easy">Copia/Taglia</span> (per spostare su un
+                            altro mezzo), <span class="tip-easy">Correggi Destinazione</span>.</li>
+                        <li><strong>Comunicazione:</strong> <span class="tip-easy">Invia App</span> (al dispositivo
+                            dell'autista), <span class="tip-easy">Stampa</span>.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Logica dei Colori (Colorami)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il metodo <code>Colorami</code> gestisce dinamicamente l'aspetto del rettangolo:</p>
+                    <ul>
+                        <li><strong>Priorità Colore:</strong>
+                            <ol>
+                                <li>Sovrapposizione (Nero/Rosso se in conflitto).</li>
+                                <li>Ultimo Esito (es. Verde se Consegnato).</li>
+                                <li>Colore Zona/Azienda (se configurato).</li>
+                                <li>Colore Base (Default).</li>
+                            </ol>
+                        </li>
+                        <li><strong>Contrasto Testo:</strong> Utilizza <code>MenuTema.GetContrastingTextColor</code> per
+                            garantire che il testo sia leggibile (Bianco su sfondo scuro, Nero su sfondo chiaro).</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Interazione Mouse</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <ul>
+                        <li><strong>Click Sinistro:</strong> Seleziona il viaggio e riporta i dettagli (Date, Ora) nel
+                            pannello operativo laterale.</li>
+                        <li><strong>Doppio Click:</strong> Apre la scheda completa del viaggio (Window
+                            <code>Viaggi</code>) in modalità modale o "Primo Piano".</li>
+                        <li><strong>Hover:</strong> Mostra un Tooltip dettagliato con Note, saturazione e dati completi
+                            del mezzo.</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>4. Note per i Tecnici</h2>
+
+            <div class="div-horizontal-image-with-description">
+                <div style="font-size:3rem; text-align:center; width:15%;">⚙️</div>
+                <div style="width:85%;">
+                    <p class="bold">Injection dei Dati</p>
+                    <p>I costruttori dei controlli richiedono sempre:</p>
+                    <ul>
+                        <li><code>Viaggio</code>: L'oggetto principale.</li>
+                        <li><code>List&lt;POI&gt;</code>: I punti del viaggio (già filtrati dal padre).</li>
+                        <li><code>List&lt;EsitoConferma&gt;</code>: Lo storico degli stati.</li>
+                        <li><code>List&lt;Prodotto&gt;</code>: Per il calcolo della saturazione (bancali/peso).</li>
+                    </ul>
+                    <p>Questo design evita che ogni singolo rettangolo faccia query al database, migliorando
+                        drasticamente le performance.</p>
+                </div>
+            </div>
+
+            <h3>Tools di Ordinamento</h3>
+            <p>Il file <code>OrdinamentoViaggiForm.xaml</code> è un tool accessorio richiamabile dal menu contestuale
+                (in modalità Legacy) per riordinare manualmente la sequenza dei viaggi tramite Drag & Drop su una lista
+                verticale.</p>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
