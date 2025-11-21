@@ -54,6 +54,12 @@ body {
   opacity: 0.1; /* Molto leggero per non disturbare */
 }
 
+img {
+  max-width: 100%; /* Impedisce all'immagine di superare la larghezza del contenitore */
+  height: auto;    /* Mantiene le proporzioni (aspect ratio) corrette */
+  display: block;  /* Rimuove eventuali spazi bianchi indesiderati sotto l'immagine */
+}
+
 /* --- TIPOGRAFIA --- */
 header {
   text-align: center;
