@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Solo Righe - Pianificatore</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+    <div class="video-background">
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Documentazione Solo Righe</h1>
+            <p>Modulo Pianificatore - Guida Funzionale e Tecnica</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Generale</h2>
+            <p>La visualizzazione <span class="bold">Solo Righe</span> (<code>SoloRighe.xaml</code>) è una modalità
+                operativa del pianificatore che presenta i dati in formato tabellare gerarchico (Master-Detail).</p>
+            <div class="tip">
+                <span class="tip-icon">💡</span>
+                <span class="bold">Obiettivo:</span> A differenza del Gantt grafico, questa vista è ottimizzata per
+                l'analisi dei dati, il controllo dei totali (costi/ricavi) e la gestione rapida degli spostamenti degli
+                ordini tra viaggi esistenti.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Struttura dell'Interfaccia</h2>
+            <p>La griglia utilizza una struttura a livelli per rappresentare la gerarchia dei dati:</p>
+
+            <div class="card">
+                <div class="card-title">
+                    <span class="status-badge status-master">MASTER</span> Livello 1 - Testata Viaggio o Evento
+                </div>
+                <div class="card-body">
+                    <p>Rappresenta il contenitore principale (il Viaggio o l'Evento come Ferie/Manutenzione).</p>
+                    <ul>
+                        <li>Mostra i dati riepilogativi: <strong>Targa, Autista, Totali</strong> (Peso, Bancali, Metri
+                            Lineari).</li>
+                        <li>Include <strong>Costi e Ricavi complessivi</strong> del viaggio.</li>
+                        <li><em>Visualizzazione:</em> Evidenziata con sfondo colorato (marrone/grigio per i viaggi,
+                            salmone per gli eventi).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span class="status-badge status-detail">DETAIL</span> Livello 2 - Dettaglio Ordini
+                </div>
+                <div class="card-body">
+                    <p>Espandendo una riga Master, si visualizzano gli ordini specifici contenuti in quel viaggio.</p>
+                    <ul>
+                        <li>Mostra i dettagli della singola spedizione: Mittente, Destinatario, Merce.</li>
+                        <li>Mostra <strong>Importo e Costo</strong> della singola riga specifica.</li>
+                        <li><em>Visualizzazione:</em> Sfondo bianco/neutro.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Logica di Recupero Dati (Backend)</h2>
+            <p>L'estrazione dei dati è centralizzata nel ViewModel (<code>SoloRigheViewModel.cs</code>) ed è ottimizzata
+                per le performance.</p>
+
+            <div class="tip">
+                <span class="tip-icon">⚡</span>
+                <span class="bold">Strategia "Single Query"</span>
+                <div class="tip-description" style="margin-top: 5px;">
+                    Tutti i dati vengono recuperati con <span class="bold">una sola chiamata al Database</span> per
+                    ridurre il traffico di rete. La query SQL utilizza una <code>UNION ALL</code> composta da tre
+                    blocchi: Testate Viaggi, Dettagli Ordini ed Eventi.
+                </div>
+            </div>
+
+            <h3>Filtraggio Avanzato (Business Logic)</h3>
+            <p>Il sistema applica un doppio livello di filtraggio per garantire coerenza con i parametri selezionati:
+            </p>
+
+            <div class="div-horizontal-two-images-with-central-text">
+                <div style="flex:1">
+                    <div class="list-item-header"><span class="bold">1. Filtro SQL</span></div>
+                    <div style="padding:10px; border:1px solid #eee; border-top:none;">
+                        <ul>
+                            <li>Intervallo Date</li>
+                            <li>Categoria Mezzo (Join dinamiche)</li>
+                            <li>Ricerca Testuale (Targa/Autista)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="font-size: 2rem; color: var(--primary-color); text-align:center;">➜</div>
+                <div style="flex:1">
+                    <div class="list-item-header"><span class="bold">2. Filtro C#</span></div>
+                    <div style="padding:10px; border:1px solid #eee; border-top:none;">
+                        <ul>
+                            <li>Permessi Utente</li>
+                            <li>Accessori (es. Sponda)</li>
+                            <li>Disponibilità Mezzi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Funzionalità Operative</h2>
+            <p>Clicca sulle voci per espandere i dettagli operativi:</p>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Drag & Drop (Spostamento)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>L'operatore può trascinare le righe per modificare la pianificazione.</p>
+                    <ul>
+                        <li><span class="tip-easy">Permesso</span> Trascinare un <strong>Ordine</strong> da un viaggio
+                            all'altro.</li>
+                        <li><span class="tip-easy">Permesso</span> Riordinare la sequenza all'interno dello stesso
+                            viaggio.</li>
+                        <li><span class="tip-easy">Bloccato</span> Trascinare un intero Viaggio dentro un altro.</li>
+                    </ul>
+                    <p class="bold">Comportamento automatico:</p>
+                    <p>Al rilascio (drop), il sistema aggiorna il numero viaggio sull'ordine e ricalcola automaticamente
+                        le sequenze dei punti di carico/scarico (POI).</p>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Menu Contestuale (Tasto Destro)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il menu è intelligente e adatta le azioni in base all'oggetto selezionato:</p>
+                    <ul>
+                        <li><strong>Annulla:</strong> Se su Viaggio, svuota l'intero abbinamento. Se su Ordine, toglie
+                            solo quello specifico.</li>
+                        <li><strong>Cambio Targhe:</strong> Sostituisce motrice/rimorchio per tutto il viaggio.</li>
+                        <li><strong>Scambia Rimorchio:</strong> Inverte i rimorchi tra due viaggi.</li>
+                        <li><strong>Correggi Destinazione:</strong> Modifica luoghi di un ordine specifico.</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>5. Dati Finanziari e Vettori</h2>
+            <p>Nuovi campi esposti per il controllo di gestione immediato:</p>
+            <div class="card">
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Totale Importo (Ricavo):</strong> Visibile sia come somma totale sulla riga Viaggio,
+                            sia come valore puntuale sulla riga Ordine.</li>
+                        <li><strong>Totale Costo:</strong> Visibile come somma (Viaggio) e dettaglio (Ordine).</li>
+                        <li><strong>Nome Vettore:</strong> Indica il fornitore esterno (se presente) assegnato al
+                            viaggio (Campo <code>ET.Parte</code>).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>6. Note per i Tecnici</h2>
+            <ul>
+                <li><span class="link-color-text bold">Update UI:</span> L'aggiornamento della griglia dopo un Drag &
+                    Drop utilizza un meccanismo di <em>Snapshot & Restore</em> dello stato di espansione delle righe.
+                </li>
+                <li><span class="link-color-text bold">Normalizzazione:</span> I filtri sulle targhe sono <em>Case
+                        Insensitive</em> e usano <code>.Trim()</code> per gestire discrepanze <code>CHAR/NCHAR</code>
+                    del DB.</li>
+                <li><span class="link-color-text bold">Componenti:</span> La griglia è una <code>GridControl</code>
+                    DevExpress configurata con <code>DataControlDetailDescriptor</code>.</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
