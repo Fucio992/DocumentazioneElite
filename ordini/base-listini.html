@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Listini - Motore di Calcolo</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background">
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Gestione Listini e Prezzi</h1>
+            <p>Logica del Motore di Calcolo Tariffario (Listino.cs)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica</h2>
+            <p>La classe <span class="bold">Listino</span> (<code>Listino.cs</code>) funge da cervello per la
+                tariffazione del software. Non è una semplice entità dati, ma contiene la logica di business per
+                determinare il prezzo di un trasporto incrociando variabili geografiche, quantità, network e regole
+                accessorie.</p>
+
+            <div class="tip">
+                <span class="tip-icon">🧮</span>
+                <span class="bold">Ruolo:</span> Interroga il database per trovare la tariffa più specifica applicabile
+                a un dato ordine, gestendo eccezioni, fasce di peso e regole di transito.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. I Metodi di Calcolo</h2>
+            <p>Il sistema espone due punti di ingresso principali:</p>
+
+            <div class="grid-two-columns">
+                <div>
+                    <div class="card">
+                        <div class="card-title">Calcolo Standard</div>
+                        <div class="card-body">
+                            <p>Metodo: <code>GetListino</code></p>
+                            <p>Usato per i listini classici Cliente/Vettore.</p>
+                            <ol>
+                                <li>Recupera le righe valide per data (<code>GetListiniConValiditaAsync</code>).</li>
+                                <li>Filtra per attributi (UM, Contratto, Sede).</li>
+                                <li>Esegue il matching geografico complesso.</li>
+                                <li>Applica scaglioni/fasce di quantità.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <div class="card-title">Calcolo Network</div>
+                        <div class="card-body">
+                            <p>Metodo: <code>GenerateListinoNetwork</code></p>
+                            <p>Logiche "Hardcoded" per partner specifici.</p>
+                            <ul>
+                                <li><strong>ONE:</strong> Calcola il prezzo basandosi sugli HUB. Applica maggiorazioni
+                                    per peso/misure eccessive.</li>
+                                <li><strong>PNP:</strong> Basato sulle dimensioni del pallet (Codice prodotto es. "B11")
+                                    e calcola le eccedenze.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Matching Geografico (RiconosciLuoghi)</h2>
+            <p>Il metodo <code>RiconosciLuoghi</code> è il cuore della ricerca. Non cerca solo una corrispondenza
+                esatta, ma prova combinazioni "a cascata" per trovare il prezzo più specifico.</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Gerarchia di Ricerca</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il sistema incrocia Mittente/Destinatario con:</p>
+                    <ul>
+                        <li><span class="tip-easy">Punto Preciso</span> (Ragione Sociale, Via, Luogo esatto)</li>
+                        <li><span class="tip-easy">CAP</span> (Codice Avviamento Postale, con gestione estero)</li>
+                        <li><span class="tip-easy">Zona</span> (Raggruppamento personalizzato)</li>
+                        <li><span class="tip-easy">Provincia</span></li>
+                    </ul>
+                    <p class="bold" style="margin-top:10px;">Logica "Porto Assegnato":</p>
+                    <p>Se la spedizione è <em>PORTO ASSEGNATO</em>, il sistema inverte automaticamente Mittente e
+                        Destinatario prima della ricerca, permettendo di usare le tariffe del destinatario come se fosse
+                        il mittente.</p>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>4. Regole Avanzate</h2>
+
+            <div class="card">
+                <div class="card-title">Gestione Fasce e Scaglioni</div>
+                <div class="card-body">
+                    <p>Metodo: <code>ControlloFasce</code></p>
+                    <p>Una volta trovato un prezzo base ("Luogo"), il sistema verifica se esistono scaglioni di quantità
+                        (es. Peso, Bancali).</p>
+                    <ul>
+                        <li><strong>Metodo Standard:</strong> Prende il prezzo secco della fascia corrispondente.</li>
+                        <li><strong>Metodo Soglia:</strong> Calcola:
+                            <code>ImportoBase + (PrezzoFascia * (Quantità - MinimoFascia))</code>. Utile per prezzi
+                            composti da "Base + Eccedenza".
+                        </li>
+                        <li><strong>Tolleranza:</strong> Controlla se conviene applicare la fascia precedente per
+                            risparmiare (Configurazione <code>TolleranzaFasciaLuogo</code>).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Filtri Attributi (RiconosciCodici)</h3>
+            <p>Il listino viene raffinato filtrando per:</p>
+            <ul>
+                <li><span class="link-color-text bold">Sede:</span> Filtra per la filiale specifica del cliente.</li>
+                <li><span class="link-color-text bold">Contratto:</span> Filtra per il tipo di servizio (es. "Espresso",
+                    "Standard").</li>
+                <li><span class="link-color-text bold">Codice Prodotto:</span> Filtra per tipologia merceologica.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. Transit Time</h2>
+            <p>Oltre al prezzo, il listino può calcolare le tempistiche di consegna.</p>
+            <div class="tip">
+                <span class="tip-icon">🚚</span>
+                <div class="tip-description">
+                    Nel metodo <code>TrasformaRisultato</code>, se il listino ha un <code>TransitTimeOre</code>
+                    configurato, il sistema calcola automaticamente la <strong>Data di Scarico Prevista</strong>,
+                    saltando Sabati e Domeniche se le opzioni <code>SaltaSabato</code> o <code>SaltaDomenica</code> sono
+                    attive.
+                </div>
+            </div>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
