@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutorial Nuovi Strumenti Satellitari</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      .code-container {
+        display: flex;
+        align-items: center;
+        background-color: #f8f9fa;
+        color: #212529;
+        border: 1px solid #dee2e6;
+        padding: 0.5rem;
+        margin: 1em 0;
+        border-radius: 0.25rem;
+        font-family: "Courier New", Courier, monospace;
+      }
+      .code-container pre {
+        margin: 0;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        flex-grow: 1;
+      }
+      .copy-btn {
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        margin-right: 0.5rem;
+        color: #6c757d;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .copy-btn:hover {
+        color: #212529;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Tutorial Nuovi Strumenti Satellitari</h1>
+      </header>
+
+      <section>
+        <h2>Introduzione</h2>
+        <p>SatTools era un'applicazione satandalone per modificare le impostazioni dei satellitari.<br>
+        Ora è stata spostata all'interno delle impostazioni di Elite</p>
+        <p><small>Per maggiori informazioni basarsi anche sulla pagina di "<a href="./DebugSatellitariIssues.html">Debug</a>" </small></p>
+      </section>
+      
+      <section>
+        <h2>Come raggiungere questo tool</h2>
+        <p>Entrare nelle impostazioni protette da password all'interno della pagina inizial del menu.<br>
+        Li selezionare la scheda Import/Export e poi premere il pulsante Gestione Connettori Import/Export
+        <img src="../assets/Satellites/HowToGetHere.png" width="auto">
+      </p>
+      <p>Una volta aperta la finestra, selezionare l'icona del satellitare nel menu in cima allo schermo
+        <img src="../assets/Satellites/HowToGetHere2.png" width="auto">
+      </p>
+    </section>
+    
+    <section>
+      <h2>Sezioni presenti</h2>
+      <p>Una volta entrati nel modulo delle impostazioni satellitari avremo 6 nuovi pulsanti
+        <img src="../assets/Satellites/SatToolsModules.png" width="auto">
+      </p>
+      <h3>Sezione 1: Nuova installazione satellitari</h3>
+      <ul>
+        <li>
+          <p>In questo modulo possiamo effettuare una nuova installazione del sistema satellitari.<br>
+            Le prime 5 selezioni sono impostazioni generali per il funzionamento interno al programma.<br>
+            Le restanti sono per impostare i dati necessari perché sia possibile la connesione al provider esterno.<br>
+            Una volta inseriti tutti i dati, premere il pulsante 4 per salvare.<br>
+            Il salvataggio in questo modulo darà una serie di messaggi di avviso, in quanto facendo una nuova installazione tutti i dati precedenti andranno cancellati per garantire un inizializzazione pulita<br>
+            <img src="../assets/Satellites/SatTools.png" width="auto">
+          </p>
+        </li>
+      </ul>
+      <h3>Sezione 2: Aggiorna installazione</h3>
+      <ul>
+        <li>
+          <p>La schermata è identica a quella del primo modulo, in questo caso però, invece di cancellare tutti i dati precedenti, verrà inserito il modulo selezionato all'interno delle impostazioni di Elite</p>
+        </li>
+      </ul>
+      <h3>Sezione 3: Modifica satellitari</h3>
+      <ul>
+        <li>
+          Questa sezione mostra tutte le configurazioni satellitari attualmente presenti nel database e permette di modificarle.
+        </li>
+      </ul>
+      <h3>Sezione 4: Salva impostazioni satellitari</h3>
+      <ul>
+        <li>Questo pulsante permette di salvare le modifiche fatte in ciascuna delle sezioni precedenti</li>
+      </ul>
+      <h3>Sezione 5: Attiva task scheduler</h3>
+      <ul>
+        <li>Questo pulsante serve per generare un nuovo task scheduler, nel caso quello precedente non funzionasse per qualche motivo</li>
+      </ul>
+      <h3>Sezione 6: Visualizza eventi satellitari veicoli</h3>
+      <ul>
+        <li><p>In questa sezione è possibile visualizzare tutti i dati scaricati tramite satellitare
+          <img src="../assets/Satellites/EventiSatellitariVeicoli.png" width="auto">
+        </p>
+        </li>
+      </ul>
+      </section>
+    </div>
+    <script>
+      function copyToClipboard(elementId, buttonElement) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            const originalIcon = buttonElement.innerHTML;
+            buttonElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022z"/></svg>`;
+            buttonElement.disabled = true;
+            setTimeout(() => {
+              buttonElement.innerHTML = originalIcon;
+              buttonElement.disabled = false;
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Impossibile copiare: ", err);
+            alert("Impossibile copiare il testo.");
+          });
+      }
+    </script>
+  </body>
+</html>
