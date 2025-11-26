@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Continuità Tratte - Pianificatore</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Continuità Tratte</h1>
+            <p>Visualizzazione Gerarchica Spedizioni (ContinuitaTratte.xaml)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Generale</h2>
+            <p>Il modulo <span class="bold">ContinuitaTratte</span> è uno strumento di analisi avanzata del
+                pianificatore, progettato per gestire spedizioni complesse composte da più segmenti (Tratte) legati a un
+                unico ordine principale (Madre).</p>
+
+            <div class="tip">
+                <span class="tip-icon">🔗</span>
+                <span class="bold">Master-Detail:</span> La visualizzazione utilizza una griglia gerarchica.
+                <ul>
+                    <li><strong>Livello 1 (Madre):</strong> Rappresenta la spedizione complessiva (es. Intermodale
+                        Completo).</li>
+                    <li><strong>Livello 2 (Figlie):</strong> Mostra la sequenza logistica dei singoli viaggi/tratte (es.
+                        Presa, Terminal, Consegna).</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Architettura Dati (ViewModel)</h2>
+            <p>La logica di recupero dati è gestita da <code>ContinuitaTratteViewModel</code> che trasforma un set di
+                dati piatto in una struttura ad albero.</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">A. Strategia di Caricamento (Query Raw)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il sistema esegue una query SQL ottimizzata su <code>ElencoRichieste</code> per recuperare tutte
+                        le righe pertinenti in un'unica chiamata.</p>
+
+                    <div class="card">
+                        <div class="card-title">Filtri Applicati</div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>Validità Temporale:</strong> Le tratte devono intersecare la data
+                                    selezionata nel pianificatore
+                                    (<code>DataCarico <= @DataFine AND DataScarico >= @DataInizio</code>).</li>
+                                <li><strong>Stato Sospeso:</strong> Le spedizioni marcate come "Sospese"
+                                    (<code>IsSospeso = 1</code>) vengono recuperate indipendentemente dalla data, per
+                                    non perderle di vista.</li>
+                                <li><strong>Descrizione Commessa:</strong> Filtro testuale opzionale
+                                    (<code>LIKE %FiltroDesc%</code>).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">B. Costruzione della Gerarchia</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>I dati grezzi (<code>SpedizioneRaw</code>) vengono elaborati in memoria per costruire i DTO:</p>
+
+                    <h3>1. Raggruppamento</h3>
+                    <p>I record vengono raggruppati per <code>NumMadre</code>. Ogni gruppo diventa una riga Master.</p>
+
+                    <h3>2. Logica "IsSospeso" (Propagazione)</h3>
+                    <div class="formula-box">
+                        Madre.IsSospeso = TRUE se almeno una Figlia ha IsSospeso == TRUE
+                    </div>
+                    <p>Questo garantisce che se una singola tratta è bloccata, l'intera spedizione venga evidenziata.
+                    </p>
+
+                    <h3>3. Costruzione Percorso</h3>
+                    <p>Il campo <code>PercorsoCompleto</code> viene generato concatenando dinamicamente i luoghi:</p>
+                    <code>LuogoCarico_1 > LuogoScarico_1 > LuogoScarico_2 > ...</code>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Funzionalità Operative</h2>
+            <p>La griglia espone un menu contestuale (<code>ContextMenu</code>) ricco di funzionalità operative dirette.
+            </p>
+
+            <div class="grid-two-columns">
+                <div class="card">
+                    <div class="card-title">Gestione Stato</div>
+                    <div class="card-body">
+                        <ul>
+                            <li><span class="link-color-text bold">In Sospeso / Ripristina:</span> Cambia lo stato
+                                <code>IsSospeso</code>.
+                                <br><em>Logica UI:</em> Le righe sospese vengono evidenziate con <strong>Sfondo
+                                    Giallo</strong> tramite un <code>DataTrigger</code>.
+                            </li>
+                            <li><span class="link-color-text bold">Annulla:</span> Permette di cancellare l'ordine o la
+                                tratta selezionata.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Modifiche Viaggio</div>
+                    <div class="card-body">
+                        <ul>
+                            <li><strong>Cambio Targhe:</strong> Apre la form per sostituire motrice/rimorchio sul
+                                viaggio associato.</li>
+                            <li><strong>Scambia Rimorchio:</strong> Utility rapida per scambiare i rimorchi tra due
+                                viaggi.</li>
+                            <li><strong>Correggi Destinazione:</strong> Apre l'editor per modificare i luoghi della
+                                tratta.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Interfaccia Utente (View)</h2>
+            <p>Il file <code>ContinuitaTratte.xaml</code> definisce una UI reattiva basata su DevExpress.</p>
+
+            <div class="card">
+                <div class="card-title">Componenti Chiave</div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Filtro Rapido:</strong> ComboBox <code>DescCommTb</code> per filtrare per commessa.
+                            Supporta l'invio con <em>Enter</em> o selezione mouse.</li>
+                        <li><strong>GridControl (Master):</strong> Visualizza gli oggetti
+                            <code>SpedizioneMadreDto</code>.</li>
+                        <li><strong>DataControlDetailDescriptor:</strong> Configura la sotto-griglia (Detail) per gli
+                            oggetti <code>TrattaFigliaDto</code>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tip">
+                <span class="tip-icon">🖱️</span>
+                <span class="bold">Navigazione:</span> Il <strong>doppio click</strong> su una riga (sia Master che
+                Detail) apre automaticamente la finestra di dettaglio ordine (<code>Conferme.MainWindow</code>).
+            </div>
+        </section>
+
+        <section>
+            <h2>5. Note per i Tecnici</h2>
+            <ul>
+                <li><span class="link-color-text bold">Performance:</span> L'uso di <code>BeginDataUpdate</code> ed
+                    <code>EndDataUpdate</code> nei metodi <code>EspandiTutto</code> e <code>CollassaTutto</code> è
+                    cruciale per evitare il redraw della UI durante l'iterazione delle righe.</li>
+                <li><span class="link-color-text bold">Binding Asincrono:</span> Il caricamento colonne
+                    (<code>ImpostaColonne</code>) avviene nell'evento <code>Loaded</code> per garantire che il layout
+                    sia inizializzato.</li>
+                <li><span class="link-color-text bold">Context Menu Smart:</span> Le azioni come "Cambio Targhe"
+                    recuperano la riga sotto il mouse tramite <code>GetTrattaSelezionata()</code>, risalendo l'albero
+                    visuale (VisualTree) per identificare il contesto corretto (Master o Detail).</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>

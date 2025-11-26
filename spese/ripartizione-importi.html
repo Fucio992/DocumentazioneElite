@@ -69,7 +69,7 @@
                 </div>
             </details>
 
-            <details>
+            <details open>
                 <summary class="list-item-header">
                     <span class="detail-summary-grosso">B. Modalità "DEFAULT" (Proporzionale)</span>
                     <span>▼</span>
@@ -97,7 +97,8 @@
                                     <li><strong>Configurazione Vettore:</strong> Se attivo il flag globale
                                         <code>NonCalcolareTrattaVettore</code>, invoca
                                         <code>ControlloTratteAffidateAlVettore</code> per modificare la lista delle
-                                        tratte da calcolare (escludendo l'ultima se affidata a terzi).</li>
+                                        tratte da calcolare (escludendo l'ultima se affidata a terzi).
+                                    </li>
                                     <li><strong>Iterazione o Calcolo Singolo:</strong>
                                         <ul>
                                             <li>Se è stata attivata la logica Vettore (punto 3), itera sulle tratte
@@ -131,7 +132,8 @@
                                 <div class="formula-box">
                                     <p><strong>Scenario 1: Viaggio Concluso o Forzatura Tratte</strong></p>
                                     <p>Se l'ultima tratta è arrivata (<code>IsArrivo</code>) oppure
-                                        <code>usaKmTratte == true</code>:</p>
+                                        <code>usaKmTratte == true</code>:
+                                    </p>
                                     <code>kmCalcoloRapporto = Somma(Km di tutte le tratte confermate)</code>
                                 </div>
 
@@ -231,7 +233,8 @@
                                             <p><code>KmResidui = kmCalcoloRapporto - KmPrecedenti</code></p>
                                             <p><code>ImportoUnitario = ImportoNetto / KmResidui</code></p>
                                             <p style="font-size: 1.2em; margin-top:10px; color: #4CAF50;">
-                                                <strong>Risultato = ImportoUnitario * OrdineCorrente.Km</strong></p>
+                                                <strong>Risultato = ImportoUnitario * OrdineCorrente.Km</strong>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -254,7 +257,8 @@
                                     <li><code>ordine.Km</code> è 0. <span class="tip-easy">Azione Critica:</span> In
                                         questo caso esegue una <strong>DELETE</strong> su
                                         <code>ElencoRichiestePrezzi</code> per rimuovere eventuali prezzi automatici
-                                        residui ("Prezzo Automatico" e opzionalmente "Importo Vettore").</li>
+                                        residui ("Prezzo Automatico" e opzionalmente "Importo Vettore").
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -266,9 +270,11 @@
                                 <ol>
                                     <li>Identifica la penultima e l'ultima tratta.</li>
                                     <li>Verifica se: L'ultima tratta è <code>IsArrivo</code> E la penultima ha un
-                                        <code>CodVettore</code> valorizzato (logica di passaggio di consegna).</li>
+                                        <code>CodVettore</code> valorizzato (logica di passaggio di consegna).
+                                    </li>
                                     <li><strong>Azione:</strong> Rimuove l'ultima tratta dalla lista
-                                        <code>tratteConferma</code> usata per il calcolo.</li>
+                                        <code>tratteConferma</code> usata per il calcolo.
+                                    </li>
                                     <li><strong>Cleanup:</strong> Esegue una DELETE dei prezzi automatici sull'ultima
                                         tratta (che quindi avrà importo 0).</li>
                                     <li><strong>Effetto:</strong> L'intero importo della Madre viene spalmato solo sulle
@@ -295,7 +301,8 @@
                             <div class="card-title">Metodo: togliCostiIntermodali</div>
                             <div class="card-body">
                                 <p>Esegue query SQL complessa con JOIN su <code>Passaggi</code>,
-                                    <code>ElencoViaggiTestata</code>, <code>ElencoRichieste</code>.</p>
+                                    <code>ElencoViaggiTestata</code>, <code>ElencoRichieste</code>.
+                                </p>
                                 <p>Somma <code>ERP.TotaleR</code> dove <code>TipoR = 'PAD'</code> (costo passivo)
                                     associato ai viaggi intermodali collegati alla richiesta.</p>
                             </div>
