@@ -1,1930 +1,2908 @@
 <!DOCTYPE html>
 <html lang="it">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>novita</title>
-  <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-  <div class="container">
-    <header>
-      <h1>📘 Registro delle novita</h1>
-    </header>
-
-    <section>
-      <h2>🆕 Novità recenti</h2>
-
-      <details open>
-        <summary>2025-11-18 - Campi Obbligatori <small>(branch container)</small></summary>
-        <div class="card">
-          <div class="card-title">Campi Obbligatori</div>
-          <div class="card-body">
-            <section>
-              <p>All'interno delle impostazioni delle conferme, oppure nelle impostazioni condivise dei container si può accedere alla sezione dei campi obbligatori</p>
-              <p>Qui si possono selezionare i campi che devono essere compilati obbligatoriamete per completare la registrazione della conferma, fatturazione o container</p>
-              <img src="../assets/impostazioni/CampiObbligatori.png" width="auto">
-              <p>Con i primi tre "Radio buttons" si può selezionare il modulo per il quale si vogliono impostare i campi obbligatori</p>
-              <p>Con le combobox in seconda riga si possono ulteriormente controllare caso a caso quando i campi risulteranno obbligatori o meno
-                <ul>
-                  <strong>NOTA BENE</strong><br>
-                  <p>Questi filtri sono forzati, se la registrazione viene fatta per il cliente "A" senza indicare il Tipo Conferma (Import, Export...), ma i campi obbligatori sono stati compilati come cliente: "A" Tipo Conferma: "IMPORT" allora non verranno trovati i campi obbligatori</p>
-                </ul>
-              </p>
-            </section>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-11-11 - Riconoscimento Codice Prodotto - Impostazione container</summary>
-        <div class="card">
-          <div class="card-title">Riconoscimento Codice Prodotto</div>
-          <div class="card-body">
-            <section>
-              <p><strong>Obiettivo:</strong> Auto-compilare le anagrafiche (misure, nome) partendo dal codice inserito.
-              </p>
-              <br />
-              <p><strong>Logica:</strong></p>
-
-              <p>1. <strong>Verifica Attivazione:</strong> Controlla prima se la funzione <strong>"LEGGI CODICE
-                  PRODOTTO"</strong> è attiva. Se è <strong>disattivata</strong>, la procedura si ferma qui.</p>
-
-              <p>2. <strong>Ricerca (se attiva):</strong> Se la funzione è attiva e l'utente ha inserito un testo nel
-                campo <code>CodiceProdotto</code>, il sistema cerca nell'anagrafica "Prodotti Cliente" un codice che
-                <em>contiene</em> quel testo.
-              </p>
-
-              <br />
-              <p><strong>Risultato:</strong> Se trova una corrispondenza, auto-compila <strong>Nome Prodotto</strong>,
-                <strong>Larghezza</strong>, <strong>Altezza</strong> e <strong>Lunghezza</strong> della riga.
-              </p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Impostazione container: salva informazioni nelle tratte</div>
-          <p><small>Modifica presente sia nel menu attuale che nel branch</small></p>
-          <div class="card-body">
-            <section>
-              <p>Implementata personalizzazione per i containers che permette di aggiornare i dati 
-                all'interno delle tratte ogni volta che vengono aggiornati all'interno della madre.</p>
-                <p>Nome personalizzazione:</br>
-                  SALVA DETTAGLI CONTAINER NELLE TRATTE</p>
-              <p>Dati che vengono salvati nelle tratte:
-                <img src="../assets/Container/Impostazioni/SalvaDettagliContainerNelleTratte.png" width="auto">
-              </p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-11-07 - Visualizzazione campo CER</summary>
-
-        <div class="card">
-          <div class="card-title">Visualizzazione campo CER</div>
-          <div class="card-body">
-            <section>
-              <p>Nella tabella Mezzi è presente il campo booleano CER. Nella vecchia versione c’era un pannello in
-                anagrafica dove si attivava con un flag, ora in Elite questo campo non viene gestito, al suo posto c’è
-                la possibilità di indicare direttamente gli articoli.</p>
-              <br />
-              <img src="../assets/Mezzi/VisCampoCer01.png" width="auto">
-              <p>Nel caso il campo venga visualizzato nella ricerca, ora, verrà visualizzato attivo se è presente almeno
-                un elemento nella lista</p>
-              <br />
-              <img src="../assets/Mezzi/VisCampoCer02.png" width="auto">
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-11-06 - Listini con piu' um</summary>
-
-        <div class="card">
-          <div class="card-title">Listini con piu' um</div>
-          <div class="card-body">
-            <section>
-              <p>Questa funzione serve a recuperare il listino prezzi corretto per un ordine, cercando tra diverse unità
-                di misura (UM) per trovare quella che produce l'importo finale più alto.</p>
-              <br>
-              <p>Va impostata cliente per cliente dentro ai listini</p>
-              <img src="../assets/listini/umdavalutare.png" width="auto">
-              <br>
-              <p>Il processo si svolge come segue:</p>
-              <br>
-              <p>1. Inizializzazione: Salva il committente originale e prepara una variabile (listinoMigliore) per
-                memorizzare il listino migliore trovato finora.</p>
-              <br>
-              <p>2. Ciclo sulle Unità di Misura: La funzione esamina ogni singola 'Unità di Misura' (come BANCALI, KG,
-                COLLI, ecc.) che è stata passata nella lista 'umQtaList'.</p>
-              <br>
-              <p>3. Recupero Listino per UM: Per ogni UM, cerca il listino corrispondente. Controlla se il listino deve
-                essere cercato sotto il committente specifico o sotto "COMUNE".</p>
-              <br>
-              <p>4. Applicazione Regole Quantità: Una volta trovato il listino per quella UM, applica delle regole alla
-                quantità (umQta.Qta):<br>
-                - Se la quantità è inferiore al 'Minimo Fatturabile' (quantità) del listino, la quantità viene aumentata
-                a quel minimo.<br>
-                - Se il listino è 'Fisso' (IsFisso), la quantità viene forzata a 1.</p>
-              <br>
-              <p>5. Calcolo Importo Provvisorio: Calcola un importo provvisorio moltiplicando l'importo del listino per
-                la quantità (ormai aggiornata).</p>
-              <br>
-              <p>6. Applicazione Regola Minimo Importo: Confronta l'importo provvisorio calcolato con il 'Minimo
-                Fatturabile Importo' del listino.<br>
-                - Se l'importo calcolato è più basso del minimo importo, la funzione sovrascrive l'importo del listino
-                (Lis.Importo) con il valore del minimo importo. Inoltre, imposta il listino come 'Fisso' e la quantità a
-                1.</p>
-              <br>
-              <p>7. Confronto e Selezione: L'importo finale ottenuto per questa UM viene confrontato con l'importo del
-                'listinoMigliore' trovato finora.<br>
-                - Se l'importo corrente è più alto (o se è il primo listino che esaminiamo), questo listino diventa il
-                nuovo 'listinoMigliore'.</p>
-              <br>
-              <p>8. Restituzione: Dopo aver controllato tutte le UM nella lista, la funzione restituisce il
-                'listinoMigliore' (cioè quello con l'importo finale più alto) che ha trovato. Se non ha trovato nessun
-                listino valido, restituisce un listino vuoto.</p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-11-05 - Duplica Avanzato in viaggio - Ripartizione per listino</summary>
-
-        <div class="card">
-          <div class="card-title">Duplica Avanzato in viaggio</div>
-          <div class="card-body">
-            <section>
-              <p>Dentro alle conferme del viaggio si puo' duplicare l'ordine che verra' riassegnato al viaggio</p>
-              <br />
-              <img src="../assets/viaggi/duplicaavanzatoordine.png" width="auto">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Ripartizione per listino</div>
-          <div class="card-body">
-            <section>
-              <p>Al posto di fare la ripartizione a km, si possono assegnare i prezzi alle tratte in base al listino.
-              </p>
-              <img src="../assets/impostazioni/ripartizioneperlistino.png" width="auto">
-              <br />
-              <p>ALTAMENTE SCONSIGLIATO vi faccio solo vedere che c'e'</p>
-              <p>ovviamente ci devono essere anche i listini per le tratte</p>
-              <br />
-              <p>E' anche stata messa la ricerca delle impostazione generali</p>
-            </section>
-          </div>
-        </div>
-
-
-      </details>
-
-      <details>
-        <summary>2025-11-03 - Mappa Manuale</summary>
-
-        <div class="card">
-          <div class="card-title">Mappa Manuale</div>
-          <div class="card-body">
-            <section>
-              <p>Le mappe manuali sono state reintegrate nelle mappe standard</p>
-              <br />
-              <p>Se esiste gia' un percorso carica la mappa standard, altrimenti se non esiste o se viene premuto
-                aggiorna si puo' trascinare il percorso.</p>
-              <br />
-              <p>L'algoritmo di routing legato e' lo stesso di ogni altro processo quindi carica il percoso i tempi e i
-                pedaggi sempre nello stesso modo.</p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-10-14 - Considera Viaggi Compresi - Cambiamento categorie planner - Filtro zona arrivo planner
-        </summary>
-
-        <div class="card">
-          <div class="card-title">Considera Viaggi Compresi</div>
-          <div class="card-body">
-            <section>
-              <p>Nel Riepilogo vengono presi in considerazione gli importi delle conferme che cadono nel periodo di
-                riferimento.</p>
-              <p>Ad esempio se ho una conferma che parte dal 31° gennaio 2025 e termina il 1 febbraio 2025, verrà
-                considerata nel riepilogo di febbraio.</p>
-              <img src="../assets/riepilogo/consideraViaggiCompresi.png" width="auto">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Cambiamento categorie planner</div>
-          <div class="card-body">
-            <section>
-              <p>Nel planner ora vengono mostrate le categorie divise tra principali e sottocategorie</p>
-              <p>Stessa cosa per gli accessori</p>
-              <img src="../assets/pianificazione/categoriediviseplanner.png" width="auto">
-              <p>Tutte queste come scritto in precedenza per un altra modifica possono essere definite in anagrafica</p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Filtro zona arrivo planner</div>
-          <div class="card-body">
-            <section>
-              <p>E' stato introdotto il filtro zona di arrivo.</p>
-              <p>Questo filtra nel campo <strong>Verso</strong> del viaggio che e' <strong>autogenerato</strong> dal
-                viaggio al salvataggio in base alla zona dell'ultimo poi</p>
-              <img src="../assets/pianificazione/filtroZonaArrivo.png" width="auto">
-              <p>NB: Il filtro non sarà retroattivo per i viaggi già esistenti a meno che non vengano risalvati.</p>
-              <p><strong>IMPORTANTE</strong> per il corretto funzionamento vanno impostate bene le zone nel planner</p>
-            </section>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-10-14 - Aiuto risoluzioni problemi satellitari - Bollo virtuale automatico in fattura elettronica
-        </summary>
-
-        <div class="card">
-          <div class="card-title">Aiuto risoluzioni problemi satellitari</div>
-          <div class="card-body">
-            <section>
-              <p>
-                All'interno della pagina dei <a href="../Satellitari/satellitari-normies.html">sistemi satellitari</a>
-                nel Capitolo "Debug" è possibile raggiungere una sezione di aiuto per la risoluzione dei problemi più
-                comuni.<br />
-                <a href="../Satellitari/DebugSatellitariIssues.html">DebugSatellitariIssues</a>
-              </p>
-            </section>
-          </div>
-        </div>
-
-
-        <div class="card">
-          <div class="card-title">Bollo virtuale automatico in fattura elettronica</div>
-          <div class="card-body">
-            <section>
-              <p>
-                Nel modulo fatturazione, nelle impostazioni avanzate c’è una nuova voce:<br />
-                <img src="../assets/Fatturazione/bollovituale01.png" width="400">
-                Attiva il bollo virtuale automatico in fattura elettronica:
-                In anagrafica cliente, nella finestra dell'iva/esenzioni si vedrà una colonna che si chiama
-                AttivaPerBollo', (naturalmente ci devono essere anche i codici, CodTip_IVA_FE)
-                <br />
-                <img src="../assets/Fatturazione/bollovituale02.png" width="400">
-                <img src="../assets/Fatturazione/bollovituale03.png" width="400">
-              <p>
-                che se spuntata permetterà il conteggio dell'importo esente (es. N1, N2.1,..) fino al
-                raggiungimento/superamento dell'importo di 77.47 per far scattare il bollo virtuale
-                automaticamente.<br />
-                <img src="../assets/Fatturazione/bollovituale04.png" width="400">
-              <p>Nel modulo trasferimento tracciati nel momento in cui si creeranno le fatture si aprirà la solita
-                finestra di accettazione, in questo caso però, la spunta ‘Bollo Virtuale‘ non ci sarà più<br />
-
-                E' IMPORTANTISSIMO selezionare la voce attiva per bollo in iva/esenzioni; se non viene fatto, il bollo
-                virtuale NON VIENE INTEGRATO nelle fatture, poiché con questa funzione il bollo manuale viene
-                DISABILITATO.
-                <br />
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-10-08 - Ricalcolo Km da Data a Data</summary>
-
-        <div class="card">
-          <div class="card-title">Ricalcolo Km da Data a Data</div>
-          <div class="card-body">
-            <section>
-              <p>Nella scheda di inserimento dei rifornimenti, c’è un tasto per aggiornare i km leggendoli dalla tabella
-                dei valori scaricati dai satellitari. Viene eseguita la query: SELECT TOP 1 * FROM
-                SatellitariEventiVeicoli WHERE Targa = @tg AND Data <= @dtS ORDER BY Data DESC</p>
-                  <img src="../assets/rifornimenti/ricalcolokm1.png" width="400">
-                  <p>E’ stata creata una funzione che permette l’aggiornamento di questo campo di una serie di
-                    rifornimenti filtrando da data a data.</p>
-                  <img src="../assets/rifornimenti/ricalcolokm2.png" width="400">
-            </section>
-          </div>
-
-      </details>
-
-      <details>
-        <summary>2025-10-03 - Caricamento Veloce Conferme Tramite Griglia</summary>
-
-        <div class="card">
-          <div class="card-title">Caricamento Veloce Conferme Tramite Griglia</div>
-          <div class="card-body">
-            <section>
-              <p>C’è una funzione attivabile che permette all’interno dei viaggi di inserire, volendo anche modificare,
-                le conferme tramite una griglia di inserimento rapido.</p>
-              <img src="../assets/viaggi/grigliarapida01.png" width="400">
-              <p>Nel viaggio compare questo tasto</p>
-              <img src="../assets/viaggi/grigliarapida02.png" width="400">
-              <p>E’ possibile inserire i dati nella griglia, ricercare Cliente,Mittente,Destinatario da menù a discesa
-              </p>
-              <img src="../assets/viaggi/grigliarapida03.png" width="400">
-              <p>Al termine con il tasto salva si memorizzano le righe, creando la conferma, con tratta, ed abbinandola
-                al viaggio.
-                Per la configurazione delle colonne utilizzabili, c’è un apposito pannello, che permette di omettere e
-                ordinare. Ulteriori campi vanno valutati, soprattutto perché è da capire da dove devono leggere
-                eventuali liste collegate (tipo mittenti da lista).</p>
-              <img src="../assets/viaggi/grigliarapida04.png" width="400">
-              <p>Ad ora con Bancali, viene inserita 1 riga prodotto con la quantità inserita.
-                Per il prezzo, viene inserita un riga di prezzo manuale con quantità 1.
-              </p>
-            </section>
-          </div>
-
-      </details>
-
-      <details>
-        <summary>2025-10-02 - Aggiunta Rotte Predefinite - Abilita visualizzazione per sede competenz</summary>
-
-        <div class="card">
-          <div class="card-title">Aggiunta Rotte Predefinite</div>
-          <div class="card-body">
-
-            <section>
-              <p>
-                Questa funzionalità permette di aggiungere rapidamente un insieme di punti di interesse
-                (carichi/scarichi) a un viaggio esistente, selezionando una <strong>rotta predefinita</strong>.
-              </p>
-              <p>
-                È accessibile tramite un pulsante dedicato che avvia la procedura di selezione e aggiunta.
-              </p>
-              <img src="../assets/viaggi/rottepulsante.png">
-              <img src="../assets/anagrafiche/MittentiDestinatari/codiceeposizione.png">
-            </section>
-
-            <section>
-              <h4>Flusso Operativo</h4>
-              <p>
-                Il processo si svolge in diversi passaggi chiari per l'utente:
-              </p>
-              <ul>
-                <li>
-                  <strong>Selezione della Rotta:</strong> Al click sul pulsante, il sistema recupera tutte le rotte
-                  uniche disponibili e le mostra all'utente in una finestra di dialogo. L'utente sceglie la rotta
-                  desiderata dall'elenco.
-                </li>
-                <li>
-                  <strong>Recupero dei Punti:</strong> Una volta scelta la rotta, il sistema carica tutti i punti
-                  associati a quel codice di rotta.
-                </li>
-                <li>
-                  <strong>Calcolo Posizione:</strong> Viene calcolata la prima posizione libera nel viaggio corrente.
-                  Questa sarà la posizione di partenza per il primo punto della rotta da aggiungere.
-                </li>
-                <li>
-                  <strong>Aggiunta Sequenziale:</strong> I punti della rotta vengono aggiunti al viaggio uno dopo
-                  l'altro, garantendo che vengano accodati correttamente alla fine del percorso esistente.
-                </li>
-              </ul>
-            </section>
-
-            <br />
-
-            <section>
-              <h4>Logica di Assegnazione Posizione</h4>
-              <p>
-                Una delle parti fondamentali della funzionalità è la gestione delle posizioni dei nuovi punti, per
-                garantire coerenza e ordine nel viaggio.
-              </p>
-              <p>
-                La logica applicata è la seguente:
-              </p>
-              <ul>
-                <li>
-                  <strong>Ordinamento Preliminare:</strong> I punti appartenenti alla rotta selezionata vengono prima di
-                  tutto <strong>ordinati in base alla loro posizione predefinita</strong> (es. 1, 2, 3...). Questo
-                  assicura che la sequenza interna della rotta sia sempre rispettata.
-                </li>
-                <li>
-                  <strong>Ricalcolo Totale:</strong> Le posizioni predefinite (1, 2, 3...) vengono usate <strong>solo
-                    per l'ordinamento</strong>. Il loro valore finale viene completamente ricalcolato.
-                </li>
-                <li>
-                  <strong>Accodamento Automatico:</strong> Il sistema prende la posizione più alta già presente nel
-                  viaggio (es. 10), aggiunge 1 (ottenendo 11) e assegna questa nuova posizione al primo punto della
-                  rotta. I punti successivi avranno posizioni incrementali (12, 13, e così via).
-                </li>
-              </ul>
-              <p>
-                <strong>Il vantaggio</strong> è che le rotte predefinite si comportano come "blocchi" sequenziali che
-                possono essere aggiunti a qualsiasi viaggio, indipendentemente dal numero di punti già presenti,
-                inserendosi sempre correttamente alla fine.
-              </p>
-            </section>
-
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Impostazione ‘Abilita visualizzazione per sede competenza’</div>
-          <div class="card-body">
-
-            <section>
-              <p>
-                Questa impostazione introduce un livello di filtraggio avanzato nel modulo di fatturazione, basato sulla
-                <strong>sede di competenza</strong> associata alle conferme d'ordine.
-              </p>
-              <p>
-                <strong>ATTENZIONE:</strong> Per poter funzionare, questa opzione richiede che sia già attiva
-                l'impostazione principale di visualizzazione per pianificatori (<code>VisualizzaPerSedeUtente</code>).
-              </p>
-            </section>
-
-            <img src="../assets/impostazioni/impostazioneFatturazioneSedeComp.png">
-
-            <section>
-              <h4>Comportamento Standard (Impostazione Disattivata)</h4>
-              <p>
-                Di default, questa impostazione è <strong>disattivata</strong>.
-              </p>
-              <p>
-                Il motivo è che la maggior parte dei clienti non utilizza il concetto di "sede di competenza" per la
-                fatturazione. Lasciando l'opzione disattivata, l'operatività del modulo rimane invariata e familiare per
-                tutti gli utenti.
-              </p>
-            </section>
-
-            <section>
-              <h4>Funzionamento con Impostazione Attiva</h4>
-              <p>
-                Se un cliente richiede l'attivazione, il comportamento del modulo fatturazione cambia in base al tipo di
-                utente che effettua l'accesso:
-              </p>
-              <ul>
-                <li>
-                  <strong>Utente Standard (con sedi assegnate):</strong>
-                  <br />
-                  Un utente a cui sono state associate una o più sedi vedrà unicamente le conferme d'ordine la cui
-                  <strong>sede di competenza</strong> corrisponde a una di quelle a lui assegnate. Questo permette di
-                  limitare la visibilità ai soli documenti di pertinenza.
-                </li>
-                <br />
-                <li>
-                  <strong>Utente Amministratore:</strong>
-                  <br />
-                  Un utente con privilegi di amministratore mantiene una visibilità completa, ma con un'interfaccia
-                  migliorata. In alto nella schermata comparirà un nuovo menu a tendina chiamato
-                  <strong>‘Filiale’</strong>. Questo filtro gli permetterà di selezionare una sede specifica e
-                  visualizzare, di volta in volta, tutte le conferme da fatturare per quella singola filiale.
-                </li>
-              </ul>
-              <p>
-                <strong>Il vantaggio</strong> è quello di poter segmentare e organizzare il lavoro di fatturazione in
-                aziende con più sedi operative, senza perdere il controllo centralizzato da parte degli amministratori.
-              </p>
-            </section>
-
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-09-30 - Prototipi Ordini</summary>
-
-        <div class="card">
-          <div class="card-title">Prototipi Ordini</div>
-          <div class="card-body">
-            <section>
-              <p>Attivando nella conferma l'impostazione <strong>VEDI PROTOTIPI</strong> questa fara' venire fuori una
-                forbicina in alto nella conferma</p>
-              <p>Qui si puo' definire il percoso che dovra' fare l'ordine</p>
-
-              <img src="../assets/conferme/spaccaviaggio.png">
-
-              <p><strong>Il vantaggio</strong> e' che posso impostare delle tratte che verranno <strong>viste in
-                  pianificazione anche se devono ancora essere fatte</strong></p>
-
-              <p>per definire i Prototipi c'e' il modulo apposito</p>
-              <br />
-
-              <p>quando verranno abbinate semplicemente verra' abbinata la tratta al viaggio e messa la targa</p>
-              <br />
-              <p>Nella pianificazione è presente un campo chiamato <strong>ProssimaDestinazione</strong></p>
-              <p>La sua funzione è restituire una stringa che descrive il tipo di viaggio in base alla presenza della
-                parola "mag" nei campi "Mittente" e "Destinatario".</p>
-              <ul>
-                <li>
-                  La logica applicata è la seguente:
-                  <ul>
-                    <li>Restituisce <strong>"RITIRO"</strong> se "mag" è presente solo nel campo
-                      <strong>Destinatario</strong>
-                    </li>
-                    <li>Restituisce <strong>"TRATTA"</strong> se "mag" è presente sia nel <strong>Mittente</strong> che
-                      nel <strong>Destinatario</strong>
-                    </li>
-                    <li>Restituisce <strong>"CONSEGNA"</strong> se "mag" è presente solo nel campo
-                      <strong>Mittente</strong>.
-                    </li>
-                    <li>Restituisce una <strong>stringa vuota</strong> se "mag" non è presente in nessuno dei due campi.
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-
-
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-09-30 - Impostazioni Stampe</summary>
-
-        <div class="card">
-          <div class="card-title">Impostazioni Stampe</div>
-          <div class="card-body">
-            <section>
-              <p>I controlli presenti nella sezione <b>Stampe</b> sono stati aggiornati e resi più rigorosi, al fine di
-                garantire una gestione più sicura e tracciabile:</p>
-              <ul>
-                <li>È prevista una doppia conferma al momento del salvataggio quando si modificano o si inseriscono
-                  nuove righe.</li>
-                <li>È prevista una doppia conferma anche per l’eliminazione tramite tasto destro; una terza conferma,
-                  aggiuntiva, è protetta da password (diversa da quella abituale).</li>
-              </ul>
-
-              <img src="../assets/impostazioni/impostazioniStampe.png">
-
-              <p><b>Motivazioni dell’intervento:</b></p>
-              <ul>
-                <li>È stato riscontrato che le impostazioni di questa griglia vengono talvolta modificate o eliminate
-                  senza un’adeguata consapevolezza delle conseguenze, generando problematiche nella gestione di
-                  funzionalità collegate, come ad esempio le <b>API</b>.
-                  Qualora una riga possa sembrare incoerente con l’attività in corso (ad esempio durante la
-                  configurazione delle etichette dei bancali), <u>non deve essere modificata</u>, in quanto non è
-                  correlata al problema specifico.</li>
-
-                <li>Nel caso in cui il nome di un report coincida con il report stesso, la configurazione è da
-                  considerarsi corretta: il collegamento con altri dati avviene infatti proprio tramite il nome.
-                  Inoltre, è opportuno sottolineare che alcune configurazioni particolari non riportano un utente
-                  associato, in quanto si tratta di impostazioni o configurazioni automatiche.</li>
-              </ul>
-
-              <p><b>Conclusioni:</b></p>
-              <p>Le configurazioni di questa sezione non rappresentano soltanto stampe automatiche interne a
-                <i>Elite</i>, ma svolgono anche la funzione di parametri per altri moduli e funzionalità.
-                È pertanto fondamentale limitarsi a modificare o gestire esclusivamente ciò che è conosciuto e
-                chiaramente identificato, come ad esempio la configurazione <b>EtichettaBancali</b>.
-              </p>
-            </section>
-          </div>
-        </div>
-      </details>
-
-
-      <details>
-        <summary>2025-09-25 - Combo box selezionabili in griglia</summary>
-
-        <div class="card">
-          <div class="card-title">Combo box selezionabili in griglia</div>
-          <div class="card-body">
-            <section>
-              <p>Dentro alle impostazioni di base sotto la voce visualizzazione attivare al spunta</p>
-              <img src="../assets/impostazioni/comboelementiingriglia.png" width="400">
-              <br>
-              <p>A questo punto nei <strong>viaggi</strong> bisogna mettere visibili le seguenti colonne</p>
-              <img src="../assets/viaggi/colonneeditabili.png" width="auto">
-              <p>e refreshare la griglia</p>
-              <br>
-              <p>Le colonne diventano combo selezionabili e al cambio del mezzo se disponibili vengono anche
-                <strong>cambiate
-                  le targhe associate</strong>
-              </p>
-              <p>Dato che vengono mostrate tutte le targhe <strong>imposta anche il vettore nel viaggio</strong></p>
-              <br>
-              <p>Per confermare le modifiche selezionare i viaggi e con il tasto destro si possono salvare le modifiche
-                nel db</p>
-
-              <br>
-              <p>AVVERTENZE</p>
-              <p>le targhe al momento non si possono cancellare direttamente dalla griglia ma basta entrare nel viaggio
-                e toglierla</p>
-              <p>per un limite del componente non posso cercare tra la lista digitando da tastiera</p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-09-24 - Separazione punti per utente</summary>
-
-        <div class="card">
-          <div class="card-title">Separazione punti per utente</div>
-          <div class="card-body">
-            <section>
-              <p>E' stata introdotta una nuova funzione per quanto riguarda la visibilità dei poi nel planner</p>
-              <img src="../assets/utenti/idpuntivisibili.png" width="400">
-              <p>Il fomato e': idPunto;idPunto;idPunto ma tranquilli quando fate tab c'e' una
-                <strong>validazione</strong> scritta sotto
-              </p>
-              <br>
-              <p>Qui e' possibile scrivere gli id dei punti che si vuole mostrare per utente</p>
-              <p>Non occorre attivare nulla <strong>e' una funzione standard</strong></p>
-              <p>Una volta che trova
-                popolato quel campo nell'utente filtrera' nella colonna dei punti del planner <strong>solo quei
-                  punti</strong></p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-09-23 - Gestione trasferte con valori nuovi</summary>
-
-        <div class="card">
-          <div class="card-title">Gestione trasferte con valori nuovi</div>
-          <div class="card-body">
-            <section>
-              <p>Di default sono stati messi i nuovi valori.</p>
-              <p>Quando si crea un nuovo autista verra' creata la tabella <strong>ParametriTrasferte</strong> che terra'
-                i nuovi valori</p>
-              <p>Sono modificabili al momento <strong>SOLO</strong> da database</p>
-              <br>
-              <p>E' stata creata anche la funzione di aggiornamento in modo molto semplice, basta fare tasto destro
-                sopra la trasferta e confermare</p>
-              <img src="../assets/anagrafiche/Dipendenti/impostaPerTuttiTrasferte.png" width="400">
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-09-16 - Mittenti Destinatari - NUOVO CONTATORE - Colore relativo all'azienda - Ricerche Full Text
-          - Targhe su tratte</summary>
-
-        <div class="card">
-          <div class="card-title">Mittenti Destinatari</div>
-          <div class="card-body">
-            <section>
-              <p>Duplicazione Mittenti Destinatari</p>
-              <p>Aggiunto il tasto DUPLICA in basso della videata per poter duplicare i Mittenti Destinatari. Si apre un
-                ulteriore finestra dove viene riportato il cliente ed il tipo, è possibile anche non definire il cliente
-                e mettere come tipo COMUNE a seconda che si voglia duplicare mitt/dest legati a clienti o comuni</p>
-              <img src="../assets/anagrafiche/MittentiDestinatari/mittdest_duplica.png" width="400">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">NUOVO CONTATORE</div>
-          <div class="card-body">
-            <section>
-              <p>Abbiamo risolto il millennium bug del contatore delle conferme</p>
-              <p>E' cambiato il modo di gerare le conferme. Voi non vi dovreste accorgere di nulla se funziona tutto</p>
-              <p>Si puo' anche impostare la lunghezza del contatore facendo</p>
-              <code>UPDATE DatiBase SET LunghezzaContatore = 9</code>
-              <p>dove il nove rappresenta il numero di cifre dopo l'anno</p>
-              <p><strong>E' DA TESTARE BENE</strong></p>
-              <br>
-              <p>Se dovessero uscire degli errori ai clienti molto probabilmente ci sono delle conferme duplicate</p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Colore relativo all'azienda</div>
-          <div class="card-body">
-            <section>
-              <p>Nel planner e' stata creata un impostazione che colora in base alla zona dell'azienda</p>
-              <img src="../assets/pianificazione/coloreRelativoAllAzienda.png" width="auto">
-              <p>E' descritto come funziona nell'impostazione</p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Ricerche Full Text</div>
-          <div class="card-body">
-            <section>
-              <p>Ora i campi mezzo, rimorchio e autista hanno la ricerca <strong>per parola contenuta</strong></p>
-              <p>Esempio scrivo “MARIO” e nella combo visualizzare tutti gli autisti che contengono la stringa “Mario”
-              </p>
-              <p>E' da testare</p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Targhe su tratte</div>
-          <div class="card-body">
-            <section>
-              <p>Nel chip delle tratte vengono fuori gli elementi coinvolti nel trasporto</p>
-              <img src="../assets/conferme/targheSuTratte.png" width="auto">
-              <p>Si attiva nelle conferme attivando TARGHE SU TRATTE</p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-09-15 - Fatturazione Attiva </summary>
-
-        <div class="card">
-          <div class="card-title">FATTURAZIONE ATTIVA</div>
-          <div class="card-body">
-            <section>
-              <p>Integrazione Impostazioni su modulo: </p>
-              <p>Ora in Fatturazione attiva in alto a sinistra potete vedere il tasto Impostazioni, come per il modulo
-                riparazioni:</p>
-              </br>
-              <img src="../assets/Fatturazione/fatt_11.png" width="400">
-              <p>Premuto questo tasto si aprirà la finestra delle impostazioni, che permette al utente finale di
-                cambiare le impostazioni di Automatismi e Visualizzazioni; inoltre c’è il tasto con il lucchetto (sotto
-                password) che permette ai tecnici di attivare le impostazioni avanzate:
-              </p>
-              <img src="../assets/Fatturazione/fatt_12.png" width="400">
-            </section>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-09-11 - Richiesta eliminazione Viaggio - liste in sola lettura - impostazione ore planner - Salva
-          in Viaggio</summary>
-
-        <div class="card">
-          <div class="card-title">Richiesta eliminazione Viaggio</div>
-          <div class="card-body">
-            <section>
-              <p>Dalle conferme al posto di cancellare il viaggio in automatico quando rimane vuoto e' stata creata
-                l'impostazione per chiederlo</p>
-              </br>
-              <p>si chiama RICHIEDI ELIMINAZIONE VIAGGIO e si attiva dentro al modulo conferme
-              </p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Liste in sola lettura</div>
-          <div class="card-body">
-            <section>
-              <p>Negli ordini si possono impostare delle liste in sola lettura per evitare modifiche accidentali.</p>
-              </br>
-              <p>Nella definizione delle liste, si può attivare il flag: Rende la lista in SOLA LETTURA nella conferma
-              </p>
-              <img src="../assets/conferme/listeinsolaletura.png" width="400">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Impostazione ore planner</div>
-          <div class="card-body">
-            <section>
-              <p>Un cliente vuole gestre i viaggi dicendo: Io a prescindere ho il camion che sta fuori X ore. Voglio
-                vedere se l'operativo lo impegna tutte le ore che sta fuori</p></br>
-              <p>Per fare questo sono necessarie queste impostazioni</p>
-              <p>Dentro alle impostazioni planner, configurazione rettangolo</p>
-              <img src="../assets/pianificazione/imporettnagolotempo.png" width="400">
-              <p>Dentro alle impostazioni planner cerca Data e attivare</p></br>
-              <img src="../assets/pianificazione/impostadatadagriglia.png" width="400">
-              <p>Dentro alle impostazioni di base di Elite</p></br>
-              <img src="../assets/pianificazione/impostazionibaseore.png" width="400">
-              <p>E' necessario definire le <strong>ore di lavoro</strong> nell'anagrafica del mezzo che sarebbero le ore
-                di suddivisione spese</p></br>
-              <p>Quando viene assegnato il viaggio con tutte queste impostazioni attiva il viaggio verra' creato con
-                <strong>Data Partenza Viaggio + Ore lavoro Mezzo</strong>
-              </p>
-              <p>questo e' il risultato sul planner</p>
-              <img src="../assets/pianificazione/rettangolotempo.png" width="400">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Salva in Viaggio</div>
-          <div class="card-body">
-
-            <section>
-              <p>Se nelle impostazioni delle conferme viene attivata la funzione <strong>VEDI SALVA IN VIAGGIO</strong>
-                appare un bottone che permette di salvare direttamente in viaggio come se si usasse l'automatismo</p>
-              <img src="../assets/conferme/salvainviaggio.png" width="auto">
-              <p>ovviamente e' necessario inserire le targhe altrimenti non crea nulla</p><br>
-              <p>Se si usa anche l'automatismo per creare un viaggio, sicuramente dara' problemi</p>
-            </section>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-09-08 - Controllo accessi clienti TIR / TIR PLUS</summary>
-
-        <div class="card">
-          <div class="card-title">Controllo accessi clienti TIR / TIR PLUS</div>
-          <div class="card-body">
-            <section>
-              <p>Per i clienti che utilizzano ancora <b>TIR / TIR Plus</b> è stato rafforzato il controllo degli accessi
-                degli utenti al programma. In particolare, ogni volta che un utente aprirà un modulo dal menu, il
-                sistema verificherà se il cliente ha il programma attivo o meno.</p></br>
-              <p>Questa modifica si è resa necessaria perché alcuni clienti, pur di non farsi bloccare il programma,
-                lasciavano i PC accesi con l’applicativo aperto. In questo modo, anche se il programma resta attivo, nel
-                momento in cui si tenta di aprire un modulo senza un accesso valido, il sistema genererà un errore e si
-                chiuderà automaticamente.</p></br>
-              <p><strong>IMPORTANTE</strong></p>
-              <p>La modifica entrerà in funzione solo se il menu TIR (eseguibile
-                <code>Server > _Versione Aggiornata > Click Beta > MenuClick</code>) sarà aggiornato alla versione
-                datata 08/09/2025 o successiva.
-              </p>
-            </section>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-08-29 - Accessori in Ordine - Mezzi passaggio intermodale - Calendario Presenze</summary>
-
-        <div class="card">
-          <div class="card-title">Accessori in Ordine</div>
-          <div class="card-body">
-
-            <section>
-              <p>Per filtrare i mezzi prima di pianificare, se nella conferma viene attivato:</p>
-              <img src="../assets/conferme/vedipannelloaccessoriordine.png" width="400">
-              <p>Allora vengono mostrate le definizioni degli accessori definiti in anagrafica</p>
-              <img src="../assets/conferme/accessoriordine.png" width="400">
-              <p><strong>IMPORTANTE</strong></p>
-              <p>Gli accessori devono essere riassegnati, in quanto la tabella non aveva chiavi per collegare i dati</p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Mezzi passaggio intermodale</div>
-          <div class="card-body">
-
-            <section>
-              <p>Nel passaggio navale vengono mostrate le targhe con il passaggio gia' creato. Quando faccio ad esempio
-                apri passaggio dal planner vedo</p>
-              <img src="../assets/pianificazione/datiimbarco.png" width="400">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Calendario Presenze</div>
-          <div class="card-body">
-
-            <section>
-              <p>Creato il nuovo calendario eventi al moemento solo per visualizzazione</p>
-              <img src="../assets/anagrafiche/presenzeAutisti/calendario.png" width="400">
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-
-      <details>
-        <summary>2025-08-27 - Fix PVIR</summary>
-
-        <div class="card">
-          <div class="card-title">Fix PVIR</div>
-          <div class="card-body">
-
-            <section>
-              <p>Corretta l'ordinamento degli ordini del pvir. L'ordinamento ora segue gli ordini selezionati dal mouse
-                in ordine di click come prima.</p>
-              <p>E' stato anche migliorata la gestione delle date degli ordini che non rispecchiano quelle del viaggio
-              </p>
-              <img src="../assets/pianificazione/datasuperiore.png" width="400">
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-08-26 - Trasporti - Visite Mediche - Autisti Tessere</summary>
-
-        <div class="card">
-          <div class="card-title">Trasporti</div>
-          <div class="card-body">
-
-            <section>
-              <p>Aggiunta la sezione nei trasporti in modo da poter controllare oltre l'esperienza dell'autista anche
-                tutte le altre sezioni</p>
-              <img src="../assets/trasporti/sezione.png" width="400">
-
-              <p>In pianificazione il controllo e' stato migliorato per un miglior riepilogo</p>
-              <img src="../assets/pianificazione/controllotrasporti.png" width="auto">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Visite Mediche</div>
-          <div class="card-body">
-
-            <section>
-              <p>Migliorata UI delle visite mediche, era superfluo il tab</p>
-              <p>Aggiunto campo Codice Trasporto. Cosi si puo' definire che e' necessaria per un Trasporto</p>
-              <img src="../assets/visitemediche/ui.png" width="400">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Autisti Tessere</div>
-          <div class="card-body">
-
-            <section>
-              <p>Aggiunto codice trasporto della tessera</p>
-              <p>Cosi si puo' definire che e' necessaria per un Trasporto</p>
-              <img src="../assets/anagrafiche/Dipendenti/codtrasportotessera.png" width="400">
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-08-25 - Gap ricerca viaggio - Duplica POI</summary>
-
-        <div class="card">
-          <div class="card-title">Gap ricerca viaggio</div>
-          <div class="card-body">
-
-            <section>
-              <p>Reintrodotto il campo che permette di personalizzare la ricerca dei viaggi in quanti giorni nel pvir
-              </p>
-              <p>Ad esempio se imposto il valore a 5 quando abbino il viaggio guarda se posso inserirlo fino a 5 giorni
-                prima della partenza in viaggi esistenti</p>
-              <img src="../assets/pianificazione/gapricerca.png" width="400">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Duplica POI</div>
-          <div class="card-body">
-
-            <section>
-              <p>Dai viaggi posso duplicare il punto per farlo diventare un operazione per calcolare eventuali km a
-                vuoto</p>
-              <img src="../assets/viaggi/duplicapoi.png" width="400">
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-08-22 - Proprietà Mezzo</summary>
-
-        <div class="card">
-          <div class="card-title">Campo Proprietà Mezzo</div>
-          <div class="card-body">
-
-            <section>
-              <p>Nuovo campo Proprietario nell'anagrafica mezzi:</p>
-              <p>Il campo nasce dall'esigenza di alcune aziende che hanno il multi aziendale per differenziare
-                l'effettivo proprietario del mezzo e che azienda invece lo usa, questo comporta nuove disposizioni nella
-                gestione del modulo noleggi, nella gestione delle spese del mezzo e nel modulo della fatturazione
-                interna.</p>
-              <p>-Noleggio: se un mezzo fa parte delle proprietà della prima azienda, ma viene usato nella seconda
-                allora nel campo proprietario troveremo azienda 1 e campo azienda abbinata troveremo azienda 2.</p>
-              <p>-Fatturazione Interna: se il mezzo è di proprietà dell'azienda 1 ma abbinato a azienda 2, se azienda 1
-                vende un viaggio a azienda 2 allora comunque dovrà scaturire la fatturazione interna, perchè azienda 2
-                paga un nolo a azienda 1 e quindi per il periodo del nolo il mezzo avendo azienda abbinata 2 si
-                comporterà di conseguenza.</p>
-              <p>-Spese: solo le spese di nolo devono essere attribuite a azienda abbinata nel caso che azienda
-                proprietà e azienda abbinata siano diverse, le altre spese sono spese mezzi del azienda proprietaria</p>
-              <img src="../assets/anagrafiche/ProprietaMezzo.png" width="400">
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-08-21 - Controllo limitazioni nazionali - Chiusura Scadenze - Generazione Numero DDT
-          personalizzato - Cerca Impostazioni</summary>
-
-        <div class="card">
-          <div class="card-title">Controllo Limitazioni Nazionali</div>
-          <div class="card-body">
-
-            <section>
-              <p>Dal 1/10/2025 in Francia non possono piu transitare i mezzi immatricolati prima del 2014</p>
-              <br>
-              <p>Ho previsto una struttura nell'abbinamento del planner che tenga conto di queste limitazioni.</p>
-              <p>Se si va in francia</p>
-              <ul>
-                <li>Il mezzo deve essere immatricolato dopo del 2014</li>
-                <li>Il mezzo deve essere minimo Euro 6</li>
-              </ul>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Chiusura Scadenze</div>
-          <div class="card-body">
-
-            <section>
-              <p>Dalla lista scadenze è possibile selezionare una o più righe, con il tasto DX in una delle righe
-                selezionate compare la richiesta di chiusura delle scadenze selezionate. La data di chiusura di tutte le
-                scadenze sarà la data odierna</p>
-              <img src="../assets/Scadenze/chiusura scadenze.png" width="400">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Generazione Numero DDT personalizzato</div>
-          <div class="card-body">
-
-            <section>
-              <p>Nel modulo conferme, richiesto da un cliente, genera un numero DDT formato AA00000 facendo distinzione
-                per Cliente+Sede e anno. Il tasto è attivabile dalle impostazioni</p>
-              <img src="../assets/conferme/impostazionenumeroddt.png" width="400">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Cerca Impostazioni</div>
-          <div class="card-body">
-
-            <section>
-              <p>FINALMENTE ho messo il cerca nelle impostazioni del planner</p>
-              <img src="../assets/pianificazione/impostazioniplncerca.png" width="400">
-            </section>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-08-20 - Salva singola riga - Invio Viaggio Manuale da ricerca</summary>
-
-        <div class="card">
-          <div class="card-title">Salva singola riga</div>
-          <div class="card-body">
-
-            <section>
-              <p>Se attiva la modifica delle conferme nella griglia si puo' salvare la singola riga</p>
-              <img src="../assets/conferme/salvadatisingola.png" width="auto">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Invio Viaggio Manuale da ricerca</div>
-          <div class="card-body">
-
-            <section>
-              <p>Dal modulo dei viaggi si possono rendere disponibili i viaggi per l'app con il tasto destro</p>
-              <img src="../assets/viaggi/inviaappricerca.png" width="300">
-            </section>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-08-19 - Km a vuoto auto - Date Viaggio in base al percorso</summary>
-
-        <div class="card">
-          <div class="card-title">Km a vuoto auto</div>
-          <div class="card-body">
-
-            <section>
-              <p>Se attivato nelle impostazioni di ptv i km tra punto operazione e qualsiasi altro punto vengono
-                considerati vuoti</p>
-              <img src="../assets/impostazioni/impostaptv.png" width="auto">
-
-              <p>nei viaggi bisogna attivare la visione dei km a vuoto sotto le impostazioni</p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Date Viaggio in base al percorso</div>
-          <div class="card-body">
-
-            <section>
-              <p>Se attivata l'impostazione le date del viaggio saranno regolate in base al percorso</p>
-              <img src="../assets/impostazioni/impostadateauto.png" width="auto">
-            </section>
-          </div>
-        </div>
-
-
-      </details>
-
-      <details>
-        <summary>2025-08-18 - Campo Mansione in Autisti - Categorie PVIR - Nuova impostazione pedane - Data
-          registrazione pedane</summary>
-
-        <div class="card">
-          <div class="card-title">Campo Mansione in Autisti</div>
-          <div class="card-body">
-
-            <section>
-              <p>Per come sono state create le anagrafiche nella tabella Autisti ora abbiamo le voci Autista,
-                Dipendente, Magazziniere, Meccanico che sono gestiti da codice e filtrati nei vari moduli e in stampe.
-                Il metodo corretto sarebbe aver un’anagrafica Dipendenti dove all’interno si distinguono le mansioni
-                (autista, impiegato , …): visto che ad ora non possiamo modificare tutto un alternativa è quella di
-                poter definire la Mansione in un nuovo campo collegato ad una lista personalizzabile.
-              </p>
-              <img src="../assets/anagrafiche/dipendenti/mansione01.png" width="auto">
-              <p>Poi questo campo, se serve, può essere riportato nella griglia di ricerca e si può utilizzare il flag
-                “Escludi Ruolo” che permette di visualizzare tutte le righe senza distinzione di ruolo.
-              </p>
-              <img src="../assets/anagrafiche/Dipendenti/mansione02.png" width="auto">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Categorie PVIR</div>
-          <div class="card-body">
-
-            <section>
-              <p>Messa spunta nelle impostazioni per scegliere se voglio la combo o n categorie</p>
-              <p>guardare la modifica del 2025-07-31 per capire di cosa parlo</p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Nuova impostazione pedane - Data registrazione pedane</div>
-          <div class="card-body">
-
-            <section>
-              <p>Messa spunta nelle impostazioni per scegliere se voglio impostare la data della registrazione della
-                pedana come la DataC dell'ordine</p>
-              <img src="../assets/Pedane/DataRegistrazioneComeDataC.png" width="auto">
-              <small>Essendo presenti più impostazioni, assicurarsi che solamente quella desiderata sia attiva
-              </small>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-07-31 - Selezione multipla categorie PVIR - Riporta prezzo preventivo - Colore azienda abbinata
-        </summary>
-
-        <div class="card">
-          <div class="card-title">Selezione multipla categorie PVIR
-          </div>
-          <div class="card-body">
-
-            <section>
-              <p>Ora ci possono essere piu categorie nel PVIR selezionabili contemporaneamente.</p>
-
-              <img src="../assets/pianificazione/categorieplanner.png" width="auto">
-
-              <p><strong>E' DA TESTARE BENE</strong></p>
-              <p><strong>PS le categorie devono essere TUTTE DIVERSE quindi non registrare 2 volte MOTRICE ad
-                  esempio</strong></p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Riporta prezzo preventivo
-          </div>
-          <div class="card-body">
-
-            <section>
-              <p>Dalla sezione del ricarico del preventivo, con il tasto destro è possibile riportare il prezzo della
-                vendita</p>
-
-              <img src="../assets/preventivi/riporta-prezzo.png" width="350px">
-
-              <img src="../assets/preventivi/prezzo-preventivo.png" width="500px">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Colonna azienda abbinata
-          </div>
-          <div class="card-body">
-
-            <section>
-              <p>Nel planner c'e' la colonna per l'azineda abbinata</p>
-
-              <img src="../assets/pianificazione/azienda-abb-colonna.png" width="250px">
-
-              <p><strong>NON E' RETROATTIVA</strong></p>
-              <p>Perché lo sia bisogna far partire il riallineamento</p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-07-30 - Opzioni nel poi UC</summary>
-
-        <div class="card">
-          <div class="card-title">Opzioni nel poi UC
-          </div>
-          <div class="card-body">
-
-            <section>
-              <p>Solo in questa visualizzare, con i poiUC visti cosi' ci sono le impostazioni dirette delle tratte</p>
-
-              <img src="../assets/pianificazione/opzioni-ret.png" width="auto">
-            </section>
-          </div>
-        </div>
-
-
-      </details>
-
-      <details>
-        <summary>2025-07-28 - Impostazione aggiornamento viaggi - Tabella abbinamento conferme e contaienrs</summary>
-
-        <div class="card">
-          <div class="card-title">Impostazione aggiornamento viaggi
-          </div>
-          <div class="card-body">
-
-            <section>
-              <p>Dalle impostazoni del planner è possibile attivare l'aggiornamento automatico dei viaggi quando si
-                salva una tratta abbinata ad un viaggio</p>
-              <p>Questo permette ad esempio di impostare le data della conferma madre come durante l'abbinamento</p>
-
-              <img src="../assets/impostazioni/ElaborazioniViaggiDaOrdine.png" width="auto">
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Tabella abbinamento conferme e contaienrs ora hanno due impostazioni di colonne uniche
-          </div>
-          <div class="card-body">
-
-            <section>
-              <p>Prima all'interno del pianificatore la visualizzazione dei dati era sempre impostata allo stesso modo,
-                veniva sempre visualizzato come se fosse una conferma.
-                <br>Ora sarà possibile personalizzare anche la vista per i containers
-              </p>
-
-              <img src="../assets/pianificazione/GrigliaAbbinamentoPianificatore.png" width="auto">
-              <div style="display: flex; justify-content: space-between;">
-                <img src="../assets/pianificazione/GrigliaAbbinamentoConferme.png" width="45%">
-                <img src="../assets/pianificazione/GrigliaAbbinamentoContainers.png" width="45%">
-              </div>
-
-              <small>Questa implementazione è presente solamente nel branch di refactoring dei containers, quindi non è
-                ancora disponibile nell'installer ufficiale.</small>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-
-      <details>
-        <summary>2025-07-24 - Modifica dati tecnici mezzi</summary>
-
-        <div class="card">
-          <div class="card-title">Modifica dati tecnici mezzi</div>
-          <div class="card-body">
-
-            <section>
-              <p>Nei mezzi ora c'e' il tasto per modificare direttamente i dati tecnici</p>
-              <img src="../assets/Veicoli/modifica.png" width="300px">
-              <p>E' anche stato aggiunto il campo <strong>Gruppi Mezzo</strong> che concatena i gruppi assegnati a quel
-                mezzo</p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-07-24 - Disattiva salvataggio targhe - Storico prezzi nei viaggi</summary>
-
-        <div class="card">
-          <div class="card-title">DISATTIVA SALVATAGGIO TARGHE</div>
-          <div class="card-body">
-
-            <section>
-              <p>Se attivata nelle conferme, non salva piu' le targhe in anagrafica dalle conferme</p>
-            </section>
-
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Storico prezzi nei viaggi</div>
-          <div class="card-body">
-
-            <section>
-              <p>Direttamente dai viaggi e' possibile vedere lo storico prezzi della madre</p>
-              <p>Si posiziona in automatico sulla madre</p>
-              <img src="../assets/viaggi/storicoprezziviaggio.png" width="300px">
-            </section>
-          </div>
-        </div>
-
-
-      </details>
-
-
-      <details>
-        <summary>2025-07-23 - Suddivisione 12</summary>
-
-        <div class="card">
-          <div class="card-title">Suddivisione 12</div>
-          <div class="card-body">
-
-            <section>
-              <p>Nei <strong>Preventivi</strong> sotto impostazioni si puo' mettere che ci sia la suddivisione
-                <strong>Base 12</strong> al posto di 13
-              </p>
-              <p>Per l'attivazione basta attivare nelle impostazioni PREVENTIVO BASE 12</p>
-            </section>
-
-          </div>
-        </div>
-
-
-      </details>
-
-      <details>
-        <summary>2025-07-22 - Nuova gestione poi</summary>
-
-        <div class="card">
-          <div class="card-title">Nuova gestione poi</div>
-          <div class="card-body">
-
-            <section>
-              <p>Per chi ha tanti punti uguali nelle impostazioni del planner c'e' il nome tipo visualizzazione poi
-                <strong>CLIENTE CONTEGGIO</strong>
-              </p>
-              <img src="../assets/pianificazione/cliconteggio.png" width="300px">
-            </section>
-
-            <section>
-              <p>Questo permette di visualizzare poi il rettangolo con i punti raggruppati</p>
-              <img src="../assets/pianificazione/cliconteggioRis.png" width="450px">
-            </section>
-          </div>
-        </div>
-
-
-      </details>
-
-      <details>
-        <summary>2025-07-21 - Modifiche nel modulo container</summary>
-
-        <div class="card">
-          <div class="card-title">Modifiche nel modulo container</div>
-          <div class="card-body">
-
-            <section>
-              <p>Inserito un campo per inserire una nota</p>
-              <img src="../assets/Container/NotaContainer.png" width="650px">
-            </section>
-
-            <section>
-              <p>Inseriti i campi data ed ora all'interno delle impostazioni dei punti default</p>
-              <img src="../assets/Container/DataOraDefaultPuntiContainer.png" width="650px">
-            </section>
-
-            <small>Queste modifiche sono nel branch di refactoring container
-              <br>L'installer non è il solito su mega, chiedere in programmazione</small>
-          </div>
-        </div>
-
-
-      </details>
-
-      <details>
-        <summary>2025-07-17 - Riparazione Interna verso Conferme - Aggiunta colonna Azienda Abbinata - Aggiunta mitt
-          dest da preventivo - Aggiunte colonne al km nei viaggi - Ammortamento costo verbale per autisti - Planner -
-          risolto filtro impegno - Numero civico nei preventivi</summary>
-
-        <div class="card">
-          <div class="card-title">Riparazione Interna verso Conferme</div>
-          <div class="card-body">
-
-            <section>
-              <p>Qui c'e' il <a href="./riparazione-interna.html">Link</a></p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Aggiunta colonna Azienda Abbinata</div>
-          <div class="card-body">
-
-            <section>
-              <p>nelle conferme ora c'e' il campo <strong>Azienda Abbinata</strong> che puo' essere impostata dalle
-                colonne, server per chi magari ha piu aziende e vuole vederle tutte insieme</p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Aggiunta mitt dest da preventivo</div>
-          <div class="card-body">
-
-            <section>
-              <p>Dai preventivi si possono aggiungere direttamente i mittenti destinatari da <strong>Aggiungi
-                  voce</strong></p>
-              <p>Da anche una serie di opzioni per definire il tipo e se associare al cliente</p>
-            </section>
-
-            <img src="../assets/preventivi/add-md.png" width="650px">
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Aggiunte colonne al km nei viaggi</div>
-          <div class="card-body">
-
-            <section>
-              <p>Nei viaggi sono state aggiunte colonne per il <strong>km</strong> e il <strong>costo</strong></p>
-              <p>Questo permette una visione piu' dettagliata dei costi e dei chilometri percorsi</p>
-              <p>Le colonne possono essere personalizzate in base alle esigenze dell'utente</p>
-              <p>Derivano dalle schede spese <strong>preventive</strong> e <strong>consuntive</strong></p>
-              <br>
-              <p> se non viene creata la scheda spese, saranno sempre a zero</p>
-            </section>
-
-            <img src="../assets/viaggi/colonne-alkm.png" width="650px">
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Ammortamento costo verbale per autisti</div>
-          <div class="card-body">
-
-            <section>
-              <p>Aggiunta una personalizzazione che consente di creare una spesa per un autista da ammortizzare</p>
-            </section>
-
-            <img src="../assets/Veicoli/Verbali/AmmortizzaVerbali.png" alt="CentroCostiPerVerbali" width="450px">
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Planner - risolto filtro impegno</div>
-          <div class="card-body">
-
-            <section>
-              <p>se visualizzate tutte le targhe nel planner, ora il filtro per impegno funziona correttamente</p>
-              <p>vantaggio collaterale: mi sembra anche piu veloce a caricare le targhe</p>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Numero civico nei preventivi</div>
-          <div class="card-body">
-
-            <section>
-              <p>nelle conferme ora c'e' il campo <strong>Numero Civico</strong> e anche nella finestra aggiungi punto
-              </p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-
-      <details>
-        <summary>2025-07-16 - Impostazioni Planner - Range date utili Planner - Nuova assegnazione date viaggi</summary>
-
-        <div class="card">
-          <div class="card-title">Impostazioni Planner</div>
-          <div class="card-body">
-
-            <section>
-              <p>Sono cambiate le impostazioni del pianificatore, ora le impostazioni sono legate al tipo di calendario
-                visualizzato</p>
-            </section>
-
-            <img src="../assets/pianificazione/impostazionipln.png" alt="Impostazioni Planner" width="650px">
-          </div>
-        </div>
-
-
-        <div class="card">
-          <div class="card-title">Range date utili Planner</div>
-          <div class="card-body">
-
-            <section>
-              <p>Si puo' impostare il <strong>range di date utili</strong> per il planner</p>
-              <p>ovvero quelle che sono estese mentre le altre saranno ridotte o se impostate a zero nelle impostazioni
-                nascoste</p>
-              <br>
-              <p>Per impostare il range di date utili per il planner, è necessario seguire questi passaggi:</p>
-              <ul>
-                <li>Nelle impostazioni mettere il range dal (ad esempio alle 8) e il range al (ad esempio alle 20)</li>
-                <li>Si puo' impostare anche la dimensione delle <strong>ore ridotte</strong></li>
-                <li>Salvare le modifiche.</li>
-              </ul>
-              <p>Di default i valori sono -1 e 24 in modo che non cambi nulla a chi vuole mantenere le impostazioni
-                originali.</p>
-            </section>
-
-            <img src="../assets/pianificazione/plannerridotto.png" alt="Planner" width="650px">
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Nuova assegnazione date viaggi</div>
-          <div class="card-body">
-
-            <section>
-              <p>Ora è possibile sincronizzare le date del viaggio in tutte le conferme contenute</p>
-              <p>Verranno aggiornate automaticamente in base alle modifiche delle date del viaggio e <strong>si
-                  aggiorneranno anche le madri</strong>.</p>
-              <br>
-              <p>C'e' anche la possibilità di riportare il vettore nella madre dalla tratta anche se lo sconsiglio
-                fortemente dato che si potrebbero creare conflitti come ad esempio prezzi passivi doppi</p>
-            </section>
-
-            <img src="../assets/pianificazione/impostazioni-base-viaggifirst.png" alt="Impostazioni base" width="650px">
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-07-11 - Controllo aziende</summary>
-
-        <div class="card">
-          <div class="card-title">Controllo aziende</div>
-          <div class="card-body">
-
-            <section>
-              <p>Nelle anagrafiche aziende non si possono piu' inserire aziende con lo setesso codice (lettera)</p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-07-11 - Messo il numero assi nelle mappe</summary>
-
-        <div class="card">
-          <div class="card-title">Messo il numero assi nelle mappe</div>
-          <div class="card-body">
-
-            <section>
-              <p>Dato che il numero di assi fa la differenza nel pedaggio ora le mappe considerano il numero di assi per
-                il caloclo del pedaggio</p>
-              <p>Ovviamente gli assi devono essere definiti in anagrafica</p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-07-10 - Flag nascondi negli autisti</summary>
-
-        <div class="card">
-          <div class="card-title">Flag nascondi negli autisti</div>
-          <div class="card-body">
-
-            <section>
-              <p>È stato reintrodotto il flag per nascondere gli autisti nella ricerca degli autisti.</p>
-            </section>
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-07-09 - DataEseguita scadenze autista</summary>
-
-        <div class="card">
-          <div class="card-title">DataEseguita scadenze autista</div>
-          <div class="card-body">
-
-            <section>
-              <p>All'interno delle scadenze degli autisti la cella di <code>DataEseguita</code> viene utilizzata per le
-                scadenze che vanno a ripetersi.
-                <br>Viene utilizzato come data di partenza per la prossima scadenza
-              </p>
-            </section>
-
-            <img src="../assets/anagrafiche/Dipendenti/DataEseguitaScadenzeAutista.png"
-              alt="DataEseguita scadenze autista" width="450px">
-          </div>
-        </div>
-
-
-      </details>
-
-      <details>
-        <summary>2025-07-08 - Fix km conferme - Nuova impostazione per ordini e container</summary>
-
-        <div class="card">
-          <div class="card-title">Fix km conferme</div>
-          <div class="card-body">
-
-            <section>
-              <p>Nelle conferme e' stato sistemato calcolo km delle mappe <strong>Cassa2</strong>.</p>
-            </section>
-
-            <section>
-              <ul>
-                <li>Il calcolo e' stato allineanto in ogni parte del programma</li>
-                <li>Ogni volta che vengono recuperati i km della conferma viene usato lo stesso metodo</li>
-              </ul>
-            </section>
-
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Nuova impostazione per ordini e container</div>
-          <div class="card-body">
-
-            <section>
-              <p>È stata aggiunta una nuova impostazione per visualizzare il codice dell'autista all'interno della
-                combobox autisti
-            </section>
-
-            <section>
-              <ul>
-                <li>Il nome dell'impostazione è <code>MOSTRA CODICE AUTISTA CON NOME</code> una volta attivata o tramite
-                  gli ordine o dai container sarà attiva in entrambe le sezioni.</li>
-              </ul>
-            </section>
-
-            <img src="../assets/conferme/ImpostazioneNomeECodiceAutista.png"
-              alt="Impostazione MOSTRA CODICE AUTISTA CON NOME" width="450px">
-          </div>
-        </div>
-
-      </details>
-
-      <details>
-        <summary>2025-07-05 - Selezione Cassa - ConfermaUC - Data fine contratto - Contratti pagamenti</summary>
-
-        <div class="card">
-          <div class="card-title">Selezione Cassa - ConfermaUC</div>
-          <div class="card-body">
-
-            <section>
-              <p>Nel modulo <code>ConfermaUC.xaml</code> sono stati aggiunti due nuovi controlli <code>ComboBox</code>
-                per permettere la selezione della cassa da parte dell’utente: <strong>Cassa1</strong> e
-                <strong>Cassa2</strong>.
-              </p>
-            </section>
-
-            <section>
-              <ul>
-                <li>Le ComboBox <code>Cassa1</code> e <code>Cassa2</code> sono state aggiunte alla UI per consentire la
-                  selezione delle casse disponibili.</li>
-                <li>Nel code-behind è stata impostata la sorgente dati (ItemsSource) delle ComboBox, con le casse
-                  disponibili.</li>
-                <li>È stata gestita la visibilità dinamica dei controlli in base alle impostazioni operative
-                  selezionate.</li>
-                <li>Nel file <code>ImpostazioniOperativoForm.xaml</code> sono state aggiunte due nuove checkbox per
-                  abilitare o disabilitare la visibilità di <code>Cassa1</code> e <code>Cassa2</code>.</li>
-                <li>Il comportamento delle checkbox è collegato direttamente alla logica di visualizzazione dei
-                  ComboBox.</li>
-              </ul>
-            </section>
-
-            <section>
-              <p>Questa nuova funzionalità permette una gestione più flessibile delle operazioni di cassa, rendendo
-                possibile configurare rapidamente quale cassa utilizzare per ciascuna operazione, migliorando la
-                tracciabilità e l’esperienza utente.</p>
-            </section>
-
-          </div>
-        </div>
-
-
-        <div class="card">
-          <div class="card-title">Data fine contratto - Contratti pagamenti</div>
-          <div class="card-body">
-
-            <section>
-              <p>È stata introdotta una nuova funzionalità per gestire la data di fine contratto all'interno del modulo
-                <code>ContrattiPagamantiForm.xaml</code>.
-              </p>
-            </section>
-
-            <section>
-              <ul>
-                <li>Aggiunto un nuovo componente <code>DatePicker</code> per la selezione della <strong>Data Fine
-                    Contratto</strong>.</li>
-                <li>Il code-behind del form è stato aggiornato per salvare il valore selezionato nella proprietà
-                  <code>DataFineContratto</code> dell’oggetto <code>contrattoPagamento</code>.
-                </li>
-                <li>L'oggetto <code>ContrattoPagamentoSel</code> è stato esteso con la proprietà
-                  <code>FineContratto</code>.
-                </li>
-                <li>Nel file <code>Contratti.cs</code> è stata aggiunta la proprietà <code>FineContratto</code>, con
-                  valore predefinito <em>1 gennaio 2050</em>.</li>
-                <li>La tabella <code>ContrattiPagamenti</code> del database è stata aggiornata con una nuova colonna
-                  <code>FineContratto</code>.
-                </li>
-              </ul>
-            </section>
-
-            <section>
-              <p>La gestione della data di fine contratto consente una migliore tracciabilità e automazione dei
-                contratti in scadenza, oltre ad abilitare future funzionalità di notifica e reportistica.</p>
-            </section>
-
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-07-04 - Cancellazione Multipla - Modifica a Mantieni uniti poi e vari fix</summary>
-
-        <div class="card">
-          <div class="card-title">Cancellazione Multipla</div>
-          <div class="card-body">
-            <section>
-              <ul>
-                <li>In Clienti/Mezzi/Autisti implementata cancellazione multipla dalla ricerca. Selezionando una o più
-                  righe dalla griglia, facendo tasto dx in una delle righe selezionate, viene chiesta la conferma di
-                  cancellazione. Se le righe selezionate sono più di una richiede nuovamente la conferma.</li>
-                <img src="../assets/anagrafiche/cancellazionemultipla.png" alt="cancellazione multipla" width="450px">
-                <li>N.B. Le operazioni di cancellazione sono tracciate nel file di LOG</li>
-                <img src="../assets/anagrafiche/logcancellazione.png" alt="logcancellazione" width="450px">
-              </ul>
-            </section>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Modifica a Mantieni uniti poi e vari fix</div>
-          <div class="card-body">
-            <section>
-              <p>Rifattorizzazione Unificazione POI</p>
-              <ul>
-                <li>Introdotta proprietà <code>HasPoiUniti</code> in <code>Viaggio</code> e metodo
-                  <code>GetHasPoiUniti()</code>.
-                </li>
-                <li>Sostituito <code>Repository.MantieniUnitiPoi.Attivo</code> con <code>ViaggioSel.HasPoiUniti</code>.
-                </li>
-              </ul>
-            </section>
-
-            <section>
-              <p>Modifiche UI</p>
-              <ul>
-                <li>Aggiornato testo in <code>Impostazioni.xaml</code>.</li>
-                <li>Riorganizzato layout in <code>ViaggioUC.xaml</code> con <code>StackPanel</code>.</li>
-              </ul>
-            </section>
-
-            <section>
-              <p>Logica e Pulizia Codice</p>
-              <ul>
-                <li>Aggiunto controllo su <code>el.Fattura</code> in <code>ConfermaUC.xaml.cs</code>.</li>
-                <li>Rimossi commenti obsoleti in <code>Esito.cs</code>.</li>
-              </ul>
-            </section>
-
-            <section>
-              <p>Aggiornamenti Repository</p>
-              <ul>
-                <li>Aggiunta colonna <code>HasPoiUniti</code> in <code>ElencoViaggiTestata</code>.</li>
-                <li>Revisionate query in <code>POI.cs</code>.</li>
-              </ul>
-            </section>
-
-            <section>
-              <p>Correzioni Varie</p>
-              <ul>
-                <li>Assicurata inizializzazione oggetto <code>Ordine</code> in <code>Utility.cs</code>.</li>
-              </ul>
-            </section>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-07-03 - Spese vecchie nel viaggio - Tratta dopo destinazione - Aggiornamento - Tratta dopo
-          destinazione</summary>
-        <div class="card">
-          <div class="card-title">Spese vecchie nel viaggio</div>
-          <div class="card-body">
-            <p>Reintegrate le vecchie <a href="../modifiche-fatte/spese-aggiuntive-vecchie.html">TxtSpese</a> aggiuntive
-              al viaggio</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Tratta dopo destinazione - Aggiornamento</div>
-          <div class="card-body">
-            <p>Attivando la funzionalità <a href="../modifiche-fatte/tratta-dopo-nuova-conf.html">Tratta dopo
-                destinazione</a> con nuova tratta.</p>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Tratta dopo destinazione</div>
-          <div class="card-body">
-            <p>Attivando la funzionalità <a href="../modifiche-fatte/tratta-dopo-destinazione.html">Tratta dopo
-                destinazione</a> si attiva la possibilità di creare una nuova tratta dopo aver raggiunto una
-              destinazione.</p>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>2025-07-02 - Formulari</summary>
-        <div class="card">
-          <div class="card-title">Formulari</div>
-          <div class="card-body">
-            <p>attivando la funzione già presente nelle conferme “MITTENTI DESTINATARI CON VIA”, che aggiunge via e
-              luogo nella selezione dei mitt/dest nella combobox, si attiva la stessa funzionalità anche nella scheda
-              del formulario per Produttore e Destinatario</p>
-            <img src="../assets/formulario/formulari20250702_1.png" alt="Formulario Mittenti Destinatari con Via"
-              width="450px">
-            <img src="../assets/formulario/formulari20250702_2.png" alt="Formulario Mittenti Destinatari con Via"
-              width="450px">
-            <img src="../assets/formulario/formulari20250702_3.png" alt="Formulario Mittenti Destinatari con Via"
-              width="450px">
-            <div class="card-explanation">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>novita</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <h1>📘 Registro delle novita</h1>
+      </header>
+
+      <section>
+        <h2>🆕 Novità recenti</h2>
+
+        <details open>
+          <summary>
+            2025-11-25 - Punti default per containers
+            <small>(branch Container)</small>
+          </summary>
+          <div class="card">
+            <div class="card-title">Punti default containers</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  All'interno delle impostazioni dei containers è presente una
+                  sezione che permette di personalizzare i punti default quando
+                  l'utente entra all'interno della registrazione dei containers
+                </p>
+                <img
+                  src="../assets/Container/Impostazioni/PuntiDefaultMultipli.png"
+                  width="auto"
+                />
+                <br>
+                <h4>Come funziona</h4>
+                <p>
+                  Qui si possono aggiungere più punti di carico/scarico che
+                  verranno inseriti automaticamente all'interno del container
+                  quando l'utente entra nella registrazione
+                </p>
+                <p>
+                  Con questa nuova funzione sarà possibile selezionare un
+                  cliente, una sua sede se presente, ed il tipo di conferma per
+                  il quale si vuole creare una registrazione di punti default
+                </p>
+                <p>
+                  Mettiamo caso che vengano registrati 4 punti default per il
+                  cliente "A":<br />
+                  Una volta entrati nella registrazione container se l'utente
+                  seleziona questo cliente verranno automaticamente caricati
+                  nella registrazione i punti salvati all'interno delle
+                  impostazioni
+                </p>
+                <h4>Logica di distinzione set</h4>
+                <p>
+                  Se viene registrato per lo stesso cliente un set di punti
+                  default per tipo conferma = "Import" questo set di punti
+                  default verrà utilizzato solamente quando nella registrazione
+                  verrà inserito il cliente "A" e tipo di conferma "Import"<br />
+                  Se invece seleziona "Export" ad esempio, verranno caricati i
+                  punti default generici del cliente "A"
+                </p>
+                <h4>Copiare set di punti</h4>
+                <p>
+                  C'è inoltre la possibilità di copiare un set di punti
+                  registrati per un cliente (o altro tipo di filtro) per
+                  qualsiasi altra selezione<br />
+                  Per fare questa cosa, prima selezionare i filtri sui quali
+                  si vuole copiare il set di punti, poi premere il tasto in alto
+                  a destra della finestra.<br />
+                  Verrà aperta una finestra di dialogo identica a quella
+                  precedente che permetterà di visualizzare tutti i set di punti
+                  default. Una volta trovato il set che si vuole copiare premere
+                  di nuovo il pulsante in alto a destra
+                </p>
+              </section>
             </div>
           </div>
-      </details>
+        </details>
 
-      <details>
-        <summary>2025-07-01 - Compensazione Scadenze - Formulari</summary>
-        <div class="card">
-          <div class="card-title">Compensazione Scadenze</div>
-          <div class="card-body">
-            <p>Aggiunta <a href="./Compensazione-scadenze.html">compensazione scadenze</a></p>
+        <details open>
+          <summary>
+            2025-11-24 - Rilocazione di SatToolsR - Campi completamento
+            automatico <small>(Branch container)</small>
+          </summary>
+          <div class="card">
+            <div class="card-title">Rilocazione di SatToolsR</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Inserita una nuova scheda all'interno di "<a
+                    href="../Satellitari/satellitari-normies.html"
+                    >Sistema Satellitari</a
+                  >" per condividere lo spostamento di SatTools all'interno del
+                  menu (<a href="../Satellitari/NewSatToolsTutorial.html"
+                    >Dove trovare questa pagina</a
+                  >)
+                </p>
+              </section>
+            </div>
           </div>
-        </div>
-        <div class="card">
-          <div class="card-title">Formulari</div>
-          <div class="card-body">
-            <p>Formulari: con tasto dx in ricerca si apre finestra ricerca separata da usare in secondo monitor, con
-              doppio click apre la scheda selezionata</p>
-            <img src="../assets/formulario/ricercaformulario.png" alt="Modulo Ricerca" width="450px">
-          </div>
-          <div class="card-explanation">
-            <p>Con questa modifica si può usare un secondo monitor per tenere aperta la ricerca dei formulari</p>
-          </div>
-        </div>
-      </details>
 
-      <details>
-        <summary>2025-06-30 - Navigatore PTV - Lettore Barcode</summary>
-        <div class="card">
-          <div class="card-title">Navigatore PTV</div>
-          <div class="card-body">
-            <p>Aggiunto <a href="./navigatore-ptv.html">navigatore per ptv</a></p>
+          <div class="card">
+            <div class="card-title">Campi completamento automatico</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  All'interno delle impostazioni condivise dei container e delle
+                  conferme, è stata aggiunta una sezione per la gestione dei
+                  campi di completamento automatico. Questa sezione permette di
+                  configurare dei campi in modo che vengano automaticamente
+                  riempiti in base alle selezioni dell'utente
+                  <img
+                    src="../assets/impostazioni/CampiCompletamentoAutomatico.png"
+                    width="auto"
+                  />
+                </p>
+                <p>
+                  In cima alla sezione, ci sono tre pulsanti radio che
+                  permettono di selezionare il modulo nel quale si desidera
+                  configurare i campi di completamento automatico: Conferma,
+                  Fatturazione o Container.<br />
+                  Sotto questi pulsanti, ci sono delle combobox, una per il
+                  cliente, una per la sede del cliente (visibile solamente se il
+                  cliente ha delle sedi abbinate) e una per il tipo di conferma
+                  (che definisce se è import o export ad esempio). Questi filtri
+                  permettono di specificare ulteriormente quando i campi di
+                  completamento automatico dovrebbero essere applicati.
+                </p>
+                <p>
+                  Questa implementazione attualmente avrà effetto solamente
+                  all'interno del modulo dei containers
+                </p>
+                <p>
+                  <small
+                    >Alcuni dei campi presenti all'interno di questo screenshot
+                    non saranno più presenti in futuro in quanto alcuni di
+                    questi non sono campi che possono essere modificati
+                    dall'utente, ma campi calcolati o derivati da precedure
+                    interne al programma</small
+                  >
+                </p>
+              </section>
+            </div>
           </div>
-          <div class="card-explanation">
-            <p>È stato aggiunto un navigatore per PTV per facilitare la navigazione</p>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title">Lettore Barcode</div>
-          <div class="card-body">
-            <p>Aggiunto nel lettore barcode Secondo numero Network</p>
-            <img src="../assets/barcode/barcode-secondo-numero.png" alt="Secondo numero Network" width="250px">
-          </div>
-          <div class="card-explanation">
-            <p>Ora è possibile leggere anche il secondo numero network con il lettore barcode</p>
-            arcode/barcode-secondo-numero.png" alt="Secondo numero Network" width="250px">
-            econdo numero Network" width="250px">
-          </div>
-        </div>
-      </details>
-    </section>
-  </div>
-</body>
+        </details>
 
+        <details>
+          <summary>
+            2025-11-18 - Campi Obbligatori <small>(branch container)</small>
+          </summary>
+          <div class="card">
+            <div class="card-title">Campi Obbligatori</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  All'interno delle impostazioni delle conferme, oppure nelle
+                  impostazioni condivise dei container si può accedere alla
+                  sezione dei campi obbligatori
+                </p>
+                <p>
+                  Qui si possono selezionare i campi che devono essere compilati
+                  obbligatoriamete per completare la registrazione della
+                  conferma, fatturazione o container
+                </p>
+                <img
+                  src="../assets/impostazioni/CampiObbligatori.png"
+                  width="auto"
+                />
+                <p>
+                  Con i primi tre "Radio buttons" si può selezionare il modulo
+                  per il quale si vogliono impostare i campi obbligatori
+                </p>
+                <p>
+                  Con le combobox in seconda riga si possono ulteriormente
+                  controllare caso a caso quando i campi risulteranno
+                  obbligatori o meno
+                </p>
+                <ul>
+                  <strong>NOTA BENE</strong
+                  ><br />
+                  <p>
+                    Questi filtri sono forzati, se la registrazione viene fatta
+                    per il cliente "A" senza indicare il Tipo Conferma (Import,
+                    Export...), ma i campi obbligatori sono stati compilati come
+                    cliente: "A" Tipo Conferma: "IMPORT" allora non verranno
+                    trovati i campi obbligatori
+                  </p>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-11-11 - Riconoscimento Codice Prodotto - Impostazione container
+          </summary>
+          <div class="card">
+            <div class="card-title">Riconoscimento Codice Prodotto</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  <strong>Obiettivo:</strong> Auto-compilare le anagrafiche
+                  (misure, nome) partendo dal codice inserito.
+                </p>
+                <br />
+                <p><strong>Logica:</strong></p>
+
+                <p>
+                  1. <strong>Verifica Attivazione:</strong> Controlla prima se
+                  la funzione <strong>"LEGGI CODICE PRODOTTO"</strong> è attiva.
+                  Se è <strong>disattivata</strong>, la procedura si ferma qui.
+                </p>
+
+                <p>
+                  2. <strong>Ricerca (se attiva):</strong> Se la funzione è
+                  attiva e l'utente ha inserito un testo nel campo
+                  <code>CodiceProdotto</code>, il sistema cerca nell'anagrafica
+                  "Prodotti Cliente" un codice che <em>contiene</em> quel testo.
+                </p>
+
+                <br />
+                <p>
+                  <strong>Risultato:</strong> Se trova una corrispondenza,
+                  auto-compila <strong>Nome Prodotto</strong>,
+                  <strong>Larghezza</strong>, <strong>Altezza</strong> e
+                  <strong>Lunghezza</strong> della riga.
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              Impostazione container: salva informazioni nelle tratte
+            </div>
+            <p>
+              <small
+                >Modifica presente sia nel menu attuale che nel branch</small
+              >
+            </p>
+            <div class="card-body">
+              <section>
+                <p>
+                  Implementata personalizzazione per i containers che permette
+                  di aggiornare i dati all'interno delle tratte ogni volta che
+                  vengono aggiornati all'interno della madre.
+                </p>
+                <p>
+                  Nome personalizzazione:<br />
+                  SALVA DETTAGLI CONTAINER NELLE TRATTE
+                </p>
+                <p>
+                  Dati che vengono salvati nelle tratte:
+                  <img
+                    src="../assets/Container/Impostazioni/SalvaDettagliContainerNelleTratte.png"
+                    width="auto"
+                  />
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-11-07 - Visualizzazione campo CER</summary>
+
+          <div class="card">
+            <div class="card-title">Visualizzazione campo CER</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nella tabella Mezzi è presente il campo booleano CER. Nella
+                  vecchia versione c’era un pannello in anagrafica dove si
+                  attivava con un flag, ora in Elite questo campo non viene
+                  gestito, al suo posto c’è la possibilità di indicare
+                  direttamente gli articoli.
+                </p>
+                <br />
+                <img src="../assets/Mezzi/VisCampoCer01.png" width="auto" />
+                <p>
+                  Nel caso il campo venga visualizzato nella ricerca, ora, verrà
+                  visualizzato attivo se è presente almeno un elemento nella
+                  lista
+                </p>
+                <br />
+                <img src="../assets/Mezzi/VisCampoCer02.png" width="auto" />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-11-06 - Listini con piu' um</summary>
+
+          <div class="card">
+            <div class="card-title">Listini con piu' um</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Questa funzione serve a recuperare il listino prezzi corretto
+                  per un ordine, cercando tra diverse unità di misura (UM) per
+                  trovare quella che produce l'importo finale più alto.
+                </p>
+                <br />
+                <p>Va impostata cliente per cliente dentro ai listini</p>
+                <img src="../assets/listini/umdavalutare.png" width="auto" />
+                <br />
+                <p>Il processo si svolge come segue:</p>
+                <br />
+                <p>
+                  1. Inizializzazione: Salva il committente originale e prepara
+                  una variabile (listinoMigliore) per memorizzare il listino
+                  migliore trovato finora.
+                </p>
+                <br />
+                <p>
+                  2. Ciclo sulle Unità di Misura: La funzione esamina ogni
+                  singola 'Unità di Misura' (come BANCALI, KG, COLLI, ecc.) che
+                  è stata passata nella lista 'umQtaList'.
+                </p>
+                <br />
+                <p>
+                  3. Recupero Listino per UM: Per ogni UM, cerca il listino
+                  corrispondente. Controlla se il listino deve essere cercato
+                  sotto il committente specifico o sotto "COMUNE".
+                </p>
+                <br />
+                <p>
+                  4. Applicazione Regole Quantità: Una volta trovato il listino
+                  per quella UM, applica delle regole alla quantità
+                  (umQta.Qta):<br />
+                  - Se la quantità è inferiore al 'Minimo Fatturabile'
+                  (quantità) del listino, la quantità viene aumentata a quel
+                  minimo.<br />
+                  - Se il listino è 'Fisso' (IsFisso), la quantità viene forzata
+                  a 1.
+                </p>
+                <br />
+                <p>
+                  5. Calcolo Importo Provvisorio: Calcola un importo provvisorio
+                  moltiplicando l'importo del listino per la quantità (ormai
+                  aggiornata).
+                </p>
+                <br />
+                <p>
+                  6. Applicazione Regola Minimo Importo: Confronta l'importo
+                  provvisorio calcolato con il 'Minimo Fatturabile Importo' del
+                  listino.<br />
+                  - Se l'importo calcolato è più basso del minimo importo, la
+                  funzione sovrascrive l'importo del listino (Lis.Importo) con
+                  il valore del minimo importo. Inoltre, imposta il listino come
+                  'Fisso' e la quantità a 1.
+                </p>
+                <br />
+                <p>
+                  7. Confronto e Selezione: L'importo finale ottenuto per questa
+                  UM viene confrontato con l'importo del 'listinoMigliore'
+                  trovato finora.<br />
+                  - Se l'importo corrente è più alto (o se è il primo listino
+                  che esaminiamo), questo listino diventa il nuovo
+                  'listinoMigliore'.
+                </p>
+                <br />
+                <p>
+                  8. Restituzione: Dopo aver controllato tutte le UM nella
+                  lista, la funzione restituisce il 'listinoMigliore' (cioè
+                  quello con l'importo finale più alto) che ha trovato. Se non
+                  ha trovato nessun listino valido, restituisce un listino
+                  vuoto.
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-11-05 - Duplica Avanzato in viaggio - Ripartizione per listino
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Duplica Avanzato in viaggio</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dentro alle conferme del viaggio si puo' duplicare l'ordine
+                  che verra' riassegnato al viaggio
+                </p>
+                <br />
+                <img
+                  src="../assets/viaggi/duplicaavanzatoordine.png"
+                  width="auto"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Ripartizione per listino</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Al posto di fare la ripartizione a km, si possono assegnare i
+                  prezzi alle tratte in base al listino.
+                </p>
+                <img
+                  src="../assets/impostazioni/ripartizioneperlistino.png"
+                  width="auto"
+                />
+                <br />
+                <p>ALTAMENTE SCONSIGLIATO vi faccio solo vedere che c'e'</p>
+                <p>ovviamente ci devono essere anche i listini per le tratte</p>
+                <br />
+                <p>
+                  E' anche stata messa la ricerca delle impostazione generali
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-11-03 - Mappa Manuale</summary>
+
+          <div class="card">
+            <div class="card-title">Mappa Manuale</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Le mappe manuali sono state reintegrate nelle mappe standard
+                </p>
+                <br />
+                <p>
+                  Se esiste gia' un percorso carica la mappa standard,
+                  altrimenti se non esiste o se viene premuto aggiorna si puo'
+                  trascinare il percorso.
+                </p>
+                <br />
+                <p>
+                  L'algoritmo di routing legato e' lo stesso di ogni altro
+                  processo quindi carica il percoso i tempi e i pedaggi sempre
+                  nello stesso modo.
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-10-14 - Considera Viaggi Compresi - Cambiamento categorie
+            planner - Filtro zona arrivo planner
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Considera Viaggi Compresi</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nel Riepilogo vengono presi in considerazione gli importi
+                  delle conferme che cadono nel periodo di riferimento.
+                </p>
+                <p>
+                  Ad esempio se ho una conferma che parte dal 31° gennaio 2025 e
+                  termina il 1 febbraio 2025, verrà considerata nel riepilogo di
+                  febbraio.
+                </p>
+                <img
+                  src="../assets/riepilogo/consideraViaggiCompresi.png"
+                  width="auto"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Cambiamento categorie planner</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nel planner ora vengono mostrate le categorie divise tra
+                  principali e sottocategorie
+                </p>
+                <p>Stessa cosa per gli accessori</p>
+                <img
+                  src="../assets/pianificazione/categoriediviseplanner.png"
+                  width="auto"
+                />
+                <p>
+                  Tutte queste come scritto in precedenza per un altra modifica
+                  possono essere definite in anagrafica
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Filtro zona arrivo planner</div>
+            <div class="card-body">
+              <section>
+                <p>E' stato introdotto il filtro zona di arrivo.</p>
+                <p>
+                  Questo filtra nel campo <strong>Verso</strong> del viaggio che
+                  e' <strong>autogenerato</strong> dal viaggio al salvataggio in
+                  base alla zona dell'ultimo poi
+                </p>
+                <img
+                  src="../assets/pianificazione/filtroZonaArrivo.png"
+                  width="auto"
+                />
+                <p>
+                  NB: Il filtro non sarà retroattivo per i viaggi già esistenti
+                  a meno che non vengano risalvati.
+                </p>
+                <p>
+                  <strong>IMPORTANTE</strong> per il corretto funzionamento
+                  vanno impostate bene le zone nel planner
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-10-14 - Aiuto risoluzioni problemi satellitari - Bollo virtuale
+            automatico in fattura elettronica
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Aiuto risoluzioni problemi satellitari</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  All'interno della pagina dei
+                  <a href="../Satellitari/satellitari-normies.html"
+                    >sistemi satellitari</a
+                  >
+                  nel Capitolo "Debug" è possibile raggiungere una sezione di
+                  aiuto per la risoluzione dei problemi più comuni.<br />
+                  <a href="../Satellitari/DebugSatellitariIssues.html"
+                    >DebugSatellitariIssues</a
+                  >
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              Bollo virtuale automatico in fattura elettronica
+            </div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nel modulo fatturazione, nelle impostazioni avanzate c’è una
+                  nuova voce:<br />
+                  <img
+                    src="../assets/Fatturazione/bollovituale01.png"
+                    width="400"
+                  />
+                  Attiva il bollo virtuale automatico in fattura elettronica: In
+                  anagrafica cliente, nella finestra dell'iva/esenzioni si vedrà
+                  una colonna che si chiama AttivaPerBollo', (naturalmente ci
+                  devono essere anche i codici, CodTip_IVA_FE)
+                  <br />
+                  <img
+                    src="../assets/Fatturazione/bollovituale02.png"
+                    width="400"
+                  />
+                  <img
+                    src="../assets/Fatturazione/bollovituale03.png"
+                    width="400"
+                  />
+                </p>
+
+                <p>
+                  che se spuntata permetterà il conteggio dell'importo esente
+                  (es. N1, N2.1,..) fino al raggiungimento/superamento
+                  dell'importo di 77.47 per far scattare il bollo virtuale
+                  automaticamente.<br />
+                  <img
+                    src="../assets/Fatturazione/bollovituale04.png"
+                    width="400"
+                  />
+                </p>
+
+                <p>
+                  Nel modulo trasferimento tracciati nel momento in cui si
+                  creeranno le fatture si aprirà la solita finestra di
+                  accettazione, in questo caso però, la spunta ‘Bollo Virtuale‘
+                  non ci sarà più<br />
+
+                  E' IMPORTANTISSIMO selezionare la voce attiva per bollo in
+                  iva/esenzioni; se non viene fatto, il bollo virtuale NON VIENE
+                  INTEGRATO nelle fatture, poiché con questa funzione il bollo
+                  manuale viene DISABILITATO.
+                  <br />
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-10-08 - Ricalcolo Km da Data a Data</summary>
+
+          <div class="card">
+            <div class="card-title">Ricalcolo Km da Data a Data</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nella scheda di inserimento dei rifornimenti, c’è un tasto per
+                  aggiornare i km leggendoli dalla tabella dei valori scaricati
+                  dai satellitari. Viene eseguita la query: SELECT TOP 1 * FROM
+                  SatellitariEventiVeicoli WHERE Targa = @tg AND Data <= @dtS
+                  ORDER BY Data DESC
+                </p>
+                <img
+                  src="../assets/rifornimenti/ricalcolokm1.png"
+                  width="400"
+                />
+                <p>
+                  E’ stata creata una funzione che permette l’aggiornamento di
+                  questo campo di una serie di rifornimenti filtrando da data a
+                  data.
+                </p>
+                <img
+                  src="../assets/rifornimenti/ricalcolokm2.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-10-03 - Caricamento Veloce Conferme Tramite Griglia
+          </summary>
+
+          <div class="card">
+            <div class="card-title">
+              Caricamento Veloce Conferme Tramite Griglia
+            </div>
+            <div class="card-body">
+              <section>
+                <p>
+                  C’è una funzione attivabile che permette all’interno dei
+                  viaggi di inserire, volendo anche modificare, le conferme
+                  tramite una griglia di inserimento rapido.
+                </p>
+                <img src="../assets/viaggi/grigliarapida01.png" width="400" />
+                <p>Nel viaggio compare questo tasto</p>
+                <img src="../assets/viaggi/grigliarapida02.png" width="400" />
+                <p>
+                  E’ possibile inserire i dati nella griglia, ricercare
+                  Cliente,Mittente,Destinatario da menù a discesa
+                </p>
+                <img src="../assets/viaggi/grigliarapida03.png" width="400" />
+                <p>
+                  Al termine con il tasto salva si memorizzano le righe, creando
+                  la conferma, con tratta, ed abbinandola al viaggio. Per la
+                  configurazione delle colonne utilizzabili, c’è un apposito
+                  pannello, che permette di omettere e ordinare. Ulteriori campi
+                  vanno valutati, soprattutto perché è da capire da dove devono
+                  leggere eventuali liste collegate (tipo mittenti da lista).
+                </p>
+                <img src="../assets/viaggi/grigliarapida04.png" width="400" />
+                <p>
+                  Ad ora con Bancali, viene inserita 1 riga prodotto con la
+                  quantità inserita. Per il prezzo, viene inserita un riga di
+                  prezzo manuale con quantità 1.
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-10-02 - Aggiunta Rotte Predefinite - Abilita visualizzazione
+            per sede competenz
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Aggiunta Rotte Predefinite</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Questa funzionalità permette di aggiungere rapidamente un
+                  insieme di punti di interesse (carichi/scarichi) a un viaggio
+                  esistente, selezionando una
+                  <strong>rotta predefinita</strong>.
+                </p>
+                <p>
+                  È accessibile tramite un pulsante dedicato che avvia la
+                  procedura di selezione e aggiunta.
+                </p>
+                <img src="../assets/viaggi/rottepulsante.png" />
+                <img
+                  src="../assets/anagrafiche/MittentiDestinatari/codiceeposizione.png"
+                />
+              </section>
+
+              <section>
+                <h4>Flusso Operativo</h4>
+                <p>
+                  Il processo si svolge in diversi passaggi chiari per l'utente:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Selezione della Rotta:</strong> Al click sul
+                    pulsante, il sistema recupera tutte le rotte uniche
+                    disponibili e le mostra all'utente in una finestra di
+                    dialogo. L'utente sceglie la rotta desiderata dall'elenco.
+                  </li>
+                  <li>
+                    <strong>Recupero dei Punti:</strong> Una volta scelta la
+                    rotta, il sistema carica tutti i punti associati a quel
+                    codice di rotta.
+                  </li>
+                  <li>
+                    <strong>Calcolo Posizione:</strong> Viene calcolata la prima
+                    posizione libera nel viaggio corrente. Questa sarà la
+                    posizione di partenza per il primo punto della rotta da
+                    aggiungere.
+                  </li>
+                  <li>
+                    <strong>Aggiunta Sequenziale:</strong> I punti della rotta
+                    vengono aggiunti al viaggio uno dopo l'altro, garantendo che
+                    vengano accodati correttamente alla fine del percorso
+                    esistente.
+                  </li>
+                </ul>
+              </section>
+
+              <br />
+
+              <section>
+                <h4>Logica di Assegnazione Posizione</h4>
+                <p>
+                  Una delle parti fondamentali della funzionalità è la gestione
+                  delle posizioni dei nuovi punti, per garantire coerenza e
+                  ordine nel viaggio.
+                </p>
+                <p>La logica applicata è la seguente:</p>
+                <ul>
+                  <li>
+                    <strong>Ordinamento Preliminare:</strong> I punti
+                    appartenenti alla rotta selezionata vengono prima di tutto
+                    <strong
+                      >ordinati in base alla loro posizione predefinita</strong
+                    >
+                    (es. 1, 2, 3...). Questo assicura che la sequenza interna
+                    della rotta sia sempre rispettata.
+                  </li>
+                  <li>
+                    <strong>Ricalcolo Totale:</strong> Le posizioni predefinite
+                    (1, 2, 3...) vengono usate
+                    <strong>solo per l'ordinamento</strong>. Il loro valore
+                    finale viene completamente ricalcolato.
+                  </li>
+                  <li>
+                    <strong>Accodamento Automatico:</strong> Il sistema prende
+                    la posizione più alta già presente nel viaggio (es. 10),
+                    aggiunge 1 (ottenendo 11) e assegna questa nuova posizione
+                    al primo punto della rotta. I punti successivi avranno
+                    posizioni incrementali (12, 13, e così via).
+                  </li>
+                </ul>
+                <p>
+                  <strong>Il vantaggio</strong> è che le rotte predefinite si
+                  comportano come "blocchi" sequenziali che possono essere
+                  aggiunti a qualsiasi viaggio, indipendentemente dal numero di
+                  punti già presenti, inserendosi sempre correttamente alla
+                  fine.
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              Impostazione ‘Abilita visualizzazione per sede competenza’
+            </div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Questa impostazione introduce un livello di filtraggio
+                  avanzato nel modulo di fatturazione, basato sulla
+                  <strong>sede di competenza</strong> associata alle conferme
+                  d'ordine.
+                </p>
+                <p>
+                  <strong>ATTENZIONE:</strong> Per poter funzionare, questa
+                  opzione richiede che sia già attiva l'impostazione principale
+                  di visualizzazione per pianificatori
+                  (<code>VisualizzaPerSedeUtente</code>).
+                </p>
+              </section>
+
+              <img
+                src="../assets/impostazioni/impostazioneFatturazioneSedeComp.png"
+              />
+
+              <section>
+                <h4>Comportamento Standard (Impostazione Disattivata)</h4>
+                <p>
+                  Di default, questa impostazione è
+                  <strong>disattivata</strong>.
+                </p>
+                <p>
+                  Il motivo è che la maggior parte dei clienti non utilizza il
+                  concetto di "sede di competenza" per la fatturazione.
+                  Lasciando l'opzione disattivata, l'operatività del modulo
+                  rimane invariata e familiare per tutti gli utenti.
+                </p>
+              </section>
+
+              <section>
+                <h4>Funzionamento con Impostazione Attiva</h4>
+                <p>
+                  Se un cliente richiede l'attivazione, il comportamento del
+                  modulo fatturazione cambia in base al tipo di utente che
+                  effettua l'accesso:
+                </p>
+                <ul>
+                  <li>
+                    <strong>Utente Standard (con sedi assegnate):</strong>
+                    <br />
+                    Un utente a cui sono state associate una o più sedi vedrà
+                    unicamente le conferme d'ordine la cui
+                    <strong>sede di competenza</strong> corrisponde a una di
+                    quelle a lui assegnate. Questo permette di limitare la
+                    visibilità ai soli documenti di pertinenza.
+                  </li>
+                  <br />
+                  <li>
+                    <strong>Utente Amministratore:</strong>
+                    <br />
+                    Un utente con privilegi di amministratore mantiene una
+                    visibilità completa, ma con un'interfaccia migliorata. In
+                    alto nella schermata comparirà un nuovo menu a tendina
+                    chiamato
+                    <strong>‘Filiale’</strong>. Questo filtro gli permetterà di
+                    selezionare una sede specifica e visualizzare, di volta in
+                    volta, tutte le conferme da fatturare per quella singola
+                    filiale.
+                  </li>
+                </ul>
+                <p>
+                  <strong>Il vantaggio</strong> è quello di poter segmentare e
+                  organizzare il lavoro di fatturazione in aziende con più sedi
+                  operative, senza perdere il controllo centralizzato da parte
+                  degli amministratori.
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-09-30 - Prototipi Ordini</summary>
+
+          <div class="card">
+            <div class="card-title">Prototipi Ordini</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Attivando nella conferma l'impostazione
+                  <strong>VEDI PROTOTIPI</strong> questa fara' venire fuori una
+                  forbicina in alto nella conferma
+                </p>
+                <p>Qui si puo' definire il percoso che dovra' fare l'ordine</p>
+
+                <img src="../assets/conferme/spaccaviaggio.png" />
+
+                <p>
+                  <strong>Il vantaggio</strong> e' che posso impostare delle
+                  tratte che verranno
+                  <strong
+                    >viste in pianificazione anche se devono ancora essere
+                    fatte</strong
+                  >
+                </p>
+
+                <p>per definire i Prototipi c'e' il modulo apposito</p>
+                <br />
+
+                <p>
+                  quando verranno abbinate semplicemente verra' abbinata la
+                  tratta al viaggio e messa la targa
+                </p>
+                <br />
+                <p>
+                  Nella pianificazione è presente un campo chiamato
+                  <strong>ProssimaDestinazione</strong>
+                </p>
+                <p>
+                  La sua funzione è restituire una stringa che descrive il tipo
+                  di viaggio in base alla presenza della parola "mag" nei campi
+                  "Mittente" e "Destinatario".
+                </p>
+                <ul>
+                  <li>
+                    La logica applicata è la seguente:
+                    <ul>
+                      <li>
+                        Restituisce <strong>"RITIRO"</strong> se "mag" è
+                        presente solo nel campo
+                        <strong>Destinatario</strong>
+                      </li>
+                      <li>
+                        Restituisce <strong>"TRATTA"</strong> se "mag" è
+                        presente sia nel <strong>Mittente</strong> che nel
+                        <strong>Destinatario</strong>
+                      </li>
+                      <li>
+                        Restituisce <strong>"CONSEGNA"</strong> se "mag" è
+                        presente solo nel campo <strong>Mittente</strong>.
+                      </li>
+                      <li>
+                        Restituisce una <strong>stringa vuota</strong> se "mag"
+                        non è presente in nessuno dei due campi.
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-09-30 - Impostazioni Stampe</summary>
+
+          <div class="card">
+            <div class="card-title">Impostazioni Stampe</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  I controlli presenti nella sezione <b>Stampe</b> sono stati
+                  aggiornati e resi più rigorosi, al fine di garantire una
+                  gestione più sicura e tracciabile:
+                </p>
+                <ul>
+                  <li>
+                    È prevista una doppia conferma al momento del salvataggio
+                    quando si modificano o si inseriscono nuove righe.
+                  </li>
+                  <li>
+                    È prevista una doppia conferma anche per l’eliminazione
+                    tramite tasto destro; una terza conferma, aggiuntiva, è
+                    protetta da password (diversa da quella abituale).
+                  </li>
+                </ul>
+
+                <img src="../assets/impostazioni/impostazioniStampe.png" />
+
+                <p><b>Motivazioni dell’intervento:</b></p>
+                <ul>
+                  <li>
+                    È stato riscontrato che le impostazioni di questa griglia
+                    vengono talvolta modificate o eliminate senza un’adeguata
+                    consapevolezza delle conseguenze, generando problematiche
+                    nella gestione di funzionalità collegate, come ad esempio le
+                    <b>API</b>. Qualora una riga possa sembrare incoerente con
+                    l’attività in corso (ad esempio durante la configurazione
+                    delle etichette dei bancali),
+                    <u>non deve essere modificata</u>, in quanto non è correlata
+                    al problema specifico.
+                  </li>
+
+                  <li>
+                    Nel caso in cui il nome di un report coincida con il report
+                    stesso, la configurazione è da considerarsi corretta: il
+                    collegamento con altri dati avviene infatti proprio tramite
+                    il nome. Inoltre, è opportuno sottolineare che alcune
+                    configurazioni particolari non riportano un utente
+                    associato, in quanto si tratta di impostazioni o
+                    configurazioni automatiche.
+                  </li>
+                </ul>
+
+                <p><b>Conclusioni:</b></p>
+                <p>
+                  Le configurazioni di questa sezione non rappresentano soltanto
+                  stampe automatiche interne a <i>Elite</i>, ma svolgono anche
+                  la funzione di parametri per altri moduli e funzionalità. È
+                  pertanto fondamentale limitarsi a modificare o gestire
+                  esclusivamente ciò che è conosciuto e chiaramente
+                  identificato, come ad esempio la configurazione
+                  <b>EtichettaBancali</b>.
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-09-25 - Combo box selezionabili in griglia</summary>
+
+          <div class="card">
+            <div class="card-title">Combo box selezionabili in griglia</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dentro alle impostazioni di base sotto la voce visualizzazione
+                  attivare al spunta
+                </p>
+                <img
+                  src="../assets/impostazioni/comboelementiingriglia.png"
+                  width="400"
+                />
+                <br />
+                <p>
+                  A questo punto nei <strong>viaggi</strong> bisogna mettere
+                  visibili le seguenti colonne
+                </p>
+                <img src="../assets/viaggi/colonneeditabili.png" width="auto" />
+                <p>e refreshare la griglia</p>
+                <br />
+                <p>
+                  Le colonne diventano combo selezionabili e al cambio del mezzo
+                  se disponibili vengono anche
+                  <strong>cambiate le targhe associate</strong>
+                </p>
+                <p>
+                  Dato che vengono mostrate tutte le targhe
+                  <strong>imposta anche il vettore nel viaggio</strong>
+                </p>
+                <br />
+                <p>
+                  Per confermare le modifiche selezionare i viaggi e con il
+                  tasto destro si possono salvare le modifiche nel db
+                </p>
+
+                <br />
+                <p>AVVERTENZE</p>
+                <p>
+                  le targhe al momento non si possono cancellare direttamente
+                  dalla griglia ma basta entrare nel viaggio e toglierla
+                </p>
+                <p>
+                  per un limite del componente non posso cercare tra la lista
+                  digitando da tastiera
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-09-24 - Separazione punti per utente</summary>
+
+          <div class="card">
+            <div class="card-title">Separazione punti per utente</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  E' stata introdotta una nuova funzione per quanto riguarda la
+                  visibilità dei poi nel planner
+                </p>
+                <img src="../assets/utenti/idpuntivisibili.png" width="400" />
+                <p>
+                  Il fomato e': idPunto;idPunto;idPunto ma tranquilli quando
+                  fate tab c'e' una <strong>validazione</strong> scritta sotto
+                </p>
+                <br />
+                <p>
+                  Qui e' possibile scrivere gli id dei punti che si vuole
+                  mostrare per utente
+                </p>
+                <p>
+                  Non occorre attivare nulla
+                  <strong>e' una funzione standard</strong>
+                </p>
+                <p>
+                  Una volta che trova popolato quel campo nell'utente filtrera'
+                  nella colonna dei punti del planner
+                  <strong>solo quei punti</strong>
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-09-23 - Gestione trasferte con valori nuovi</summary>
+
+          <div class="card">
+            <div class="card-title">Gestione trasferte con valori nuovi</div>
+            <div class="card-body">
+              <section>
+                <p>Di default sono stati messi i nuovi valori.</p>
+                <p>
+                  Quando si crea un nuovo autista verra' creata la tabella
+                  <strong>ParametriTrasferte</strong> che terra' i nuovi valori
+                </p>
+                <p>
+                  Sono modificabili al momento <strong>SOLO</strong> da database
+                </p>
+                <br />
+                <p>
+                  E' stata creata anche la funzione di aggiornamento in modo
+                  molto semplice, basta fare tasto destro sopra la trasferta e
+                  confermare
+                </p>
+                <img
+                  src="../assets/anagrafiche/Dipendenti/impostaPerTuttiTrasferte.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-09-16 - Mittenti Destinatari - NUOVO CONTATORE - Colore
+            relativo all'azienda - Ricerche Full Text - Targhe su tratte
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Mittenti Destinatari</div>
+            <div class="card-body">
+              <section>
+                <p>Duplicazione Mittenti Destinatari</p>
+                <p>
+                  Aggiunto il tasto DUPLICA in basso della videata per poter
+                  duplicare i Mittenti Destinatari. Si apre un ulteriore
+                  finestra dove viene riportato il cliente ed il tipo, è
+                  possibile anche non definire il cliente e mettere come tipo
+                  COMUNE a seconda che si voglia duplicare mitt/dest legati a
+                  clienti o comuni
+                </p>
+                <img
+                  src="../assets/anagrafiche/MittentiDestinatari/mittdest_duplica.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">NUOVO CONTATORE</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Abbiamo risolto il millennium bug del contatore delle conferme
+                </p>
+                <p>
+                  E' cambiato il modo di gerare le conferme. Voi non vi dovreste
+                  accorgere di nulla se funziona tutto
+                </p>
+                <p>
+                  Si puo' anche impostare la lunghezza del contatore facendo
+                </p>
+                <code>UPDATE DatiBase SET LunghezzaContatore = 9</code>
+                <p>dove il nove rappresenta il numero di cifre dopo l'anno</p>
+                <p><strong>E' DA TESTARE BENE</strong></p>
+                <br />
+                <p>
+                  Se dovessero uscire degli errori ai clienti molto
+                  probabilmente ci sono delle conferme duplicate
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Colore relativo all'azienda</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nel planner e' stata creata un impostazione che colora in base
+                  alla zona dell'azienda
+                </p>
+                <img
+                  src="../assets/pianificazione/coloreRelativoAllAzienda.png"
+                  width="auto"
+                />
+                <p>E' descritto come funziona nell'impostazione</p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Ricerche Full Text</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Ora i campi mezzo, rimorchio e autista hanno la ricerca
+                  <strong>per parola contenuta</strong>
+                </p>
+                <p>
+                  Esempio scrivo “MARIO” e nella combo visualizzare tutti gli
+                  autisti che contengono la stringa “Mario”
+                </p>
+                <p>E' da testare</p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Targhe su tratte</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nel chip delle tratte vengono fuori gli elementi coinvolti nel
+                  trasporto
+                </p>
+                <img src="../assets/conferme/targheSuTratte.png" width="auto" />
+                <p>Si attiva nelle conferme attivando TARGHE SU TRATTE</p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-09-15 - Fatturazione Attiva</summary>
+
+          <div class="card">
+            <div class="card-title">FATTURAZIONE ATTIVA</div>
+            <div class="card-body">
+              <section>
+                <p>Integrazione Impostazioni su modulo:</p>
+                <p>
+                  Ora in Fatturazione attiva in alto a sinistra potete vedere il
+                  tasto Impostazioni, come per il modulo riparazioni:
+                </p>
+                <br />
+                <img src="../assets/Fatturazione/fatt_11.png" width="400" />
+                <p>
+                  Premuto questo tasto si aprirà la finestra delle impostazioni,
+                  che permette al utente finale di cambiare le impostazioni di
+                  Automatismi e Visualizzazioni; inoltre c’è il tasto con il
+                  lucchetto (sotto password) che permette ai tecnici di attivare
+                  le impostazioni avanzate:
+                </p>
+                <img src="../assets/Fatturazione/fatt_12.png" width="400" />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-09-11 - Richiesta eliminazione Viaggio - liste in sola lettura
+            - impostazione ore planner - Salva in Viaggio
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Richiesta eliminazione Viaggio</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dalle conferme al posto di cancellare il viaggio in automatico
+                  quando rimane vuoto e' stata creata l'impostazione per
+                  chiederlo
+                </p>
+                <br />
+                <p>
+                  si chiama RICHIEDI ELIMINAZIONE VIAGGIO e si attiva dentro al
+                  modulo conferme
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Liste in sola lettura</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Negli ordini si possono impostare delle liste in sola lettura
+                  per evitare modifiche accidentali.
+                </p>
+                <br />
+                <p>
+                  Nella definizione delle liste, si può attivare il flag: Rende
+                  la lista in SOLA LETTURA nella conferma
+                </p>
+                <img
+                  src="../assets/conferme/listeinsolaletura.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Impostazione ore planner</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Un cliente vuole gestre i viaggi dicendo: Io a prescindere ho
+                  il camion che sta fuori X ore. Voglio vedere se l'operativo lo
+                  impegna tutte le ore che sta fuori
+                </p>
+                <br />
+                <p>Per fare questo sono necessarie queste impostazioni</p>
+                <p>
+                  Dentro alle impostazioni planner, configurazione rettangolo
+                </p>
+                <img
+                  src="../assets/pianificazione/imporettnagolotempo.png"
+                  width="400"
+                />
+                <p>Dentro alle impostazioni planner cerca Data e attivare</p>
+                <br />
+                <img
+                  src="../assets/pianificazione/impostadatadagriglia.png"
+                  width="400"
+                />
+                <p>Dentro alle impostazioni di base di Elite</p>
+                <br />
+                <img
+                  src="../assets/pianificazione/impostazionibaseore.png"
+                  width="400"
+                />
+                <p>
+                  E' necessario definire le
+                  <strong>ore di lavoro</strong> nell'anagrafica del mezzo che
+                  sarebbero le ore di suddivisione spese
+                </p>
+                <br />
+                <p>
+                  Quando viene assegnato il viaggio con tutte queste
+                  impostazioni attiva il viaggio verra' creato con
+                  <strong>Data Partenza Viaggio + Ore lavoro Mezzo</strong>
+                </p>
+                <p>questo e' il risultato sul planner</p>
+                <img
+                  src="../assets/pianificazione/rettangolotempo.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Salva in Viaggio</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Se nelle impostazioni delle conferme viene attivata la
+                  funzione <strong>VEDI SALVA IN VIAGGIO</strong> appare un
+                  bottone che permette di salvare direttamente in viaggio come
+                  se si usasse l'automatismo
+                </p>
+                <img src="../assets/conferme/salvainviaggio.png" width="auto" />
+                <p>
+                  ovviamente e' necessario inserire le targhe altrimenti non
+                  crea nulla
+                </p>
+                <br />
+                <p>
+                  Se si usa anche l'automatismo per creare un viaggio,
+                  sicuramente dara' problemi
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-09-08 - Controllo accessi clienti TIR / TIR PLUS
+          </summary>
+
+          <div class="card">
+            <div class="card-title">
+              Controllo accessi clienti TIR / TIR PLUS
+            </div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Per i clienti che utilizzano ancora <b>TIR / TIR Plus</b> è
+                  stato rafforzato il controllo degli accessi degli utenti al
+                  programma. In particolare, ogni volta che un utente aprirà un
+                  modulo dal menu, il sistema verificherà se il cliente ha il
+                  programma attivo o meno.
+                </p>
+                <br />
+                <p>
+                  Questa modifica si è resa necessaria perché alcuni clienti,
+                  pur di non farsi bloccare il programma, lasciavano i PC accesi
+                  con l’applicativo aperto. In questo modo, anche se il
+                  programma resta attivo, nel momento in cui si tenta di aprire
+                  un modulo senza un accesso valido, il sistema genererà un
+                  errore e si chiuderà automaticamente.
+                </p>
+                <br />
+                <p><strong>IMPORTANTE</strong></p>
+                <p>
+                  La modifica entrerà in funzione solo se il menu TIR
+                  (eseguibile
+                  <code
+                    >Server > _Versione Aggiornata > Click Beta >
+                    MenuClick</code
+                  >) sarà aggiornato alla versione datata 08/09/2025 o
+                  successiva.
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-08-29 - Accessori in Ordine - Mezzi passaggio intermodale -
+            Calendario Presenze
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Accessori in Ordine</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Per filtrare i mezzi prima di pianificare, se nella conferma
+                  viene attivato:
+                </p>
+                <img
+                  src="../assets/conferme/vedipannelloaccessoriordine.png"
+                  width="400"
+                />
+                <p>
+                  Allora vengono mostrate le definizioni degli accessori
+                  definiti in anagrafica
+                </p>
+                <img src="../assets/conferme/accessoriordine.png" width="400" />
+                <p><strong>IMPORTANTE</strong></p>
+                <p>
+                  Gli accessori devono essere riassegnati, in quanto la tabella
+                  non aveva chiavi per collegare i dati
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Mezzi passaggio intermodale</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nel passaggio navale vengono mostrate le targhe con il
+                  passaggio gia' creato. Quando faccio ad esempio apri passaggio
+                  dal planner vedo
+                </p>
+                <img
+                  src="../assets/pianificazione/datiimbarco.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Calendario Presenze</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Creato il nuovo calendario eventi al moemento solo per
+                  visualizzazione
+                </p>
+                <img
+                  src="../assets/anagrafiche/presenzeAutisti/calendario.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-08-27 - Fix PVIR</summary>
+
+          <div class="card">
+            <div class="card-title">Fix PVIR</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Corretta l'ordinamento degli ordini del pvir. L'ordinamento
+                  ora segue gli ordini selezionati dal mouse in ordine di click
+                  come prima.
+                </p>
+                <p>
+                  E' stato anche migliorata la gestione delle date degli ordini
+                  che non rispecchiano quelle del viaggio
+                </p>
+                <img
+                  src="../assets/pianificazione/datasuperiore.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-08-26 - Trasporti - Visite Mediche - Autisti Tessere
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Trasporti</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Aggiunta la sezione nei trasporti in modo da poter controllare
+                  oltre l'esperienza dell'autista anche tutte le altre sezioni
+                </p>
+                <img src="../assets/trasporti/sezione.png" width="400" />
+
+                <p>
+                  In pianificazione il controllo e' stato migliorato per un
+                  miglior riepilogo
+                </p>
+                <img
+                  src="../assets/pianificazione/controllotrasporti.png"
+                  width="auto"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Visite Mediche</div>
+            <div class="card-body">
+              <section>
+                <p>Migliorata UI delle visite mediche, era superfluo il tab</p>
+                <p>
+                  Aggiunto campo Codice Trasporto. Cosi si puo' definire che e'
+                  necessaria per un Trasporto
+                </p>
+                <img src="../assets/visitemediche/ui.png" width="400" />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Autisti Tessere</div>
+            <div class="card-body">
+              <section>
+                <p>Aggiunto codice trasporto della tessera</p>
+                <p>Cosi si puo' definire che e' necessaria per un Trasporto</p>
+                <img
+                  src="../assets/anagrafiche/Dipendenti/codtrasportotessera.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-08-25 - Gap ricerca viaggio - Duplica POI</summary>
+
+          <div class="card">
+            <div class="card-title">Gap ricerca viaggio</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Reintrodotto il campo che permette di personalizzare la
+                  ricerca dei viaggi in quanti giorni nel pvir
+                </p>
+                <p>
+                  Ad esempio se imposto il valore a 5 quando abbino il viaggio
+                  guarda se posso inserirlo fino a 5 giorni prima della partenza
+                  in viaggi esistenti
+                </p>
+                <img
+                  src="../assets/pianificazione/gapricerca.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Duplica POI</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dai viaggi posso duplicare il punto per farlo diventare un
+                  operazione per calcolare eventuali km a vuoto
+                </p>
+                <img src="../assets/viaggi/duplicapoi.png" width="400" />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-08-22 - Proprietà Mezzo</summary>
+
+          <div class="card">
+            <div class="card-title">Campo Proprietà Mezzo</div>
+            <div class="card-body">
+              <section>
+                <p>Nuovo campo Proprietario nell'anagrafica mezzi:</p>
+                <p>
+                  Il campo nasce dall'esigenza di alcune aziende che hanno il
+                  multi aziendale per differenziare l'effettivo proprietario del
+                  mezzo e che azienda invece lo usa, questo comporta nuove
+                  disposizioni nella gestione del modulo noleggi, nella gestione
+                  delle spese del mezzo e nel modulo della fatturazione interna.
+                </p>
+                <p>
+                  -Noleggio: se un mezzo fa parte delle proprietà della prima
+                  azienda, ma viene usato nella seconda allora nel campo
+                  proprietario troveremo azienda 1 e campo azienda abbinata
+                  troveremo azienda 2.
+                </p>
+                <p>
+                  -Fatturazione Interna: se il mezzo è di proprietà dell'azienda
+                  1 ma abbinato a azienda 2, se azienda 1 vende un viaggio a
+                  azienda 2 allora comunque dovrà scaturire la fatturazione
+                  interna, perchè azienda 2 paga un nolo a azienda 1 e quindi
+                  per il periodo del nolo il mezzo avendo azienda abbinata 2 si
+                  comporterà di conseguenza.
+                </p>
+                <p>
+                  -Spese: solo le spese di nolo devono essere attribuite a
+                  azienda abbinata nel caso che azienda proprietà e azienda
+                  abbinata siano diverse, le altre spese sono spese mezzi del
+                  azienda proprietaria
+                </p>
+                <img
+                  src="../assets/anagrafiche/ProprietaMezzo.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-08-21 - Controllo limitazioni nazionali - Chiusura Scadenze -
+            Generazione Numero DDT personalizzato - Cerca Impostazioni
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Controllo Limitazioni Nazionali</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dal 1/10/2025 in Francia non possono piu transitare i mezzi
+                  immatricolati prima del 2014
+                </p>
+                <br />
+                <p>
+                  Ho previsto una struttura nell'abbinamento del planner che
+                  tenga conto di queste limitazioni.
+                </p>
+                <p>Se si va in francia</p>
+                <ul>
+                  <li>Il mezzo deve essere immatricolato dopo del 2014</li>
+                  <li>Il mezzo deve essere minimo Euro 6</li>
+                </ul>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Chiusura Scadenze</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dalla lista scadenze è possibile selezionare una o più righe,
+                  con il tasto DX in una delle righe selezionate compare la
+                  richiesta di chiusura delle scadenze selezionate. La data di
+                  chiusura di tutte le scadenze sarà la data odierna
+                </p>
+                <img
+                  src="../assets/Scadenze/chiusura scadenze.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Generazione Numero DDT personalizzato</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nel modulo conferme, richiesto da un cliente, genera un numero
+                  DDT formato AA00000 facendo distinzione per Cliente+Sede e
+                  anno. Il tasto è attivabile dalle impostazioni
+                </p>
+                <img
+                  src="../assets/conferme/impostazionenumeroddt.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Cerca Impostazioni</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  FINALMENTE ho messo il cerca nelle impostazioni del planner
+                </p>
+                <img
+                  src="../assets/pianificazione/impostazioniplncerca.png"
+                  width="400"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-08-20 - Salva singola riga - Invio Viaggio Manuale da ricerca
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Salva singola riga</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Se attiva la modifica delle conferme nella griglia si puo'
+                  salvare la singola riga
+                </p>
+                <img
+                  src="../assets/conferme/salvadatisingola.png"
+                  width="auto"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Invio Viaggio Manuale da ricerca</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dal modulo dei viaggi si possono rendere disponibili i viaggi
+                  per l'app con il tasto destro
+                </p>
+                <img src="../assets/viaggi/inviaappricerca.png" width="300" />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-08-19 - Km a vuoto auto - Date Viaggio in base al percorso
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Km a vuoto auto</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Se attivato nelle impostazioni di ptv i km tra punto
+                  operazione e qualsiasi altro punto vengono considerati vuoti
+                </p>
+                <img src="../assets/impostazioni/impostaptv.png" width="auto" />
+
+                <p>
+                  nei viaggi bisogna attivare la visione dei km a vuoto sotto le
+                  impostazioni
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Date Viaggio in base al percorso</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Se attivata l'impostazione le date del viaggio saranno
+                  regolate in base al percorso
+                </p>
+                <img
+                  src="../assets/impostazioni/impostadateauto.png"
+                  width="auto"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-08-18 - Campo Mansione in Autisti - Categorie PVIR - Nuova
+            impostazione pedane - Data registrazione pedane
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Campo Mansione in Autisti</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Per come sono state create le anagrafiche nella tabella
+                  Autisti ora abbiamo le voci Autista, Dipendente, Magazziniere,
+                  Meccanico che sono gestiti da codice e filtrati nei vari
+                  moduli e in stampe. Il metodo corretto sarebbe aver
+                  un’anagrafica Dipendenti dove all’interno si distinguono le
+                  mansioni (autista, impiegato , …): visto che ad ora non
+                  possiamo modificare tutto un alternativa è quella di poter
+                  definire la Mansione in un nuovo campo collegato ad una lista
+                  personalizzabile.
+                </p>
+                <img
+                  src="../assets/anagrafiche/dipendenti/mansione01.png"
+                  width="auto"
+                />
+                <p>
+                  Poi questo campo, se serve, può essere riportato nella griglia
+                  di ricerca e si può utilizzare il flag “Escludi Ruolo” che
+                  permette di visualizzare tutte le righe senza distinzione di
+                  ruolo.
+                </p>
+                <img
+                  src="../assets/anagrafiche/Dipendenti/mansione02.png"
+                  width="auto"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Categorie PVIR</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Messa spunta nelle impostazioni per scegliere se voglio la
+                  combo o n categorie
+                </p>
+                <p>
+                  guardare la modifica del 2025-07-31 per capire di cosa parlo
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              Nuova impostazione pedane - Data registrazione pedane
+            </div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Messa spunta nelle impostazioni per scegliere se voglio
+                  impostare la data della registrazione della pedana come la
+                  DataC dell'ordine
+                </p>
+                <img
+                  src="../assets/Pedane/DataRegistrazioneComeDataC.png"
+                  width="auto"
+                />
+                <small
+                  >Essendo presenti più impostazioni, assicurarsi che solamente
+                  quella desiderata sia attiva
+                </small>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-07-31 - Selezione multipla categorie PVIR - Riporta prezzo
+            preventivo - Colore azienda abbinata
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Selezione multipla categorie PVIR</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Ora ci possono essere piu categorie nel PVIR selezionabili
+                  contemporaneamente.
+                </p>
+
+                <img
+                  src="../assets/pianificazione/categorieplanner.png"
+                  width="auto"
+                />
+
+                <p><strong>E' DA TESTARE BENE</strong></p>
+                <p>
+                  <strong
+                    >PS le categorie devono essere TUTTE DIVERSE quindi non
+                    registrare 2 volte MOTRICE ad esempio</strong
+                  >
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Riporta prezzo preventivo</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dalla sezione del ricarico del preventivo, con il tasto destro
+                  è possibile riportare il prezzo della vendita
+                </p>
+
+                <img
+                  src="../assets/preventivi/riporta-prezzo.png"
+                  width="350px"
+                />
+
+                <img
+                  src="../assets/preventivi/prezzo-preventivo.png"
+                  width="500px"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Colonna azienda abbinata</div>
+            <div class="card-body">
+              <section>
+                <p>Nel planner c'e' la colonna per l'azineda abbinata</p>
+
+                <img
+                  src="../assets/pianificazione/azienda-abb-colonna.png"
+                  width="250px"
+                />
+
+                <p><strong>NON E' RETROATTIVA</strong></p>
+                <p>Perché lo sia bisogna far partire il riallineamento</p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-30 - Opzioni nel poi UC</summary>
+
+          <div class="card">
+            <div class="card-title">Opzioni nel poi UC</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Solo in questa visualizzare, con i poiUC visti cosi' ci sono
+                  le impostazioni dirette delle tratte
+                </p>
+
+                <img
+                  src="../assets/pianificazione/opzioni-ret.png"
+                  width="auto"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-07-28 - Impostazione aggiornamento viaggi - Tabella abbinamento
+            conferme e contaienrs
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Impostazione aggiornamento viaggi</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dalle impostazoni del planner è possibile attivare
+                  l'aggiornamento automatico dei viaggi quando si salva una
+                  tratta abbinata ad un viaggio
+                </p>
+                <p>
+                  Questo permette ad esempio di impostare le data della conferma
+                  madre come durante l'abbinamento
+                </p>
+
+                <img
+                  src="../assets/impostazioni/ElaborazioniViaggiDaOrdine.png"
+                  width="auto"
+                />
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              Tabella abbinamento conferme e contaienrs ora hanno due
+              impostazioni di colonne uniche
+            </div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Prima all'interno del pianificatore la visualizzazione dei
+                  dati era sempre impostata allo stesso modo, veniva sempre
+                  visualizzato come se fosse una conferma. <br />Ora sarà
+                  possibile personalizzare anche la vista per i containers
+                </p>
+
+                <img
+                  src="../assets/pianificazione/GrigliaAbbinamentoPianificatore.png"
+                  width="auto"
+                />
+                <div style="display: flex; justify-content: space-between">
+                  <img
+                    src="../assets/pianificazione/GrigliaAbbinamentoConferme.png"
+                    width="45%"
+                  />
+                  <img
+                    src="../assets/pianificazione/GrigliaAbbinamentoContainers.png"
+                    width="45%"
+                  />
+                </div>
+
+                <small
+                  >Questa implementazione è presente solamente nel branch di
+                  refactoring dei containers, quindi non è ancora disponibile
+                  nell'installer ufficiale.</small
+                >
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-24 - Modifica dati tecnici mezzi</summary>
+
+          <div class="card">
+            <div class="card-title">Modifica dati tecnici mezzi</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nei mezzi ora c'e' il tasto per modificare direttamente i dati
+                  tecnici
+                </p>
+                <img src="../assets/Veicoli/modifica.png" width="300px" />
+                <p>
+                  E' anche stato aggiunto il campo
+                  <strong>Gruppi Mezzo</strong> che concatena i gruppi assegnati
+                  a quel mezzo
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-07-24 - Disattiva salvataggio targhe - Storico prezzi nei
+            viaggi
+          </summary>
+
+          <div class="card">
+            <div class="card-title">DISATTIVA SALVATAGGIO TARGHE</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Se attivata nelle conferme, non salva piu' le targhe in
+                  anagrafica dalle conferme
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Storico prezzi nei viaggi</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Direttamente dai viaggi e' possibile vedere lo storico prezzi
+                  della madre
+                </p>
+                <p>Si posiziona in automatico sulla madre</p>
+                <img
+                  src="../assets/viaggi/storicoprezziviaggio.png"
+                  width="300px"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-23 - Suddivisione 12</summary>
+
+          <div class="card">
+            <div class="card-title">Suddivisione 12</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nei <strong>Preventivi</strong> sotto impostazioni si puo'
+                  mettere che ci sia la suddivisione <strong>Base 12</strong> al
+                  posto di 13
+                </p>
+                <p>
+                  Per l'attivazione basta attivare nelle impostazioni PREVENTIVO
+                  BASE 12
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-22 - Nuova gestione poi</summary>
+
+          <div class="card">
+            <div class="card-title">Nuova gestione poi</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Per chi ha tanti punti uguali nelle impostazioni del planner
+                  c'e' il nome tipo visualizzazione poi
+                  <strong>CLIENTE CONTEGGIO</strong>
+                </p>
+                <img
+                  src="../assets/pianificazione/cliconteggio.png"
+                  width="300px"
+                />
+              </section>
+
+              <section>
+                <p>
+                  Questo permette di visualizzare poi il rettangolo con i punti
+                  raggruppati
+                </p>
+                <img
+                  src="../assets/pianificazione/cliconteggioRis.png"
+                  width="450px"
+                />
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-21 - Modifiche nel modulo container</summary>
+
+          <div class="card">
+            <div class="card-title">Modifiche nel modulo container</div>
+            <div class="card-body">
+              <section>
+                <p>Inserito un campo per inserire una nota</p>
+                <img
+                  src="../assets/Container/NotaContainer.png"
+                  width="650px"
+                />
+              </section>
+
+              <section>
+                <p>
+                  Inseriti i campi data ed ora all'interno delle impostazioni
+                  dei punti default
+                </p>
+                <img
+                  src="../assets/Container/DataOraDefaultPuntiContainer.png"
+                  width="650px"
+                />
+              </section>
+
+              <small
+                >Queste modifiche sono nel branch di refactoring container
+                <br />L'installer non è il solito su mega, chiedere in
+                programmazione</small
+              >
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-07-17 - Riparazione Interna verso Conferme - Aggiunta colonna
+            Azienda Abbinata - Aggiunta mitt dest da preventivo - Aggiunte
+            colonne al km nei viaggi - Ammortamento costo verbale per autisti -
+            Planner - risolto filtro impegno - Numero civico nei preventivi
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Riparazione Interna verso Conferme</div>
+            <div class="card-body">
+              <section>
+                <p>Qui c'e' il <a href="./riparazione-interna.html">Link</a></p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Aggiunta colonna Azienda Abbinata</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  nelle conferme ora c'e' il campo
+                  <strong>Azienda Abbinata</strong> che puo' essere impostata
+                  dalle colonne, server per chi magari ha piu aziende e vuole
+                  vederle tutte insieme
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Aggiunta mitt dest da preventivo</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dai preventivi si possono aggiungere direttamente i mittenti
+                  destinatari da <strong>Aggiungi voce</strong>
+                </p>
+                <p>
+                  Da anche una serie di opzioni per definire il tipo e se
+                  associare al cliente
+                </p>
+              </section>
+
+              <img src="../assets/preventivi/add-md.png" width="650px" />
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Aggiunte colonne al km nei viaggi</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nei viaggi sono state aggiunte colonne per il
+                  <strong>km</strong> e il <strong>costo</strong>
+                </p>
+                <p>
+                  Questo permette una visione piu' dettagliata dei costi e dei
+                  chilometri percorsi
+                </p>
+                <p>
+                  Le colonne possono essere personalizzate in base alle esigenze
+                  dell'utente
+                </p>
+                <p>
+                  Derivano dalle schede spese <strong>preventive</strong> e
+                  <strong>consuntive</strong>
+                </p>
+                <br />
+                <p>
+                  se non viene creata la scheda spese, saranno sempre a zero
+                </p>
+              </section>
+
+              <img src="../assets/viaggi/colonne-alkm.png" width="650px" />
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Ammortamento costo verbale per autisti</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Aggiunta una personalizzazione che consente di creare una
+                  spesa per un autista da ammortizzare
+                </p>
+              </section>
+
+              <img
+                src="../assets/Veicoli/Verbali/AmmortizzaVerbali.png"
+                alt="CentroCostiPerVerbali"
+                width="450px"
+              />
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Planner - risolto filtro impegno</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  se visualizzate tutte le targhe nel planner, ora il filtro per
+                  impegno funziona correttamente
+                </p>
+                <p>
+                  vantaggio collaterale: mi sembra anche piu veloce a caricare
+                  le targhe
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Numero civico nei preventivi</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  nelle conferme ora c'e' il campo
+                  <strong>Numero Civico</strong> e anche nella finestra aggiungi
+                  punto
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-07-16 - Impostazioni Planner - Range date utili Planner - Nuova
+            assegnazione date viaggi
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Impostazioni Planner</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Sono cambiate le impostazioni del pianificatore, ora le
+                  impostazioni sono legate al tipo di calendario visualizzato
+                </p>
+              </section>
+
+              <img
+                src="../assets/pianificazione/impostazionipln.png"
+                alt="Impostazioni Planner"
+                width="650px"
+              />
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Range date utili Planner</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Si puo' impostare il <strong>range di date utili</strong> per
+                  il planner
+                </p>
+                <p>
+                  ovvero quelle che sono estese mentre le altre saranno ridotte
+                  o se impostate a zero nelle impostazioni nascoste
+                </p>
+                <br />
+                <p>
+                  Per impostare il range di date utili per il planner, è
+                  necessario seguire questi passaggi:
+                </p>
+                <ul>
+                  <li>
+                    Nelle impostazioni mettere il range dal (ad esempio alle 8)
+                    e il range al (ad esempio alle 20)
+                  </li>
+                  <li>
+                    Si puo' impostare anche la dimensione delle
+                    <strong>ore ridotte</strong>
+                  </li>
+                  <li>Salvare le modifiche.</li>
+                </ul>
+                <p>
+                  Di default i valori sono -1 e 24 in modo che non cambi nulla a
+                  chi vuole mantenere le impostazioni originali.
+                </p>
+              </section>
+
+              <img
+                src="../assets/pianificazione/plannerridotto.png"
+                alt="Planner"
+                width="650px"
+              />
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Nuova assegnazione date viaggi</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Ora è possibile sincronizzare le date del viaggio in tutte le
+                  conferme contenute
+                </p>
+                <p>
+                  Verranno aggiornate automaticamente in base alle modifiche
+                  delle date del viaggio e
+                  <strong>si aggiorneranno anche le madri</strong>.
+                </p>
+                <br />
+                <p>
+                  C'e' anche la possibilità di riportare il vettore nella madre
+                  dalla tratta anche se lo sconsiglio fortemente dato che si
+                  potrebbero creare conflitti come ad esempio prezzi passivi
+                  doppi
+                </p>
+              </section>
+
+              <img
+                src="../assets/pianificazione/impostazioni-base-viaggifirst.png"
+                alt="Impostazioni base"
+                width="650px"
+              />
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-11 - Controllo aziende</summary>
+
+          <div class="card">
+            <div class="card-title">Controllo aziende</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nelle anagrafiche aziende non si possono piu' inserire aziende
+                  con lo setesso codice (lettera)
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-11 - Messo il numero assi nelle mappe</summary>
+
+          <div class="card">
+            <div class="card-title">Messo il numero assi nelle mappe</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Dato che il numero di assi fa la differenza nel pedaggio ora
+                  le mappe considerano il numero di assi per il caloclo del
+                  pedaggio
+                </p>
+                <p>Ovviamente gli assi devono essere definiti in anagrafica</p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-10 - Flag nascondi negli autisti</summary>
+
+          <div class="card">
+            <div class="card-title">Flag nascondi negli autisti</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  È stato reintrodotto il flag per nascondere gli autisti nella
+                  ricerca degli autisti.
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-09 - DataEseguita scadenze autista</summary>
+
+          <div class="card">
+            <div class="card-title">DataEseguita scadenze autista</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  All'interno delle scadenze degli autisti la cella di
+                  <code>DataEseguita</code> viene utilizzata per le scadenze che
+                  vanno a ripetersi. <br />Viene utilizzato come data di
+                  partenza per la prossima scadenza
+                </p>
+              </section>
+
+              <img
+                src="../assets/anagrafiche/Dipendenti/DataEseguitaScadenzeAutista.png"
+                alt="DataEseguita scadenze autista"
+                width="450px"
+              />
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-07-08 - Fix km conferme - Nuova impostazione per ordini e
+            container
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Fix km conferme</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nelle conferme e' stato sistemato calcolo km delle mappe
+                  <strong>Cassa2</strong>.
+                </p>
+              </section>
+
+              <section>
+                <ul>
+                  <li>
+                    Il calcolo e' stato allineanto in ogni parte del programma
+                  </li>
+                  <li>
+                    Ogni volta che vengono recuperati i km della conferma viene
+                    usato lo stesso metodo
+                  </li>
+                </ul>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              Nuova impostazione per ordini e container
+            </div>
+            <div class="card-body">
+              <section>
+                <p>
+                  È stata aggiunta una nuova impostazione per visualizzare il
+                  codice dell'autista all'interno della combobox autisti
+                </p>
+              </section>
+
+              <section>
+                <ul>
+                  <li>
+                    Il nome dell'impostazione è
+                    <code>MOSTRA CODICE AUTISTA CON NOME</code> una volta
+                    attivata o tramite gli ordine o dai container sarà attiva in
+                    entrambe le sezioni.
+                  </li>
+                </ul>
+              </section>
+
+              <img
+                src="../assets/conferme/ImpostazioneNomeECodiceAutista.png"
+                alt="Impostazione MOSTRA CODICE AUTISTA CON NOME"
+                width="450px"
+              />
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-07-05 - Selezione Cassa - ConfermaUC - Data fine contratto -
+            Contratti pagamenti
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Selezione Cassa - ConfermaUC</div>
+            <div class="card-body">
+              <section>
+                <p>
+                  Nel modulo <code>ConfermaUC.xaml</code> sono stati aggiunti
+                  due nuovi controlli <code>ComboBox</code> per permettere la
+                  selezione della cassa da parte dell’utente:
+                  <strong>Cassa1</strong> e <strong>Cassa2</strong>.
+                </p>
+              </section>
+
+              <section>
+                <ul>
+                  <li>
+                    Le ComboBox <code>Cassa1</code> e <code>Cassa2</code> sono
+                    state aggiunte alla UI per consentire la selezione delle
+                    casse disponibili.
+                  </li>
+                  <li>
+                    Nel code-behind è stata impostata la sorgente dati
+                    (ItemsSource) delle ComboBox, con le casse disponibili.
+                  </li>
+                  <li>
+                    È stata gestita la visibilità dinamica dei controlli in base
+                    alle impostazioni operative selezionate.
+                  </li>
+                  <li>
+                    Nel file <code>ImpostazioniOperativoForm.xaml</code> sono
+                    state aggiunte due nuove checkbox per abilitare o
+                    disabilitare la visibilità di <code>Cassa1</code> e
+                    <code>Cassa2</code>.
+                  </li>
+                  <li>
+                    Il comportamento delle checkbox è collegato direttamente
+                    alla logica di visualizzazione dei ComboBox.
+                  </li>
+                </ul>
+              </section>
+
+              <section>
+                <p>
+                  Questa nuova funzionalità permette una gestione più flessibile
+                  delle operazioni di cassa, rendendo possibile configurare
+                  rapidamente quale cassa utilizzare per ciascuna operazione,
+                  migliorando la tracciabilità e l’esperienza utente.
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              Data fine contratto - Contratti pagamenti
+            </div>
+            <div class="card-body">
+              <section>
+                <p>
+                  È stata introdotta una nuova funzionalità per gestire la data
+                  di fine contratto all'interno del modulo
+                  <code>ContrattiPagamantiForm.xaml</code>.
+                </p>
+              </section>
+
+              <section>
+                <ul>
+                  <li>
+                    Aggiunto un nuovo componente <code>DatePicker</code> per la
+                    selezione della <strong>Data Fine Contratto</strong>.
+                  </li>
+                  <li>
+                    Il code-behind del form è stato aggiornato per salvare il
+                    valore selezionato nella proprietà
+                    <code>DataFineContratto</code> dell’oggetto
+                    <code>contrattoPagamento</code>.
+                  </li>
+                  <li>
+                    L'oggetto <code>ContrattoPagamentoSel</code> è stato esteso
+                    con la proprietà <code>FineContratto</code>.
+                  </li>
+                  <li>
+                    Nel file <code>Contratti.cs</code> è stata aggiunta la
+                    proprietà <code>FineContratto</code>, con valore predefinito
+                    <em>1 gennaio 2050</em>.
+                  </li>
+                  <li>
+                    La tabella <code>ContrattiPagamenti</code> del database è
+                    stata aggiornata con una nuova colonna
+                    <code>FineContratto</code>.
+                  </li>
+                </ul>
+              </section>
+
+              <section>
+                <p>
+                  La gestione della data di fine contratto consente una migliore
+                  tracciabilità e automazione dei contratti in scadenza, oltre
+                  ad abilitare future funzionalità di notifica e reportistica.
+                </p>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-07-04 - Cancellazione Multipla - Modifica a Mantieni uniti poi
+            e vari fix
+          </summary>
+
+          <div class="card">
+            <div class="card-title">Cancellazione Multipla</div>
+            <div class="card-body">
+              <section>
+                <ul>
+                  <li>
+                    In Clienti/Mezzi/Autisti implementata cancellazione multipla
+                    dalla ricerca. Selezionando una o più righe dalla griglia,
+                    facendo tasto dx in una delle righe selezionate, viene
+                    chiesta la conferma di cancellazione. Se le righe
+                    selezionate sono più di una richiede nuovamente la conferma.
+                  </li>
+                  <img
+                    src="../assets/anagrafiche/cancellazionemultipla.png"
+                    alt="cancellazione multipla"
+                    width="450px"
+                  />
+                  <li>
+                    N.B. Le operazioni di cancellazione sono tracciate nel file
+                    di LOG
+                  </li>
+                  <img
+                    src="../assets/anagrafiche/logcancellazione.png"
+                    alt="logcancellazione"
+                    width="450px"
+                  />
+                </ul>
+              </section>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              Modifica a Mantieni uniti poi e vari fix
+            </div>
+            <div class="card-body">
+              <section>
+                <p>Rifattorizzazione Unificazione POI</p>
+                <ul>
+                  <li>
+                    Introdotta proprietà <code>HasPoiUniti</code> in
+                    <code>Viaggio</code> e metodo <code>GetHasPoiUniti()</code>.
+                  </li>
+                  <li>
+                    Sostituito
+                    <code>Repository.MantieniUnitiPoi.Attivo</code> con
+                    <code>ViaggioSel.HasPoiUniti</code>.
+                  </li>
+                </ul>
+              </section>
+
+              <section>
+                <p>Modifiche UI</p>
+                <ul>
+                  <li>Aggiornato testo in <code>Impostazioni.xaml</code>.</li>
+                  <li>
+                    Riorganizzato layout in <code>ViaggioUC.xaml</code> con
+                    <code>StackPanel</code>.
+                  </li>
+                </ul>
+              </section>
+
+              <section>
+                <p>Logica e Pulizia Codice</p>
+                <ul>
+                  <li>
+                    Aggiunto controllo su <code>el.Fattura</code> in
+                    <code>ConfermaUC.xaml.cs</code>.
+                  </li>
+                  <li>Rimossi commenti obsoleti in <code>Esito.cs</code>.</li>
+                </ul>
+              </section>
+
+              <section>
+                <p>Aggiornamenti Repository</p>
+                <ul>
+                  <li>
+                    Aggiunta colonna <code>HasPoiUniti</code> in
+                    <code>ElencoViaggiTestata</code>.
+                  </li>
+                  <li>Revisionate query in <code>POI.cs</code>.</li>
+                </ul>
+              </section>
+
+              <section>
+                <p>Correzioni Varie</p>
+                <ul>
+                  <li>
+                    Assicurata inizializzazione oggetto <code>Ordine</code> in
+                    <code>Utility.cs</code>.
+                  </li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            2025-07-03 - Spese vecchie nel viaggio - Tratta dopo destinazione -
+            Aggiornamento - Tratta dopo destinazione
+          </summary>
+          <div class="card">
+            <div class="card-title">Spese vecchie nel viaggio</div>
+            <div class="card-body">
+              <p>
+                Reintegrate le vecchie
+                <a href="../modifiche-fatte/spese-aggiuntive-vecchie.html"
+                  >TxtSpese</a
+                >
+                aggiuntive al viaggio
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">
+              Tratta dopo destinazione - Aggiornamento
+            </div>
+            <div class="card-body">
+              <p>
+                Attivando la funzionalità
+                <a href="../modifiche-fatte/tratta-dopo-nuova-conf.html"
+                  >Tratta dopo destinazione</a
+                >
+                con nuova tratta.
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Tratta dopo destinazione</div>
+            <div class="card-body">
+              <p>
+                Attivando la funzionalità
+                <a href="../modifiche-fatte/tratta-dopo-destinazione.html"
+                  >Tratta dopo destinazione</a
+                >
+                si attiva la possibilità di creare una nuova tratta dopo aver
+                raggiunto una destinazione.
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-02 - Formulari</summary>
+          <div class="card">
+            <div class="card-title">Formulari</div>
+            <div class="card-body">
+              <p>
+                attivando la funzione già presente nelle conferme “MITTENTI
+                DESTINATARI CON VIA”, che aggiunge via e luogo nella selezione
+                dei mitt/dest nella combobox, si attiva la stessa funzionalità
+                anche nella scheda del formulario per Produttore e Destinatario
+              </p>
+              <img
+                src="../assets/formulario/formulari20250702_1.png"
+                alt="Formulario Mittenti Destinatari con Via"
+                width="450px"
+              />
+              <img
+                src="../assets/formulario/formulari20250702_2.png"
+                alt="Formulario Mittenti Destinatari con Via"
+                width="450px"
+              />
+              <img
+                src="../assets/formulario/formulari20250702_3.png"
+                alt="Formulario Mittenti Destinatari con Via"
+                width="450px"
+              />
+              <div class="card-explanation"></div>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-07-01 - Compensazione Scadenze - Formulari</summary>
+          <div class="card">
+            <div class="card-title">Compensazione Scadenze</div>
+            <div class="card-body">
+              <p>
+                Aggiunta
+                <a href="./Compensazione-scadenze.html"
+                  >compensazione scadenze</a
+                >
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Formulari</div>
+            <div class="card-body">
+              <p>
+                Formulari: con tasto dx in ricerca si apre finestra ricerca
+                separata da usare in secondo monitor, con doppio click apre la
+                scheda selezionata
+              </p>
+              <img
+                src="../assets/formulario/ricercaformulario.png"
+                alt="Modulo Ricerca"
+                width="450px"
+              />
+            </div>
+            <div class="card-explanation">
+              <p>
+                Con questa modifica si può usare un secondo monitor per tenere
+                aperta la ricerca dei formulari
+              </p>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>2025-06-30 - Navigatore PTV - Lettore Barcode</summary>
+          <div class="card">
+            <div class="card-title">Navigatore PTV</div>
+            <div class="card-body">
+              <p>
+                Aggiunto <a href="./navigatore-ptv.html">navigatore per ptv</a>
+              </p>
+            </div>
+            <div class="card-explanation">
+              <p>
+                È stato aggiunto un navigatore per PTV per facilitare la
+                navigazione
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Lettore Barcode</div>
+            <div class="card-body">
+              <p>Aggiunto nel lettore barcode Secondo numero Network</p>
+              <img
+                src="../assets/barcode/barcode-secondo-numero.png"
+                alt="Secondo numero Network"
+                width="250px"
+              />
+            </div>
+            <div class="card-explanation">
+              <p>
+                Ora è possibile leggere anche il secondo numero network con il
+                lettore barcode
+              </p>
+              arcode/barcode-secondo-numero.png" alt="Secondo numero Network"
+              width="250px"> econdo numero Network" width="250px">
+            </div>
+          </div>
+        </details>
+      </section>
+    </div>
+  </body>
 </html>
