@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Ripartizione Costi - Engine</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Ripartizione Importi Tratte</h1>
+            <p>Engine di Calcolo (Ripartizione.cs)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica del Metodo</h2>
+            <p>Il metodo statico <span class="bold">RipartizioneCostiTratte</span> è il punto di ingresso per il calcolo
+                economico delle singole tratte (segmenti) derivate da un ordine principale.</p>
+            <div class="tip">
+                <span class="tip-icon">🎯</span>
+                <span class="bold">Obiettivo:</span> Assegnare un valore economico a tratte che, nativamente, non
+                avrebbero prezzo (perché figlie di una "Madre" che detiene l'importo totale).
+            </div>
+            <p>Il metodo restituisce una lista di oggetti <code>RipartizioneRisultato</code> utile per la reportistica,
+                ma effettua le scritture nel Database (generazione prezzi) direttamente durante l'esecuzione.</p>
+        </section>
+
+        <section>
+            <h2>2. Flusso di Esecuzione (Workflow)</h2>
+            <p>Il comportamento del metodo è pilotato dalla configurazione globale
+                <code>Repository.TipoRiprezzamento.Valore</code>.
+            </p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">A. Modalità "LISTINO"</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Questa è la modalità più complessa. Il sistema tenta di prezzare la singola tratta come se fosse
+                        un viaggio autonomo.</p>
+                    <ol>
+                        <li><strong>Clean-up:</strong> Invoca <code>CancellaPrezziNonManuali</code> per rimuovere vecchi
+                            calcoli automatici.</li>
+                        <li><strong>Ricerca Tariffa:</strong> Interroga
+                            <code>ElaborazioniPrezziService.RecuperaListino</code> cercando un prezzo specifico per il
+                            cliente e la tratta ("Luogo").
+                        </li>
+                        <li><strong>Decisione (If/Else):</strong>
+                            <ul>
+                                <li><span class="tip-easy">PREZZO TROVATO</span> Se <code>Importo > 0</code>, genera un
+                                    nuovo prezzo specifico (<code>GeneratePrezzo</code>) e lo assegna alla tratta.</li>
+                                <li><span class="tip-easy">NESSUN PREZZO</span> Se il listino torna vuoto, esegue il
+                                    fallback sulla logica standard (<code>RiprezzamentoBase</code>).</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">B. Modalità "DEFAULT" (Proporzionale)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="container">
+                    <header>
+                        <h1>Procedura Base (Default)</h1>
+                        <p>Analisi tecnica dei metodi di calcolo proporzionale</p>
+                    </header>
+
+                    <section>
+                        <h2>1. Flusso Principale: RiprezzamentoBase</h2>
+                        <p>Il metodo <code>RiprezzamentoBase</code> funge da orchestratore. Viene invocato quando non si
+                            applica un listino specifico. Il suo compito è preparare i dati e invocare il calcolo
+                            matematico.</p>
+
+                        <div class="card">
+                            <div class="card-title">Sequenza di Esecuzione</div>
+                            <div class="card-body">
+                                <ol>
+                                    <li><strong>Lettura Dati:</strong> Carica l'ordine corrente e identifica la "Madre"
+                                        (Commessa/Viaggio principale).</li>
+                                    <li><strong>Gatekeeper:</strong> Invoca <code>ContinuaRiprezzamento</code>. Se
+                                        restituisce <em>FALSE</em>, la procedura termina immediatamente.</li>
+                                    <li><strong>Configurazione Vettore:</strong> Se attivo il flag globale
+                                        <code>NonCalcolareTrattaVettore</code>, invoca
+                                        <code>ControlloTratteAffidateAlVettore</code> per modificare la lista delle
+                                        tratte da calcolare (escludendo l'ultima se affidata a terzi).</li>
+                                    <li><strong>Iterazione o Calcolo Singolo:</strong>
+                                        <ul>
+                                            <li>Se è stata attivata la logica Vettore (punto 3), itera sulle tratte
+                                                rimanenti forzando <code>usaKmTratte = true</code>.</li>
+                                            <li>Altrimenti, esegue <code>CalcoloRipartizione</code> standard per la
+                                                singola tratta.</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Commit:</strong> Assegna il risultato a <code>ordine.Importo</code> e
+                                        aggiunge il risultato alla lista di log.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>2. Il Motore Matematico: CalcoloRipartizione</h2>
+                        <p>Questo è il cuore del sistema. Calcola il valore della singola tratta partendo dal totale
+                            della Madre.</p>
+
+                        <details open>
+                            <summary class="list-item-header">
+                                <span class="detail-summary-grosso">Fase A: Determinazione Km Totali (Il
+                                    Denominatore)</span>
+                                <span>▼</span>
+                            </summary>
+                            <div class="card-body-details">
+                                <p>Il sistema deve stabilire su quale distanza totale spalmare l'importo. Viene
+                                    calcolata la variabile <code>kmCalcoloRapporto</code>.</p>
+
+                                <div class="formula-box">
+                                    <p><strong>Scenario 1: Viaggio Concluso o Forzatura Tratte</strong></p>
+                                    <p>Se l'ultima tratta è arrivata (<code>IsArrivo</code>) oppure
+                                        <code>usaKmTratte == true</code>:</p>
+                                    <code>kmCalcoloRapporto = Somma(Km di tutte le tratte confermate)</code>
+                                </div>
+
+                                <div class="formula-box">
+                                    <p><strong>Scenario 2: Viaggio in Corso (Previsionale)</strong></p>
+                                    <p>Se il viaggio non è ancora arrivato a destinazione:</p>
+                                    <code>KmMancanti = PTV.RouteService(UltimoPunto -> DestinazioneFinale)</code><br>
+                                    <code>kmCalcoloRapporto = Somma(Km Tratte Fatte) + KmMancanti</code>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details open>
+                            <summary class="list-item-header">
+                                <span class="detail-summary-grosso">Fase B: Determinazione Importo "Pool" (Il
+                                    Numeratore)</span>
+                                <span>▼</span>
+                            </summary>
+                            <div class="card-body-details">
+                                <p>Viene definita la variabile <code>importoMadre</code> (il "montepremi" da dividere).
+                                    Il valore dipende dalla presenza di una Commessa.</p>
+
+                                <div class="card">
+                                    <div class="card-title">Caso 1: Nessuna Commessa</div>
+                                    <div class="card-body">
+                                        <code>importoMadre = OrdineMadre.Importo</code>
+                                        <p>Si usa semplicemente l'importo definito sulla testata.</p>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-title">Caso 2: In Commessa</div>
+                                    <div class="card-body">
+                                        <p>Se <code>madre.Commessa</code> è valorizzato, l'importo viene ricalcolato:
+                                        </p>
+
+                                        <p><strong>Se Configurazione "CommessaConKmSingoli" == FALSE (Default)</strong>
+                                        </p>
+                                        <ul>
+                                            <li>Logica: Ripartizione per <strong>Bancali/Quantità</strong>.</li>
+                                            <li><code>PrezzoUnitario = TotaleImportoCommessa / TotaleBancaliCommessa</code>
+                                            </li>
+                                            <li><code>importoMadre = PrezzoUnitario * OrdineCorrente.Bancali</code></li>
+                                        </ul>
+
+                                        <p><strong>Se Configurazione "CommessaConKmSingoli" == TRUE</strong></p>
+                                        <ul>
+                                            <li>Logica: Ripartizione per <strong>Peso dei Km sul totale
+                                                    commessa</strong>.</li>
+                                            <li><code>ImportoAlKmCommessa = TotaleImportoCommessa / TotaleKmTutteLeMadri</code>
+                                            </li>
+                                            <li><code>ValoreViaggio = Madre.Km * ImportoAlKmCommessa</code></li>
+                                            <li><code>importoMadre = ValoreViaggio</code> (Assegna al pool il valore
+                                                generato da questo viaggio specifico).</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                        <details open>
+                            <summary class="list-item-header">
+                                <span class="detail-summary-grosso">Fase C: Detrazioni e Calcolo Finale (Algoritmo
+                                    Progressivo)</span>
+                                <span>▼</span>
+                            </summary>
+                            <div class="card-body-details">
+                                <p>Il calcolo finale tiene conto di quanto è già stato consumato dalle tratte precedenti
+                                    (progressivo).</p>
+
+                                <div class="card">
+                                    <div class="card-title">1. Detrazione Costi Esterni</div>
+                                    <div class="card-body">
+                                        <p>Dall'<code>importoMadre</code> vengono sottratti i costi non pertinenti al
+                                            trasporto su gomma o già allocati.</p>
+                                        <ul>
+                                            <li><code>prendiPrezziAutoPrecedenti(numRic)</code>: Toglie la somma dei
+                                                prezzi 'PRAUTO' delle tratte con sequenza inferiore (es. se calcolo la
+                                                03, tolgo importi di 01 e 02).</li>
+                                            <li><code>togliCostiIntermodali(madre)</code>: Esegue una query SQL per
+                                                sottrarre i costi di tratte nave/treno (TipoR='PAD' su tabella
+                                                Passaggi).</li>
+                                        </ul>
+                                        <code>ImportoNetto = importoMadre - PrezziPrecedenti - CostiIntermodali</code>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-title">2. Formula Finale (Divisione sui Km Residui)</div>
+                                    <div class="card-body">
+                                        <p>Per evitare errori di arrotondamento su più tratte, si ricalcola sempre sul
+                                            residuo.</p>
+
+                                        <div class="formula-box">
+                                            <p><code>KmPrecedenti = Somma Km delle tratte con sequenza &lt; attuale</code>
+                                            </p>
+                                            <p><code>KmResidui = kmCalcoloRapporto - KmPrecedenti</code></p>
+                                            <p><code>ImportoUnitario = ImportoNetto / KmResidui</code></p>
+                                            <p style="font-size: 1.2em; margin-top:10px; color: #4CAF50;">
+                                                <strong>Risultato = ImportoUnitario * OrdineCorrente.Km</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+                    </section>
+
+                    <section>
+                        <h2>3. Metodi Ausiliari (Dettaglio Logica)</h2>
+
+                        <div class="card">
+                            <div class="card-title">Metodo: ContinuaRiprezzamento (Validazione)</div>
+                            <div class="card-body">
+                                <p>Determina se il calcolo deve procedere. Restituisce <code>FALSE</code> (Interrompe)
+                                    se:</p>
+                                <ul>
+                                    <li><code>ordine.NoRipartizioneCosti</code> è TRUE.</li>
+                                    <li><code>madre.Importo</code> è 0 AND <code>madre.Commessa</code> è vuota (Non c'è
+                                        nulla da dividere).</li>
+                                    <li><code>ordine.Km</code> è 0. <span class="tip-easy">Azione Critica:</span> In
+                                        questo caso esegue una <strong>DELETE</strong> su
+                                        <code>ElencoRichiestePrezzi</code> per rimuovere eventuali prezzi automatici
+                                        residui ("Prezzo Automatico" e opzionalmente "Importo Vettore").</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-title">Metodo: ControlloTratteAffidateAlVettore</div>
+                            <div class="card-body">
+                                <p>Gestisce lo scenario in cui l'ultima parte del viaggio è sub-vettorata.</p>
+                                <ol>
+                                    <li>Identifica la penultima e l'ultima tratta.</li>
+                                    <li>Verifica se: L'ultima tratta è <code>IsArrivo</code> E la penultima ha un
+                                        <code>CodVettore</code> valorizzato (logica di passaggio di consegna).</li>
+                                    <li><strong>Azione:</strong> Rimuove l'ultima tratta dalla lista
+                                        <code>tratteConferma</code> usata per il calcolo.</li>
+                                    <li><strong>Cleanup:</strong> Esegue una DELETE dei prezzi automatici sull'ultima
+                                        tratta (che quindi avrà importo 0).</li>
+                                    <li><strong>Effetto:</strong> L'intero importo della Madre viene spalmato solo sulle
+                                        tratte precedenti (quelle fatte con mezzi propri).</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-title">Metodo: prendiPrezziAutoPrecedenti</div>
+                            <div class="card-body">
+                                <p>Calcola quanto del "budget" è già stato speso.</p>
+                                <ul>
+                                    <li>Esegue query su <code>ElencoRichiestePrezzi</code> filtrando per
+                                        <code>CodiceList = 'PRAUTO'</code> e <code>NumRic LIKE 'NumeroMadre_%'</code>.
+                                    </li>
+                                    <li>Somma i valori solo delle righe dove il suffisso (es. _01, _02) è
+                                        matematicamente inferiore alla tratta corrente.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-title">Metodo: togliCostiIntermodali</div>
+                            <div class="card-body">
+                                <p>Esegue query SQL complessa con JOIN su <code>Passaggi</code>,
+                                    <code>ElencoViaggiTestata</code>, <code>ElencoRichieste</code>.</p>
+                                <p>Somma <code>ERP.TotaleR</code> dove <code>TipoR = 'PAD'</code> (costo passivo)
+                                    associato ai viaggi intermodali collegati alla richiesta.</p>
+                            </div>
+                        </div>
+
+                    </section>
+
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Operazioni Critiche sui Dati</h2>
+
+            <div class="card">
+                <div class="card-title">Pulizia Preliminare</div>
+                <div class="card-body">
+                    <p>Prima di ogni calcolo in modalità LISTINO, viene eseguita una pulizia chirurgica:</p>
+                    <code>CancellaPrezziNonManuali(ordine)</code>
+                    <p>Questo assicura che eventuali forzature manuali dell'operatore vengano preservate, mentre i
+                        vecchi calcoli automatici vengono eliminati per evitare duplicazioni di importi.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Output: RipartizioneRisultato</div>
+                <div class="card-body">
+                    <p>Il metodo restituisce una lista di oggetti DTO (Data Transfer Objects) contenenti:</p>
+                    <ul>
+                        <li><strong>NumeroMadre / Tratta:</strong> Gli identificativi delle spedizioni.</li>
+                        <li><strong>Percorsi:</strong> Stringhe descrittive (es. "Milano - Roma").</li>
+                        <li><strong>Importi:</strong> Il confronto tra l'importo originale (Madre) e quello calcolato
+                            (Tratta).</li>
+                    </ul>
+                    <p class="bold">Nota:</p>
+                    <p>La funzione <code>InserisciRisultato</code> viene usata per popolare questa lista alla fine di
+                        ogni iterazione.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Note per i Tecnici</h2>
+            <ul>
+                <li><span class="link-color-text bold">Batch Processing:</span> Il metodo accetta una
+                    <code>List&lt;Ordine&gt;</code> e itera su di essa. È progettato per gestire ripartizioni massive
+                    (es. intero viaggio).
+                </li>
+                <li><span class="link-color-text bold">Validazione:</span> All'interno di <code>RiprezzamentoBase</code>
+                    (chiamato da qui) esistono controlli bloccanti: se <code>NoRipartizioneCosti</code> è attivo o se i
+                    Km sono 0, il calcolo si interrompe.</li>
+                <li><span class="link-color-text bold">Services:</span> Fa pesante uso di
+                    <code>ElaborazioniPrezziService</code> per la logica di business dei listini.
+                </li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
