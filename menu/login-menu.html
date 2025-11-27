@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Login Form - Accesso</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Login Form</h1>
+            <p>Gestione Accesso, Autenticazione e Aggiornamenti (LoginForm.xaml)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Generale</h2>
+            <p>Il modulo <span class="bold">LoginForm</span> rappresenta il punto di ingresso
+                dell'applicazione. Non si limita alla semplice autenticazione utente, ma funge da
+                <strong>Bootstrapper</strong> per l'intero sistema.
+            </p>
+
+            <div class="tip">
+                <span class="tip-icon">🚀</span>
+                <span class="bold">Funzioni Critiche:</span> Oltre al login, questa finestra gestisce:
+                <ul>
+                    <li>Verifica e connessione al Database.</li>
+                    <li>Esecuzione script di aggiornamento SQL (migrazioni).</li>
+                    <li>Controllo licenze e versioni (IG3Service).</li>
+                    <li>Inizializzazione delle configurazioni multi-aziendali.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Workflow di Avvio (Loaded)</h2>
+            <p>All'apertura della finestra (evento <code>LoginWindow_Loaded</code>), viene eseguita una sequenza rigida
+                di operazioni asincrone.</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">A. Controlli Preliminari</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <ol>
+                        <li><strong>Verifica DB Configurato:</strong> Controlla l'esistenza del file di configurazione
+                            (<code>DB.txt</code>). Se manca, apre la form <code>ImpostaDB</code> e si chiude.</li>
+                        <li><strong>Check Anno Contabile:</strong> Confronta l'anno nei <code>DatiBase</code> con l'anno
+                            corrente. Se discordanti, propone all'utente di aggiornare l'esercizio (con opzione reset
+                            <code>NumRic</code>).
+                        </li>
+                        <li><strong>Allineamento Release:</strong> Scrive la versione corrente dell'eseguibile nel DB e
+                            verifica il flag <code>VersioneRPura</code>.</li>
+                    </ol>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">B. Gestione Aggiornamenti (Update Engine)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il sistema integra un motore di auto-aggiornamento database e file system.</p>
+
+                    <div class="card">
+                        <div class="card-title">Aggiornamento SQL</div>
+                        <div class="card-body">
+                            <p>Se viene rilevato il file flag <code>AggiornaDB.txt</code>:</p>
+                            <ul>
+                                <li>Disabilita il Login e mostra la barra di progresso.</li>
+                                <li>Esegue script SQL riga per riga dal file txt.</li>
+                                <li>Scansiona ed esegue tutti i file <code>.sql</code> nelle cartelle <em>Aggiornamenti
+                                        Plus</em>, <em>Fatturazione Nuova</em> e <em>Viste</em>.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Aggiornamento File System</div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>Pulizia:</strong> Cancella vecchi file temporanei in
+                                    <code>C:\AggiornamentiTIR</code>.
+                                </li>
+                                <li><strong>Deploy:</strong> Se esiste la cartella <code>AggExeAggiornamenti</code>,
+                                    copia i nuovi eseguibili nella root e poi si pulisce.</li>
+                                <li><strong>Auto-Updater:</strong> Se presente, lancia il processo esterno
+                                    <code>AggiornamentiAuto.exe</code>.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">C. Licenze e IG3Service</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il sistema contatta i servizi remoti (IG3) per validare la licenza.</p>
+                    <ul>
+                        <li><strong>Autenticazione:</strong> Verifica la Partita IVA (chiedendola se mancante o se
+                            configurata tramite Azienda selezionata).</li>
+                        <li><strong>Versionamento:</strong> Controlla se la versione installata corrisponde a quella
+                            remota e aggiorna lo stato del cliente (Elite/Horizon).</li>
+                        <li><strong>Controllo Aggiornamenti:</strong> Verifica se è disponibile una nuova versione
+                            dell'installer e propone il download.</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Logica di Autenticazione</h2>
+            <p>La procedura di login (<code>LoginBtn_Click</code>) implementa diversi livelli di
+                sicurezza e configurazione utente.</p>
+
+            <div class="grid-two-columns">
+                <div class="card">
+                    <div class="card-title">Verifica Password</div>
+                    <div class="card-body">
+                        <p>Il sistema supporta due metodi di verifica:</p>
+                        <ol>
+                            <li><strong>Standard:</strong> Confronto diretto con la password criptata nel DB (Oggetto
+                                <code>UtenteHorizon</code>).
+                            </li>
+                            <li><strong>Fallback Locale:</strong> Se il login fallisce, controlla l'esistenza di un file
+                                locale <code>{Utente}_p.txt</code> per una verifica di emergenza/override.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Gestione Sessione</div>
+                    <div class="card-body">
+                        <ul>
+                            <li><strong>Postazioni (Licensing):</strong> Registra l'accesso nella tabella
+                                <code>Postazioni</code>. Se il numero massimo di PDL (Posti di Lavoro) è superato,
+                                blocca l'accesso.
+                            </li>
+                            <li><strong>JSON Config:</strong> Salva l'ultimo utente, azienda e filiale selezionati nel
+                                file <code>HorizonLogin.json</code> in AppData per il ripristino al prossimo avvio.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip">
+                <span class="tip-icon">🧹</span>
+                <span class="bold">Manutenzione Automatica:</span> Al login di specifici utenti (configurabili tramite
+                file txt), il sistema può proporre una "Procedura Calcolo Scadenze" che esegue una massiva pulizia
+                (DELETE) di tabelle temporanee o obsolete (metodo <code>SistemaConferme</code>).
+            </div>
+        </section>
+
+
+        <section>
+            <h2>5. Note per i Tecnici</h2>
+            <ul>
+                <li><span class="link-color-text bold">Admin Default:</span> Se non esistono utenti nel DB, il sistema
+                    crea automaticamente l'utenza <code>Admin</code> con password <code>ig3</code>.</li>
+                <li><span class="link-color-text bold">Terminal Server:</span> La gestione dei percorsi file
+                    (<code>C:\Click\</code> vs <code>AppData</code>) cambia dinamicamente se viene rilevato l'ambiente
+                    Terminal Server (<code>Utility.Terminal</code>), separando le configurazioni per utente Windows.
+                </li>
+                <li><span class="link-color-text bold">Sicurezza Thread:</span> Il controllo <code>_giaPremuto</code>
+                    evita click multipli sul tasto Login durante le operazioni asincrone di caricamento.</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
