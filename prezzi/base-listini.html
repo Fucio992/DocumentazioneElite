@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Listini - Motore di Calcolo</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background">
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Gestione Listini e Prezzi</h1>
+            <p>Logica del Motore di Calcolo Tariffario (Listino.cs)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica</h2>
+            <p>La classe <span class="bold">Listino</span> (<code>Listino.cs</code>) funge da cervello per la
+                tariffazione del software. Non è una semplice entità dati, ma contiene la logica di business per
+                determinare il prezzo di un trasporto incrociando variabili geografiche, quantità, network e regole
+                accessorie.</p>
+
+            <div class="tip">
+                <span class="tip-icon">🧮</span>
+                <span class="bold">Ruolo:</span> Interroga il database per trovare la tariffa più specifica applicabile
+                a un dato ordine, gestendo eccezioni, fasce di peso e regole di transito.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. I Metodi di Calcolo</h2>
+            <p>Il sistema gestisce due flussi principali. Qui sotto il dettaglio del flusso Standard, che è il più
+                complesso.</p>
+
+            <div style="display: flex; flex-direction: column; gap: 2rem;">
+
+                <div class="card">
+                    <div class="card-title">Flux 1: Calcolo Standard (GetListino)</div>
+                    <div class="card-body">
+                        <p>Usato per i listini classici Cliente/Vettore. Il processo segue 5 fasi sequenziali rigide:
+                        </p>
+
+                        <ol
+                            style="margin-left: 20px; margin-top: 15px; display: flex; flex-direction: column; gap: 20px;">
+
+                            <li>
+                                <strong>Recupero Listini e Validità (GetListiniConValiditaAsync)</strong>
+                                <p style="margin-top:5px; font-size: 0.95em;">Il sistema scarica l'intero listino
+                                    associato al codice cliente e applica un filtro preventivo basato sulla data di
+                                    riferimento.</p>
+                                <ul style="margin-top: 5px; font-size: 0.9em; color: #555;">
+                                    <li>
+                                        <strong>Parsing Data Sicuro:</strong> La data richiesta (<code>_DataC</code>)
+                                        viene convertita. In caso di formato errato o nullo, il sistema utilizza
+                                        automaticamente <code>DateTime.Now</code>.
+                                    </li>
+                                    <li>
+                                        <strong>Filtro Temporale:</strong> Vengono trattenute in memoria solo le righe
+                                        che soddisfano una delle due condizioni:
+                                        <br>
+                                        A) <strong>Sempre Valide:</strong> Il flag <code>Validita</code> è spento
+                                        (<code>false</code>).
+                                        <br>
+                                        B) <strong>In Corso di Validità:</strong> Il flag è attivo e la data di
+                                        riferimento rientra nel range <code>DataValDal</code> / <code>DataValAl</code>.
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <strong>Filtraggio Attributi (RiconosciCodici)</strong>
+                                <p style="margin-top:5px; font-size: 0.95em;">Il sistema raffina la lista dei prezzi
+                                    applicando filtri sequenziali basati sulla configurazione anagrafica del
+                                    Committente.</p>
+                                <ul style="margin-top: 5px; font-size: 0.9em; color: #555;">
+                                    <li>
+                                        <strong>Unità di Misura (UM):</strong> Il filtro sul campo <code>Nota</code>
+                                        viene applicato <strong>di default</strong> (salvo flag
+                                        <code>NonValutareUm</code>).
+                                    </li>
+                                    <li>
+                                        <strong>Filtri su Configurazione (Opt-in):</strong> I seguenti campi vengono
+                                        filtrati <strong>solo se</strong> il relativo flag anagrafico è attivo:
+                                        <div
+                                            style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px; padding-left: 10px; font-family: monospace; font-size: 0.9em;">
+                                            <div>[x] ValutaSede</div>
+                                            <div>[x] ValutaNomeListino</div>
+                                            <div>[x] ValutaPorto</div>
+                                            <div>[x] ValutaContratto</div>
+                                            <div>[x] ValutaCodiceProd</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <strong>Logica Incrociata "CliVet":</strong> Se attiva, filtra le righe
+                                        incrociando <code>CodiceVettore</code> con il cliente servito (e viceversa).
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <strong>Riconoscimento Geografico a Cascata (RiconosciLuoghi)</strong>
+                                <p style="margin-top:5px; font-size: 0.95em;">Il "cuore" del sistema. Esegue una ricerca
+                                    massiva ("Brute Force") tentando di abbinare l'ordine alle righe di listino.</p>
+                                <ul style="margin-top: 5px; font-size: 0.9em; color: #555;">
+                                    <li>
+                                        <strong>Normalizzazione Pre-Ricerca:</strong>
+                                        <br>
+                                        - <em>CAP Esteri:</em> Troncati a 2 cifre se > 2.
+                                        <br>
+                                        - <em>Porto Assegnato:</em> Inverte virtualmente Mittente e Destinatario per
+                                        usare le tariffe di partenza del pagatore.
+                                    </li>
+                                    <li>
+                                        <strong>Matrice di Compatibilità:</strong>
+                                        Il metodo accumula tutte le tariffe che corrispondono ai seguenti livelli (con
+                                        priorità di incrocio Partenza/Arrivo):
+                                        <div
+                                            style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-top: 5px; border-left: 3px solid #007bff; padding-left: 10px; font-weight: bold;">
+                                            <div>1. Zona</div>
+                                            <div>2. Provincia</div>
+                                            <div>3. CAP</div>
+                                            <div>4. Luogo</div>
+                                            <div>5. Via</div>
+                                            <div>6. Nominativo</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <strong>Logiche Speciali:</strong> Include fallback generici (campi vuoti) e
+                                        logiche di selezione del "Match più alto" se configurato.
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <strong>Selezione e Calcolo Transit Time (TrasformaRisultato)</strong>
+                                <p style="margin-top:5px; font-size: 0.95em;">Viene selezionato l'ultimo risultato utile
+                                    (il più specifico) e calcolate le tempistiche.</p>
+                                <ul style="margin-top: 5px; font-size: 0.9em; color: #555;">
+                                    <li>
+                                        <strong>Moltiplicatore:</strong> Ricalcolo immediato qta se presente
+                                        <code>MoltiplicaPer</code>.
+                                    </li>
+                                    <li>
+                                        <strong>Calcolo Data Scarico:</strong>
+                                        Se <code>TransitTimeOre</code> > 0 e non tassativo:
+                                        <br>
+                                        1. Somma ore alla data di carico.
+                                        <br>
+                                        2. <strong>Salta i Weekend:</strong> Sposta in avanti se attivi
+                                        <code>SaltaSabato/Domenica</code>.
+                                        <br>
+                                        3. <strong>Update DB:</strong> La nuova data viene salvata subito nell'ordine.
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <strong>Applicazione Fasce e Scaglioni (ControlloFasce)</strong>
+                                <p style="margin-top:5px; font-size: 0.95em;">Calcolo matematico finale del prezzo.</p>
+                                <ul style="margin-top: 5px; font-size: 0.9em; color: #555;">
+                                    <li>
+                                        <strong>Arrotondamento Dinamico:</strong> Arrotonda la quantità (es. bancali
+                                        interi) e riesegue la query fasce.
+                                    </li>
+                                    <li>
+                                        <strong>Metodi di Calcolo:</strong>
+                                        <br>
+                                        - <em>Standard:</em> Prezzo secco.
+                                        <br>
+                                        - <em>Soglia:</em> <code>Base + (PrezzoFascia * Eccedenza)</code>.
+                                    </li>
+                                    <li>
+                                        <strong>Tolleranza Smart:</strong> Verifica se la fascia precedente, pur con
+                                        quantità inferiore, genererebbe un costo totale più basso (e lo applica se
+                                        configurato).
+                                    </li>
+                                </ul>
+                            </li>
+
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="card" style="border-left: 5px solid #28a745;">
+                    <div class="card-title">Flux 2: Calcolo Network (GenerateListinoNetwork)</div>
+                    <div class="card-body">
+                        <p>Logiche "Hardcoded" per partner specifici che non seguono il flusso standard.</p>
+                        <ul>
+                            <li><strong>ONE:</strong> Calcola il prezzo basandosi sugli HUB. Applica maggiorazioni
+                                per peso/misure eccessive.</li>
+                            <li><strong>PNP:</strong> Basato sulle dimensioni del pallet (Codice prodotto es. "B11")
+                                e calcola le eccedenze.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem; margin-bottom: 2rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
