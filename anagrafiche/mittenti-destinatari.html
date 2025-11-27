@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Mittenti e Destinatari - Anagrafica</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Scheda Mittenti e Destinatari</h1>
+            <p>Gestione Punti di Carico, Scarico e Logistica (MittentiDestinatariUC.xaml)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Generale</h2>
+            <p>Il modulo <span class="bold">MittentiDestinatariUC</span> è l'interfaccia dedicata alla gestione dei
+                luoghi fisici utilizzati nelle operazioni di trasporto. A differenza dell'anagrafica Clienti
+                (amministrativa), questa anagrafica è prettamente <strong>operativa</strong>.</p>
+
+            <div class="tip">
+                <span class="tip-icon">🏭</span>
+                <span class="bold">Concetto Chiave:</span> Un singolo Cliente amministrativo può avere centinaia di
+                Mittenti/Destinatari diversi (es. filiali, magazzini, cantieri). Questo modulo definisce dove i mezzi
+                devono andare fisicamente.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Struttura dell'Interfaccia (Tab Control)</h2>
+            <p>L'interfaccia è organizzata in schede tematiche per separare i dati anagrafici dalle configurazioni
+                logistiche.</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">A. Dati Generali (Anagrafica e Logistica)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <div class="grid-two-columns">
+                        <div class="card">
+                            <div class="card-title">Identificazione</div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><strong>Ragione Sociale e Indirizzo:</strong> Dati geografici precisi per la
+                                        geolocalizzazione.</li>
+                                    <li><strong>Tipo:</strong> Definisce se il soggetto è Mittente, Destinatario,
+                                        Entrambi o un Intermediario.</li>
+                                    <li><strong>Coordinate GPS:</strong> Latitudine e Longitudine per il calcolo preciso
+                                        delle distanze e l'invio ai satellitari.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">Vincoli Logistici</div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><strong>Orari di Apertura:</strong> Definizione delle finestre di carico/scarico
+                                        (Mattina/Pomeriggio).</li>
+                                    <li><strong>Giorni di Chiusura:</strong> Checkbox per indicare i giorni non
+                                        lavorativi (es. Sabato, Domenica).</li>
+                                    <li><strong>Accessibilità:</strong> Note sui mezzi ammessi (es. "Solo Motrice",
+                                        "Sponda Idraulica necessaria").</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">B. Limitazioni (Accessibilità Avanzata)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Questa sezione permette di definire regole ferree per l'accesso al sito, utilizzate dal
+                        pianificatore per validare i viaggi.</p>
+                    <div class="formula-box">
+                        Regola = (Tipo Mezzo + Data Validità) -> Accessibile SI/NO
+                    </div>
+                    <p>Esempio: "Dal 01/01 al 31/12 Vietato l'accesso ai Bilici".</p>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">C. Servizi Accessori e Contatti</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <ul>
+                        <li><strong>Servizi:</strong> Elenco dei servizi extra richiesti di default (es. Facchinaggio,
+                            Transpallet). Vengono riportati automaticamente sugli ordini.</li>
+                        <li><strong>Contatti:</strong> Rubrica operativa (Magazziniere, Responsabile Logistica) con
+                            telefoni ed email.</li>
+                        <li><strong>Avvisi:</strong> Note pop-up che appaiono all'operatore quando seleziona questo
+                            luogo.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">D. Gestione Rifiuti (Opzionale)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Visibile se il modulo Rifiuti è attivo. Gestisce le autorizzazioni ambientali del sito.</p>
+                    <ul>
+                        <li><strong>Albo Gestori:</strong> Numero e scadenza iscrizione.</li>
+                        <li><strong>Autorizzazioni:</strong> Elenco dettagliato dei codici CER autorizzati
+                            (Smaltimento/Recupero) con relative date di validità.</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Logiche di Business (Backend)</h2>
+
+            <div class="card">
+                <div class="card-title">Salvataggio Intelligente (Salva_Click)</div>
+                <div class="card-body">
+                    <p>Il salvataggio innesca una serie di aggiornamenti a cascata:</p>
+                    <ol>
+                        <li><strong>Rilevamento Modifiche:</strong> Se la Ragione Sociale o l'indirizzo cambiano, il
+                            sistema chiede se propagare la modifica su tutti gli ordini storici (Conferme, Formulari).
+                        </li>
+                        <li><strong>Update Massivo:</strong> Se confermato, esegue query SQL per aggiornare
+                            <code>ElencoRichieste</code> (Ordini) e <code>FR_Schede</code> (Rifiuti) mantenendo la
+                            coerenza storica.</li>
+                        <li><strong>Geocoding:</strong> Aggiorna automaticamente la tabella dei POI
+                            (<code>PoiDefService.InsPoi</code>) per garantire che il punto sia disponibile sulla mappa.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Integrazione Magazzino</div>
+                <div class="card-body">
+                    <p>Un Mittente/Destinatario può essere collegato a un magazzino logistico interno.</p>
+                    <ul>
+                        <li><strong>Link Univoco:</strong> Il sistema impedisce di collegare lo stesso magazzino a più
+                            anagrafiche diverse per evitare conflitti di giacenza.</li>
+                        <li><strong>Visibilità:</strong> Se il flag "Magazzino" è attivo, abilita la selezione del
+                            deposito di riferimento.</li>
+                    </ul>
+                </div>
+                </details>
+        </section>
+
+        <section>
+            <h2>4. Funzionalità Operative</h2>
+            <ul>
+                <li><span class="link-color-text bold">Geocoding Manuale:</span> Il pulsante "Mappa"
+                    (<code>ApriMappa_Click</code>) apre una finestra cartografica per posizionare manualmente il pin e
+                    acquisire le coordinate esatte se l'indirizzo non è preciso.</li>
+                <li><span class="link-color-text bold">Duplicazione:</span> La funzione <code>Duplica_Click</code>
+                    permette di creare rapidamente un nuovo punto partendo da uno esistente (es. stesso stabilimento,
+                    varco diverso).</li>
+                <li><span class="link-color-text bold">Prodotti Associati:</span> È possibile definire una lista di
+                    prodotti specifici per quel punto (tab "Prodotti"), utile per limitare gli errori di inserimento
+                    ordini.</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
