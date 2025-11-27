@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Servizi Accessori - Motore di Calcolo</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Gestione Servizi Accessori</h1>
+            <p>Logica del metodo <code>GenerateServiziAccessori</code> (ElaborazioniPrezzi.cs)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica del Flusso</h2>
+            <p>Il metodo <code>GenerateServiziAccessori</code> è responsabile del calcolo di tutte le voci di costo
+                extra-nolo (Fuel Surcharge, Sponda Idraulica, Facchinaggio, Eccedenze, ecc.).</p>
+            <div class="tip">
+                <span class="tip-icon">⚡</span>
+                <span class="bold">Concetto Chiave:</span> I servizi non sono statici. Vengono filtrati dinamicamente,
+                possono dipendere dal valore del Nolo, dalle dimensioni della merce o dalla geografia, e possono essere
+                calcolati "Lato Cliente" o "Lato Vettore".
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Preparazione Dati</h2>
+            <div class="card">
+                <div class="card-title">Fase 1: Recupero Base Imponibile e Lista Servizi</div>
+                <div class="card-body">
+                    <ol>
+                        <li>
+                            <strong>Calcolo del Nolo (GetNolo):</strong>
+                            <br>Il sistema calcola prima di tutto la base imponibile (Nolo) sommando i prezzi di tipo
+                            "Luogo" già calcolati.
+                            <br><em>Vengono calcolati separatamente: Nolo Cliente, Nolo Vettore (PAD) e Totale
+                                Generale.</em>
+                        </li>
+                        <li>
+                            <strong>Recupero Lista Servizi (GetListaServizi):</strong>
+                            <br>Il sistema unisce due fonti dati:
+                            <ul>
+                                <li><code>ElencoRichiesteServiziAccessori</code>: Servizi manuali inseriti
+                                    specificamente nell'ordine.</li>
+                                <li><code>ListinoClassi</code>: Servizi automatici configurati nell'anagrafica
+                                    cliente/vettore.</li>
+                            </ul>
+                            <p style="font-size: 0.9em; color: #666; margin-top:5px;">
+                                <em>Filtri iniziali:</em> Validità date, unicità (evita duplicati), filtro per
+                                Contratto/Listino se attivo.
+                            </p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Logiche Speciali (Hardcoded)</h2>
+            <p>Prima del calcolo standard, vengono elaborati servizi che richiedono logiche complesse e specifiche.</p>
+
+            <div class="grid-two-columns">
+                <div class="card">
+                    <div class="card-title">Triangolazioni e Ritiri</div>
+                    <div class="card-body">
+                        <p>Link: <code>TRIANGOLAZIONE</code> o <code>RITIRO</code></p>
+                        <p>Il sistema simula un calcolo di listino completo per determinare il costo della tratta
+                            aggiuntiva.</p>
+                        <ul>
+                            <li><strong>Triangolazione:</strong> Cerca listini compatibili sia per il Mittente che per
+                                il Destinatario (per trovare il "braccio" più costoso).</li>
+                            <li><strong>Ritiro:</strong> Cerca listini compatibili solo per il Mittente.</li>
+                        </ul>
+                        <div class="tip" style="font-size: 0.8em; margin-top: 10px;">
+                            Utilizza <code>Listino.RiconosciLuoghi</code> per trovare il prezzo geografico esatto e lo
+                            aggiunge come accessorio.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Riprezzamento LXL (Lato x Lato)</div>
+                    <div class="card-body">
+                        <p>Link: <code>LXL</code></p>
+                        <p>Ricalcola il Nolo basandosi sul rapporto geometrico della merce.</p>
+                        <ul>
+                            <li><strong>Formula:</strong> <code>(Lunghezza * Larghezza) / CodiceL</code>.</li>
+                            <li>Se il risultato è > 1, il prezzo accessorio diventa:
+                                <code>(Nolo * Risultato) - Nolo</code>.</li>
+                            <li>Serve per addebitare lo spazio "sprecato" o occupato in eccesso rispetto allo standard.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px; border-left: 5px solid #007bff;">
+                <div class="card-title">Servizi Per Prodotto (CalcoloServiziPerProdotto)</div>
+                <div class="card-body">
+                    <p>Link: <code>PPP</code></p>
+                    <p>Questi servizi vengono calcolati iterando su ogni singolo codice prodotto presente nell'ordine.
+                    </p>
+                    <ul>
+                        <li><strong>Match Codice:</strong> Il <code>CodiceL</code> del servizio deve corrispondere al
+                            <code>CodiceProdotto</code>.</li>
+                        <li><strong>Quantità:</strong> Usa il Peso o i Bancali specifici di quel raggruppamento di
+                            prodotti.</li>
+                        <li><strong>Supplementi Regionali:</strong> Verifica la tabella
+                            <code>RegioniProvincePrezzi</code> per applicare maggiorazioni geografiche specifiche per
+                            quel prodotto.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Calcolo Standard (CalcoloServiziStandard)</h2>
+            <p>Questa è la pipeline principale dove passano la maggior parte dei servizi (es. Fuel, Sponda, Consegna al
+                piano).</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">Pipeline di Filtri</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Ogni servizio passa attraverso una serie di check. Se un check fallisce
+                        (<code>Trovato = false</code>), il servizio viene scartato.</p>
+                    <ul class="pipeline-list">
+                        <li>
+                            <strong>Geo-Matching (GetPrezzoByLuogo):</strong>
+                            Se Link è <code>PROV</code>, <code>ZONA</code>, <code>CAP</code> o <code>LUOGO</code>,
+                            verifica se la destinazione dell'ordine rientra nelle tabelle
+                            <code>RegioniProvincePrezzi</code>.
+                        </li>
+                        <li>
+                            <strong>Capoluoghi (GetInoltroInProv):</strong>
+                            Se Link è <code>INOLTROPROV</code>, verifica se il CAP è capoluogo.
+                        </li>
+                        <li>
+                            <strong>Isole Minori (GetIsolaMinore):</strong>
+                            Verifica se la località è censita come isola minore e applica la maggiorazione.
+                        </li>
+                        <li>
+                            <strong>Valore Merce / Assicurazione:</strong>
+                            Gestisce i link <code>VALOREMERCE</code> e <code>ALLRISK</code> calcolando i costi
+                            assicurativi basati sul valore dichiarato.
+                        </li>
+                        <li>
+                            <strong>Fuel Surcharge (VerificaSacFuel):</strong>
+                            Verifica i flag <code>ValutaFuel</code> e <code>RiprezzaFuel</code>. Se il cliente ha il
+                            fuel bloccato, il servizio viene scartato.
+                        </li>
+                        <li>
+                            <strong>Fuel MISE (VerificaSacFuelMise):</strong>
+                            Calcolo automatico basato sulle tabelle ministeriali medie del costo del gasolio.
+                        </li>
+                    </ul>
+                </div>
+            </details>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-title">Matematica del Prezzo (CreaPrezzoAccessorio)</div>
+                <div class="card-body">
+                    <p>Una volta superati i filtri, il prezzo viene calcolato:</p>
+                    <ul>
+                        <li><strong>Tipo PERC:</strong> Percentuale sul Nolo (con controlli Minimo/Massimo valore).</li>
+                        <li><strong>Tipo PERCSERV:</strong> Percentuale su un altro servizio (es. percentuali su
+                            contrassegno).</li>
+                        <li><strong>Fisso:</strong> Importo fisso una tantum.</li>
+                        <li><strong>Per Quantità:</strong> Importo * Qta (Bancali, Peso, ecc.).</li>
+                        <li><strong>Fasce (CheckFasce):</strong> Verifica se la quantità rientra in scaglioni specifici
+                            (Tabella <code>ListinoClassiFasce</code>) e ne applica il prezzo o la logica a soglia.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>5. Eccedenze (Peso e Misure)</h2>
+            <p>Se il cliente ha regole di tassazione per merce fuori sagoma o peso eccessivo.</p>
+
+            <div class="grid-two-columns">
+                <div class="card">
+                    <div class="card-title">Eccedenza Misure</div>
+                    <div class="card-body">
+                        <p>Metodo: <code>GetEccedenzaBase</code></p>
+                        <p>Link: <code>MISURE</code></p>
+                        <ul>
+                            <li>Confronta le dimensioni del pallet (Lungh x Largh) con la tabella
+                                <code>EccedenzeBancali</code>.</li>
+                            <li>Se le dimensioni superano lo standard contrattualizzato, applica il costo extra.</li>
+                            <li>Supporta logica di ripetizione (es. ogni 100cm extra).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Eccedenza Peso</div>
+                    <div class="card-body">
+                        <p>Metodo: <code>GetEccedenzaPeso</code></p>
+                        <p>Link: <code>PESO</code></p>
+                        <ul>
+                            <li>Verifica se il peso del singolo pallet supera la soglia (es. > 1000kg).</li>
+                            <li>Può applicare un prezzo fisso o un prezzo al Kg sull'eccedenza (<code>PESOREALE</code>).
+                            </li>
+                            <li>Se trovata, cancella eventuali prezzi di eccedenza generati in precedenza per evitare
+                                duplicati.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>6. Chiusura del Calcolo</h2>
+            <p>Al termine del flusso:</p>
+            <ul>
+                <li><strong>Espresso:</strong> Se l'ordine è flaggato come <code>GestioneEspresso</code>, viene cercato
+                    e forzato il servizio <code>SACEXP</code>.</li>
+                <li><strong>Ricalcolo Totale:</strong> Vengono processati i servizi con flag
+                    <code>CalcolaSuTotale = true</code>. Questi usano come base imponibile la somma del Nolo + Servizi
+                    Accessori appena calcolati (es. oneri amministrativi finali).</li>
+                <li><strong>Salvataggio:</strong> Tutti i prezzi generati vengono scritti nella tabella
+                    <code>ElencoRichiesteServiziAccessori</code> (per la visualizzazione interfaccia) e
+                    <code>ElencoRichiestePrezzi</code> (per la fatturazione vera e propria).</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem; margin-bottom: 2rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
