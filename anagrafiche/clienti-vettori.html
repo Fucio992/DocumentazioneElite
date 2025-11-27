@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Scheda Cliente - Anagrafica</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Scheda Cliente</h1>
+            <p>Gestione Anagrafica Clienti, Fornitori e Vettori (ClienteUC.xaml)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Generale</h2>
+            <p>Il modulo <span class="bold">ClienteUC</span> è il componente centrale per la gestione completa delle entità anagrafiche. È progettato per essere polimorfico, adattando la sua interfaccia in base al tipo di soggetto visualizzato.</p>
+            
+            <div class="tip">
+                <span class="tip-icon">👥</span>
+                <span class="bold">Gestione Unificata:</span> Una singola interfaccia gestisce tre tipologie di soggetti:
+                <ul>
+                    <li><strong>Clienti:</strong> Focus su fatturazione elettronica, plafond, sedi operative.</li>
+                    <li><strong>Fornitori:</strong> Focus su centri di costo, condizioni di pagamento passive.</li>
+                    <li><strong>Vettori (Padroncini):</strong> Focus su gestione flotta (Mezzi/Autisti) e tariffe.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Inizializzazione e Caricamento</h2>
+            <p>All'apertura (<code>UserControl_Loaded</code>), il sistema esegue una configurazione dinamica della UI basata sui permessi e sulle impostazioni globali.</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">A. Configurazione Dinamica (Switch Tipo)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il comportamento cambia drasticamente in base a <code>Padre.TipoAnagrafica</code>:</p>
+                    
+                    <div class="card">
+                        <div class="card-title">Modalità Cliente</div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Mostra pannelli per: Sedi, Scadenze, Avvisi, Agenti.</li>
+                                <li>Abilita campi specifici per la fatturazione elettronica (SDI, PEC, Split Payment).</li>
+                                <li>Carica configurazioni avanzate per l'invio email fatture (se modulo attivo).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Modalità Vettore</div>
+                        <div class="card-body">
+                            <ul>
+                                <li>Nasconde tab non pertinenti (es. Dati Aggiuntivi Formulario).</li>
+                                <li>Carica le griglie per la gestione della flotta associata: <strong>Mezzi</strong> e <strong>Autisti</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">B. Integrazioni Esterne</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il modulo si interfaccia con diversi sistemi esterni se configurati:</p>
+                    <ul>
+                        <li><strong>OpenManager:</strong> Se attivo, mostra pulsanti per aprire l'anagrafica corrispondente nel gestionale contabile.</li>
+                        <li><strong>TeamSystem (Arbitek):</strong> Gestisce l'export anagrafica tramite API REST (metodi <code>ExportArbitek</code> e <code>DeleteArbitek</code>).</li>
+                        <li><strong>Gamma:</strong> Genera file di testo posizionali per l'importazione in Gamma Enterprise (<code>ExportAllGamma</code>).</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Funzionalità Operative Critiche</h2>
+            <p>Oltre al semplice CRUD (Create, Read, Update, Delete), il modulo offre strumenti avanzati.</p>
+
+            <div class="grid-two-columns">
+                <div class="card">
+                    <div class="card-title">Validazione Dati (SalvaCliente)</div>
+                    <div class="card-body">
+                        <p>Prima del salvataggio vengono eseguiti controlli bloccanti:</p>
+                        <ul>
+                            <li>Univocità Ragione Sociale e Partita IVA.</li>
+                            <li>Compilazione campi obbligatori (Pagamento, IVA, SDI).</li>
+                            <li>Coerenza impostazioni email avanzate (metodo <code>ControlloSalvataggioImpostazioniAvanzateEmail</code>).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Gestione Ragione Sociale</div>
+                    <div class="card-body">
+                        <p>Se viene modificata la Ragione Sociale di un cliente esistente, il sistema propone una procedura guidata (<code>ControlloeModificaRagioneSociale</code>) per aggiornare a cascata:</p>
+                        <ul>
+                            <li>Ordini/Conferme aperti.</li>
+                            <li>Fatture emesse.</li>
+                            <li>Movimenti pedane.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip">
+                <span class="tip-icon">📍</span>
+                <span class="bold">Geocoding e CAP:</span> Il campo "Città" (<code>CittaTb_LostFocus</code>) integra una ricerca intelligente. Se l'utente digita il nome, il sistema interroga il database dei CAP e propone i dati completi (CAP, Provincia, Regione), gestendo anche omonimie o frazioni.
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Gestione Sottotabelle (Master-Detail)</h2>
+            <p>L'anagrafica funge da collettore per diverse entità correlate, gestite in griglie dedicate.</p>
+
+            <div class="card">
+                <div class="card-title">Relazioni Gestite</div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Sedi Secondarie:</strong> Gestione indirizzi di carico/scarico alternativi.</li>
+                        <li><strong>Contatti:</strong> Rubrica interna di referenti (Nome, Ruolo, Telefono, Email).</li>
+                        <li><strong>Avvisi:</strong> Note pop-up che appaiono agli operativi durante l'inserimento ordini.</li>
+                        <li><strong>Codici CER:</strong> Lista rifiuti autorizzati per il cliente (se modulo Rifiuti attivo).</li>
+                        <li><strong>Zone Competenza:</strong> Associazione geografica per listini e statistiche.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>5. Note Tecniche</h2>
+            <ul>
+                <li><span class="link-color-text bold">Codice Contabile:</span> Può essere generato automaticamente (progressivo numerico) se attiva l'opzione <code>CodiceContabAutomatico</code>, oppure inserito manualmente.</li>
+                <li><span class="link-color-text bold">Performance:</span> I caricamenti pesanti (es. liste comuni, statistiche) sono eseguiti in <code>async/await</code> per non bloccare la UI.</li>
+                <li><span class="link-color-text bold">Logiche "Dirty":</span> Il salvataggio forza un refresh delle liste globali (es. <code>Repository.Clientes</code>) per garantire che le modifiche siano visibili immediatamente in tutto il programma senza riavvio.</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+</html>
