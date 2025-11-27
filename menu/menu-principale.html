@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Dashboard Elite - Main Window</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Dashboard Elite</h1>
+            <p>Interfaccia Principale e Launcher (EliteMainWindow.xaml)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Generale</h2>
+            <p>Il modulo <span class="bold">EliteMainWindow</span> costituisce il cuore dell'esperienza utente (Shell).
+                Non è una semplice finestra contenitore, ma un vero e proprio <strong>Sistema Operativo interno</strong>
+                che gestisce:</p>
+            <div class="tip">
+                <span class="tip-icon">🖥️</span>
+                <span class="bold">Responsabilità:</span>
+                <ul>
+                    <li>Navigazione tra i moduli (Launcher).</li>
+                    <li>Visualizzazione KPI in tempo reale (Widgets).</li>
+                    <li>Gestione del profilo utente e dell'azienda attiva.</li>
+                    <li>Monitoraggio notifiche e aggiornamenti.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Inizializzazione (Boot Process)</h2>
+            <p>Al caricamento della finestra (<code>Caricamento</code>), il sistema esegue una serie di operazioni
+                critiche per preparare l'ambiente di lavoro.</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">A. Configurazione Ambiente</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <ol>
+                        <li><strong>Branding:</strong> Carica il logo aziendale dal DB (convertendo i byte in
+                            <code>BitmapImage</code>) e applica lo sfondo personalizzato.</li>
+                        <li><strong>Permessi:</strong> Verifica se l'utente è Amministratore per mostrare pulsanti
+                            sensibili (es. PTV Stats).</li>
+                        <li><strong>Licensing:</strong> Contatta il server remoto (<code>IG3Service</code>) per
+                            registrare l'accesso della postazione e verificare i moduli acquistati.</li>
+                        <li><strong>Legacy Support:</strong> Carica eventuali moduli "Vecchi" (Horizon/Portali) dalla
+                            tabella <code>MenuPlus</code> e moduli esterni (OpenManager).</li>
+                    </ol>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">B. Caricamento Dati Asincrono</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Per garantire reattività, molti dati vengono pre-caricati:</p>
+                    <ul>
+                        <li><code>Repository.InizializzaListeAnagrafiche</code>: Carica autisti, mezzi e clienti in
+                            memoria.</li>
+                        <li><code>CaricaWidget</code>: Esegue query SQL dinamiche per i contatori.</li>
+                        <li><code>CaricaNews</code>: Scarica le comunicazioni dal server centrale.</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Architettura della UI</h2>
+            <p>L'interfaccia è divisa in tre macro-aree logiche definite nella Grid principale.</p>
+
+            <div class="card">
+                <div class="card-title">1. Sidebar Sinistra (Navigazione)</div>
+                <div class="card-body">
+                    <p>Contiene la lista dei <strong>Gruppi Funzionali</strong> (es. Anagrafiche, Operativo, Magazzino).
+                    </p>
+                    <ul>
+                        <li>Componente: <code>ListBox x:Name="StackGruppi"</code></li>
+                        <li>Logica: Al click su un gruppo, viene invocato <code>ApriMenu(Gruppo)</code> che popola
+                            l'area centrale.</li>
+                        <li>Extra: Pulsanti per Assistenza (Supremo), GAIA (AI), Backup e Impostazioni.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">2. Area Centrale (Launcher & Preferiti)</div>
+                <div class="card-body">
+                    <p>È l'area dinamica di lavoro.</p>
+                    <ul>
+                        <li><strong>Intestazione:</strong> Mostra Utente, Azienda, Filiale e barra di ricerca rapida
+                            moduli.</li>
+                        <li><strong>Launcher:</strong> Il pannello <code>StackOperativoNuovo</code> viene popolato
+                            dinamicamente con oggetti <code>IGFlipperNormal</code> (le "piastrelle" dei programmi).</li>
+                        <li><strong>Preferiti:</strong> Una barra inferiore mostra i moduli più usati o fissati
+                            dall'utente.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">3. Sidebar Destra (Widgets & Info)</div>
+                <div class="card-body">
+                    <ul>
+                        <li><strong>Widgets:</strong> Visualizza risultati di query KPI (es. Fatturato odierno).</li>
+                        <li><strong>News:</strong> Feed di notizie tecniche o commerciali.</li>
+                        <li><strong>Versione Kargo:</strong> Se attiva, mostra i limiti di licenza (Mini).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Il Launcher Universale (EseguiVecchio)</h2>
+            <p>Il metodo <code>EseguiVecchio</code> è il cuore pulsante che permette di lanciare qualsiasi tipo di
+                applicativo integrato.</p>
+
+            <div class="card">
+                <div class="card-title">Logica di Esecuzione</div>
+                <div class="card-body">
+                    <p>Analizza il percorso (Path) configurato nel DB e agisce di conseguenza:</p>
+
+                    <div style="background:#f9f9f9; padding:10px; border-radius:5px; margin-bottom: 5px;">
+                        <strong>.EXE (Applicativi Windows)</strong>
+                        <p>Gestisce percorsi relativi (<code>\Click\</code>), estrae argomenti e gestisce casistiche
+                            speciali per nomi complessi (es. <code>.ImporterApp.exe</code>). Supporta l'avvio
+                            massimizzato.</p>
+                    </div>
+
+                    <div style="background:#f9f9f9; padding:10px; border-radius:5px; margin-bottom: 5px;">
+                        <strong>URL (Web Apps)</strong>
+                        <p>Se inizia con <code>HTTP/HTTPS</code>. Può aprire il browser di sistema o il browser
+                            integrato (<code>BrowserWeb.exe</code>) se il flag "P" è presente.</p>
+                    </div>
+
+                    <div style="background:#f9f9f9; padding:10px; border-radius:5px;">
+                        <strong>Comportamenti Speciali</strong>
+                        <p>Per moduli legacy come "SCADENZE" o "TRACCIATI", crea file di testo temporanei (flag file)
+                            necessari per la comunicazione inter-processo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>5. Widgets Dinamici</h2>
+            <p>I widget sono definiti nella tabella <code>MenuWidget</code> e vengono renderizzati a runtime.</p>
+
+            <div class="formula-box">
+                Query Widget: SELECT Count(*) FROM Ordini WHERE Data = @data
+            </div>
+
+            <p>Il metodo <code>RisultatoWidget</code> esegue la query SQL contenuta nel campo <code>Formula</code>,
+                passando parametro <code>@data</code> (oggi). Il risultato viene mostrato nel controllo
+                <code>WidgetUC</code>. Un timer aggiorna questi dati ogni 60 secondi.</p>
+        </section>
+
+        <section>
+            <h2>6. Note Tecniche</h2>
+            <ul>
+                <li><span class="link-color-text bold">Theming:</span> Il metodo <code>Colorami</code> applica
+                    dinamicamente la palette colori Material Design basata sulle preferenze utente
+                    (<code>Utility.Primario</code>, <code>Utility.Accento</code>).</li>
+                <li><span class="link-color-text bold">Lock Management:</span> Un timer (<code>timerLocks</code>) gira
+                    ogni 2 minuti per invocare <code>LocksService.PulisciTuttiLocks()</code> e liberare risorse bloccate
+                    da chiusure anomale.</li>
+                <li><span class="link-color-text bold">Chiusura:</span> Alla chiusura della form, viene richiesto il
+                    Backup (se configurato) e cancellata la sessione dalla tabella <code>Postazioni</code>.</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
