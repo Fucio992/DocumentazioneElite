@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Scheda Autista - Personale</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Scheda Autista</h1>
+            <p>Gestione Personale Viaggiante e Vettori (AutistaUC.xaml)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Generale</h2>
+            <p>Il modulo <span class="bold">AutistaUC</span> è l'interfaccia completa per la gestione del personale
+                viaggiante. Non si limita ai dati anagrafici, ma funge da collettore per la gestione contrattuale,
+                economica, operativa e documentale dell'autista.</p>
+
+            <div class="tip">
+                <span class="tip-icon">🚚</span>
+                <span class="bold">Dualità Operativa:</span> Questo modulo gestisce sia:
+                <ul>
+                    <li><strong>Dipendenti Diretti:</strong> Con gestione stipendi, buste paga e assegnazione mezzi
+                        aziendali.</li>
+                    <li><strong>Autisti di Vettori Terzi:</strong> Per il tracciamento operativo e la verifica della
+                        regolarità documentale (DURC, Patenti).</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Struttura dell'Interfaccia</h2>
+            <p>La finestra è divisa in sezioni logiche navigabili tramite scroll o link rapidi laterali.</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">A. Anagrafica e Identificazione</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <div class="card">
+                        <div class="card-title">Dati Identificativi</div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>Intestazione:</strong> Foto profilo (caricabile da file), Nome, Cognome e
+                                    Codice Interno.</li>
+                                <li><strong>Documenti Personali:</strong> Codice Fiscale, Carta d'Identità, Patente, CQC
+                                    (Carta di Qualificazione del Conducente).</li>
+                                <li><strong>Recapiti:</strong> Indirizzi di residenza/domicilio, telefoni
+                                    aziendali/privati ed email.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">B. Dati Generali e Operativi</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Definisce il ruolo dell'autista all'interno dell'organizzazione.</p>
+
+                    <div class="grid-two-columns">
+                        <div class="card">
+                            <div class="card-title">Abbinamenti</div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><strong>Mezzo/Rimorchio:</strong> Assegnazione fissa del veicolo principale.
+                                    </li>
+                                    <li><strong>Azienda/Vettore:</strong> Collegamento all'azienda interna o al
+                                        fornitore esterno (se spuntato "Vettore").</li>
+                                    <li><strong>Mansione/Qualifica:</strong> Definizione del livello contrattuale.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">Esperienza e Infrazioni</div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><strong>Skill Matrix:</strong> Tracciamento esperienza su mezzi specifici
+                                        (Bilico, Biga, Eccezionale).</li>
+                                    <li><strong>Gestione Punti:</strong> Monitoraggio punti patente (integrato con
+                                        funzione <code>GestPuntiPatente</code>).</li>
+                                    <li><strong>Infrazioni:</strong> Storico multe per tipologia (Velocità, Ore Guida,
+                                        Sovraccarico) per analisi costi.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">C. Gestione Economica (HR)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <div class="tip" style="background-color: #ffebee; border-left-color: #ef5350;">
+                        <span class="tip-icon">🔒</span>
+                        <span class="bold">Permessi:</span> Questa sezione viene nascosta automaticamente se l'utente
+                        non ha il permesso <code>NoDatiEconomiciAutisti</code>.
+                    </div>
+
+                    <h3>1. Contratti e Costi Fissi</h3>
+                    <p>Gestione dello storico contrattuale (Assunzione, Licenziamento, Livello) e dei costi fissi
+                        mensili/annuali (TFR, INAIL, Tredicesima) per il calcolo del costo orario.</p>
+
+                    <h3>2. Trasferte Automatiche</h3>
+                    <p>Configurazione del calcolo automatico delle indennità di trasferta:</p>
+                    <div class="formula-box">
+                        Importo = (Fascia Oraria o Km) * Tariffa Nazione
+                    </div>
+                    <p>Il sistema pre-carica le fasce standard (es. 6-12 ore, >12 ore) ma permette personalizzazioni per
+                        singolo autista.</p>
+
+                    <h3>3. Dati Bancari</h3>
+                    <p>Coordinate IBAN per l'accredito stipendi e rimborsi.</p>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">D. Dotazioni e Scadenze</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <ul>
+                        <li><span class="link-color-text bold">Accessori:</span> Assegnazione materiale (Telefono,
+                            Tablet, Scarpe antinfortunistiche) con scadenze di riconsegna o sostituzione.</li>
+                        <li><span class="link-color-text bold">Tessere:</span> Gestione scadenze Tessere Tachigrafiche,
+                            Carte Carburante, Viacard.</li>
+                        <li><span class="link-color-text bold">Documenti:</span> Archivio digitale scansionato (Carta
+                            Identità, Patente, CQC) con generazione automatica degli avvisi di scadenza nel planner.
+                        </li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Logiche di Business (Backend)</h2>
+
+            <div class="card">
+                <div class="card-title">Salvataggio Complesso (Salva_Click)</div>
+                <div class="card-body">
+                    <p>Il salvataggio dell'autista è un'operazione transazionale che coinvolge multiple tabelle:</p>
+                    <ol>
+                        <li><strong>Validazione:</strong> Controllo univocità nome e obbligatorietà campi.</li>
+                        <li><strong>Core:</strong> Update/Insert tabella <code>Autisti</code>.</li>
+                        <li><strong>Sottotabelle:</strong> Salvataggio a cascata di:
+                            <ul>
+                                <li>Note e Documenti.</li>
+                                <li>Dotazioni (genera movimenti di magazzino se collegati ad articoli).</li>
+                                <li>Stipendi e Contratti.</li>
+                                <li>Trasferte configurate.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Allineamento Mezzi:</strong> Aggiorna automaticamente la targa del mezzo per
+                            riflettere l'autista assegnato (tabella <code>Mezzi</code>).</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Integrazione Magazzino</div>
+                <div class="card-body">
+                    <p>Quando si assegna un accessorio (es. "Giubbotto") tramite il pulsante
+                        <code>ArticoliMag_Click</code>:</p>
+                    <ul>
+                        <li>Viene creato un movimento di <strong>USCITA</strong> nel magazzino.</li>
+                        <li>L'articolo viene scalato dalla giacenza.</li>
+                        <li>Viene registrata la dotazione sulla scheda dell'autista.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Funzionalità Ausiliarie</h2>
+            <ul>
+                <li><span class="link-color-text bold">Importazione Massiva:</span> Pulsanti per impostare valori di
+                    trasferta o spese extra a tutti i dipendenti con un click (<code>ImpostaPerTutti</code>).</li>
+                <li><span class="link-color-text bold">Eventi:</span> Integrazione con il calendario eventi per
+                    tracciare ferie, malattie o provvedimenti disciplinari direttamente dalla scheda.</li>
+                <li><span class="link-color-text bold">Cancellazione Sicura:</span> Il metodo
+                    <code>CancellaAggregate</code> assicura che eliminando un autista vengano rimossi anche tutti i dati
+                    correlati (scadenze, tessere, storico presenze) per mantenere l'integrità referenziale.</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>

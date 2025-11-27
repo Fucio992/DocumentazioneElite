@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentazione Scheda Mezzo - Parco Veicolare</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="video-background"></div>
+
+    <div class="container">
+        <header>
+            <h1>Scheda Mezzo</h1>
+            <p>Gestione Flotta, Dati Tecnici e Manutenzioni (MezzoUC.xaml)</p>
+        </header>
+
+        <section>
+            <h2>1. Panoramica Generale</h2>
+            <p>Il modulo <span class="bold">MezzoUC</span> rappresenta il cuore della gestione tecnica del parco
+                veicolare. È un'interfaccia complessa che centralizza tutte le informazioni relative a Motrici e
+                Rimorchi.</p>
+
+            <div class="tip">
+                <span class="tip-icon">🚛</span>
+                <span class="bold">Tipologie Gestite:</span> Una singola interfaccia gestisce:
+                <ul>
+                    <li><strong>Motrici:</strong> Trattori stradali, Furgoni, Autocarri. Abilitano l'assegnazione di
+                        autisti e rimorchi.</li>
+                    <li><strong>Rimorchi:</strong> Semirimorchi, Casse Mobili. Vengono abbinati alle motrici per formare
+                        i "treni".</li>
+                </ul>
+                <div class="tip-description">Lo switch tra le due modalità avviene tramite i RadioButton in alto a
+                    sinistra (<code>MotriceChk</code> / <code>RimorchioChk</code>), che modificano dinamicamente la
+                    visibilità dei campi.</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Struttura dell'Interfaccia</h2>
+            <p>La finestra è organizzata in macro-aree tematiche per semplificare la consultazione.</p>
+
+            <details open>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">A. Dati Tecnici e Dimensioni</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Fondamentale per il calcolo volumetrico e la pianificazione dei carichi (Pianale).</p>
+
+                    <div class="grid-two-columns">
+                        <div class="card">
+                            <div class="card-title">Dimensioni</div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><strong>Ingombro:</strong> Misure esterne del veicolo.</li>
+                                    <li><strong>Vano Carico:</strong> Misure utili interne. Utilizzate dagli algoritmi
+                                        di carico.</li>
+                                    <li><strong>Capacità:</strong> Posti Pallet (EPAL), Metri Lineari (LDM), Portata
+                                        (Kg) e Volume (MC).</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">Motorizzazione</div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><strong>Dati:</strong> Cilindrata, Cavalli, Kw, Classe Ambientale (Euro 6,
+                                        ecc.).</li>
+                                    <li><strong>Serbatoi:</strong> Capacità Gasolio (1 e 2) e AdBlue per il controllo
+                                        consumi.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">B. Gestione Operativa (Abbinamenti)</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Definisce "chi guida cosa" e "chi traina cosa".</p>
+                    <ul>
+                        <li><span class="link-color-text bold">Autista:</span> Assegnazione fissa o temporanea del
+                            conducente.</li>
+                        <li><span class="link-color-text bold">Rimorchio:</span> Per le motrici, definisce il
+                            semirimorchio agganciato di default.</li>
+                        <li><span class="link-color-text bold">Vettore:</span> Se il mezzo è di proprietà di terzi
+                            (Padroncino), viene collegato all'anagrafica Fornitore/Vettore per la gestione costi.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details>
+                <summary class="list-item-header">
+                    <span class="detail-summary-grosso">C. Manutenzione e Scadenze</span>
+                    <span>▼</span>
+                </summary>
+                <div class="card-body-details">
+                    <p>Il sistema monitora le scadenze amministrative e tecniche.</p>
+                    <ul>
+                        <li><strong>Scadenze:</strong> Bollo, Assicurazione, Revisione, Tachigrafo. Generano avvisi
+                            automatici nel planner.</li>
+                        <li><strong>Spese:</strong> Costi fissi ricorrenti (es. Canone Leasing, Telepass) imputati al
+                            centro di costo del mezzo.</li>
+                        <li><strong>Riparazioni:</strong> Storico degli interventi di officina (integrazione con modulo
+                            Riparazioni).</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>3. Logiche di Business (Backend)</h2>
+
+            <div class="card">
+                <div class="card-title">Aggiornamento Targa (Refactoring)</div>
+                <div class="card-body">
+                    <p>Il metodo <code>AggiornaTargaCorrelate</code> è una procedura critica.</p>
+                    <p>Se viene modificata la targa di un mezzo esistente, il sistema non si limita a cambiare il record
+                        anagrafico, ma esegue un <strong>Update a Cascata</strong> su tutto il database storico:</p>
+                    <ul>
+                        <li>Viaggi e Ordini passati.</li>
+                        <li>Fatture.</li>
+                        <li>Rifornimenti e Spese.</li>
+                        <li>Schede Autisti e Scadenze.</li>
+                    </ul>
+                    <div class="tip-easy" style="background-color: #ffebee; color: #c62828;">⚠️ Operazione Irreversibile
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Integrazione Magazzino</div>
+                <div class="card-body">
+                    <p>La gestione delle <strong>Dotazioni di Bordo</strong> (estintori, catene, cinghie) è collegata al
+                        magazzino.</p>
+                    <ul>
+                        <li>Il tasto <code>ArticoliMag_Click</code> permette di prelevare articoli dal magazzino.</li>
+                        <li>Genera automaticamente un movimento di <strong>USCITA</strong> (scarico) imputato al mezzo.
+                        </li>
+                        <li>Registra l'assegnazione sulla scheda del veicolo per tracciare la responsabilità.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Funzionalità Avanzate</h2>
+            <ul>
+                <li><span class="link-color-text bold">PTV Profiles:</span> Integrazione con PTV xServer. Permette di
+                    associare al mezzo un profilo di routing specifico (es. <code>EUR_TRAILER_TRUCK</code>) per il
+                    calcolo preciso dei pedaggi e dei percorsi.</li>
+                <li><span class="link-color-text bold">Rifornimenti:</span> Il sistema calcola automaticamente i Km
+                    percorsi tra un rifornimento e l'altro (<code>AggiornaRifornimentoBtn_Click</code>) interrogando la
+                    tabella <code>Spesa_Rifornimento</code>.</li>
+                <li><span class="link-color-text bold">Periodi di Fermo:</span> Gestione dei periodi di "Riparazione" o
+                    inattività. Questi periodi bloccano la disponibilità del mezzo nel planner grafico.</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="bottone-novita" onclick="window.print()">Stampa Documentazione</button>
+        </div>
+
+    </div>
+</body>
+
+</html>
