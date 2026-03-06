@@ -152,6 +152,27 @@
           <li>Le anagrafiche dei mezzi devono essere coerenti e aggiornate.</li>
         </ul>
       </section>
+
+      <header>
+        <h1>✳️ Aggiunte</h1>
+      </header>
+
+
+      <section>
+        <h2 id="bimsat">💥 Bim Sat</h2>
+        <p>
+          Il satellitare BIM SAT e' l'unico satellitare che richiede alcune accortezze in piu' per essere installato:
+          <ul>
+            <li>Non sono necessarie credenziali specifiche ma va richiesto a <b>BIM Service</b> di attivare la partia iva del cliente in quanto il collegamento non richiede credenziali (solo il flag attivo) ma utilizza la partita iva inserita in anagrafica.</li>
+            <li>Installare il modulo Sat Service come ogni altro satellitare (Task Scheduler).</li>
+            <li>Per completare l'installazione vanno installate le <b>API</b> come per <b>l'APP Etir</b> e va attivata la sezione <b>BIM SAT</b> sulle impostazioni del TIR (oltre alla sezione di autenticazione).</li>
+              <img src="../assets/Satellites/AttivazioniPerBimSat.png" width="auto" />
+            <li>Come ultima cosa va creato un'utente con email <b>it@whyb.it</b> e password <b>O[+6mE2e4fZ</b> e deve essere configurato come admin globale, se dal pannello di novo non si riesce ad inserirlo va inserito direttamente sulla tabella <b>[User]</b> del database del cliente:
+                <img src="../assets/Satellites/Utente Whyb.png" width="auto" />
+            </li>
+          </ul>
+        </p>
+      </section>
     </div>
   </body>
 </html>
